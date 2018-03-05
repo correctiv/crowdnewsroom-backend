@@ -1,8 +1,10 @@
+import csv
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
 from guardian.mixins import PermissionRequiredMixin
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from guardian.shortcuts import get_objects_for_user
@@ -10,7 +12,7 @@ from django.utils.translation import gettext as _
 
 
 from forms.forms import CommentForm, FormResponseStatusForm
-from forms.models import FormResponse, Investigation, Comment
+from forms.models import FormResponse, Investigation, Comment, FormInstance
 
 
 class BreadCrumbMixin(object):
@@ -114,3 +116,28 @@ class FormResponseStatusView(PermissionRequiredMixin, LoginRequiredMixin, Update
 
     def get_permission_object(self):
         return Investigation.objects.get(id=self.kwargs.get("investigation_id"))
+
+
+def form_response_csv_view(request, *args, **kwargs):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+    form_instance = FormInstance.get_latest_for_form(kwargs.get("form_id"))
+    form_instance = FormInstance.objects.get(id=1)
+    responses = FormResponse.objects.filter(form_instance=form_instance).all()
+
+    keys = set(form_instance.form_json["properties"].keys())
+    file_keys = {key for (key, value)
+                 in form_instance.ui_schema_json.items()
+                 if key != "ui:order" and value.get("ui:widget") in ['signatureWidget', 'fileWidget']}
+    writer = csv.DictWriter(response, fieldnames=keys-file_keys, extrasaction='ignore')
+    for form_response in responses:
+        try:
+            writer.writerow(form_response.json["formData"])
+        except TypeError:
+            print("Skipping row")
+        except KeyError:
+            print("Skipping row")
+
+    return response
+

@@ -18,11 +18,8 @@ class FormInstanceDetail(generics.RetrieveAPIView):
 
     def get_object(self, *args, **kwargs):
         form_id = self.kwargs.get("form_id")
-        form_instance = FormInstance.objects\
-            .filter(form_id=form_id) \
-            .order_by("-version") \
-            .first()
-        return form_instance
+        return FormInstance.get_latest_for_form(form_id)
+
 
 class FormResponseSerializer(ModelSerializer):
     class Meta:

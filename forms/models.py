@@ -108,6 +108,13 @@ class FormInstance(models.Model):
     def __str__(self):
         return "{} - Instance version {}".format(self.form.name, self.version)
 
+    @staticmethod
+    def get_latest_for_form(form_id):
+        return FormInstance.objects \
+            .filter(form_id=form_id) \
+            .order_by("-version") \
+            .first()
+
 
 class FormResponse(models.Model):
     STATUSES = (
