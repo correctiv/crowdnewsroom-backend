@@ -9,9 +9,9 @@ def create_form_csv(form_id, investigation_id, request, io_object):
     form_instances = FormInstance.objects.filter(form_id=form_id)
     responses = FormResponse.objects.filter(form_instance__form_id=form_id).all()
 
-    fields = []
+    fields = set()
     for instance in form_instances:
-        fields += get_keys(instance)
+        fields |= get_keys(instance)
 
     writer = csv.DictWriter(io_object, fieldnames=fields, extrasaction='ignore')
     writer.writeheader()
@@ -39,9 +39,9 @@ def create_form_csv(form_id, investigation_id, request, io_object):
 def get_keys(form_instance):
     keys = set(form_instance.form_json["properties"].keys())
     file_keys = _get_file_keys(form_instance)
-    non_file_fields = list(keys - file_keys)
-    extra_fields = ["url", "version", "status", "email", "submission_date"]
-    fields = non_file_fields + ["meta_{}".format(field) for field in extra_fields]
+    non_file_fields = keys - file_keys
+    extra_fields = {"url", "version", "status", "email", "submission_date"}
+    fields = non_file_fields | {"meta_{}".format(field) for field in extra_fields}
     return fields
 
 
