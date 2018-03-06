@@ -98,6 +98,10 @@ class Form(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_all_for_investigation(cls, investigation_id):
+        return cls.objects.filter(investigation_id=investigation_id).all()
+
 
 class FormInstance(models.Model):
     form_json = JSONField()

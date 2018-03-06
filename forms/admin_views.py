@@ -3,7 +3,7 @@ import csv
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from django.views.generic.detail import SingleObjectMixin
+from django.utils.functional import cached_property
 from guardian.decorators import permission_required
 from guardian.mixins import PermissionRequiredMixin
 from django.http import Http404, HttpResponse
@@ -31,27 +31,62 @@ class InvestigationListView(ListView, LoginRequiredMixin):
         return get_objects_for_user(self.request.user, 'view_investigation', Investigation)
 
 
+class FormListView(PermissionRequiredMixin, LoginRequiredMixin, BreadCrumbMixin, ListView):
+    permission_required = 'forms.view_investigation'
+    return_403 = True
+
+    @cached_property
+    def investigation(self):
+        return get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
+
+    def get_breadcrumbs(self):
+        return [
+            (_("Investigations"), reverse("investigation_list")),
+            (self.investigation.name, reverse("form_list", kwargs={"investigation_id": self.investigation.id})),
+        ]
+
+    def get_permission_object(self):
+        return self.investigation
+
+    def get_queryset(self):
+        return Form.get_all_for_investigation(self.kwargs.get("investigation_id"))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['investigation'] = self.investigation
+        return context
+
+
 class FormResponseListView(PermissionRequiredMixin, LoginRequiredMixin, BreadCrumbMixin, ListView):
     permission_required = 'forms.view_investigation'
     return_403 = True
 
+    @cached_property
+    def investigation(self):
+        return get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
+
+    @cached_property
+    def form(self):
+        return get_object_or_404(Form, id=self.kwargs.get("form_id"))
+
     def get_breadcrumbs(self):
-        investigation = self.get_permission_object()
         return [
             (_("Investigations"), reverse("investigation_list")),
-            (investigation.name, reverse("investigation_responses", kwargs={"investigation_id": investigation.id})),
+            (self.investigation.name, reverse("form_list", kwargs={"investigation_id": self.investigation.id})),
+            (self.form.name, reverse("form_responses", kwargs={"investigation_id": self.investigation.id,
+                                                               "form_id": self.form.id})),
         ]
 
     def get_permission_object(self):
-        return Investigation.objects.get(id=self.kwargs.get("investigation_id"))
+        return self.investigation
 
     def get_queryset(self):
         return FormResponse.get_all_for_investigation(self.kwargs.get("investigation_id"))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        investigation = get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
-        context['investigation'] = investigation
+        context['investigation'] = self.investigation
+        context['form'] = self.form
         return context
 
 
@@ -61,8 +96,16 @@ class FormResponseDetailView(PermissionRequiredMixin, LoginRequiredMixin, BreadC
     model = FormResponse
     pk_url_kwarg = "response_id"
 
+    @cached_property
+    def investigation(self):
+        return get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
+
+    @cached_property
+    def form(self):
+        return get_object_or_404(Form, id=self.kwargs.get("form_id"))
+
     def get_permission_object(self):
-        return Investigation.objects.get(id=self.kwargs.get("investigation_id"))
+        return self.investigation
 
     def dispatch(self, request, *args, **kwargs):
         form_response_id = self.kwargs[self.pk_url_kwarg]
@@ -78,11 +121,13 @@ class FormResponseDetailView(PermissionRequiredMixin, LoginRequiredMixin, BreadC
         return context
 
     def get_breadcrumbs(self):
-        investigation = Investigation.objects.get(id=self.kwargs.get("investigation_id"))
         return [
             (_("Investigations"), reverse("investigation_list")),
-            (investigation.name, reverse("investigation_responses", kwargs={"investigation_id": investigation.id})),
-            (_("This response"), reverse("response_details", kwargs={"investigation_id": investigation.id,
+            (self.investigation.name, reverse("form_list", kwargs={"investigation_id": self.investigation.id})),
+            (self.form.name, reverse("form_responses", kwargs={"investigation_id": self.investigation.id,
+                                                               "form_id": self.form.id})),
+            (_("This response"), reverse("response_details", kwargs={"investigation_id": self.investigation.id,
+                                                                     "form_id": self.form.id,
                                                                      "response_id": self.object.id})),
         ]
 

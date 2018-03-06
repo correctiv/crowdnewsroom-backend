@@ -3,7 +3,7 @@
 
 {% block title %}{% trans "Responses" %}{% endblock %}
 {% block headertitle %}
-    {% blocktrans with name=investigation.name %}
+    {% blocktrans with name=form.name %}
         Responses for {{ name }}
     {% endblocktrans %}
 {% endblock %}
@@ -20,7 +20,7 @@
             </tr>
             {% for response in formresponse_list %}
                 <tr>
-                    <td><a href="{% url "response_details" investigation.id response.id %}">{{ response.token }}</a></td>
+                    <td><a href="{% url "response_details" investigation.id form.id response.id %}">{{ response.token }}</a></td>
                     <td>{{ response.get_status_display }}</td>
                     <td>{{ response.comment_set.count }}</td>
                 </tr>
