@@ -31,13 +31,11 @@ class FormResponseSerializer(ModelSerializer):
 class FormResponseCreateSerializer(ModelSerializer):
     class Meta:
         model = FormResponse
-        fields = ("json", "email")
+        fields = ("json", "email", "form_instance")
 
     def create(self, validated_data, *args, **kwargs):
         fr = FormResponse(**validated_data)
         fr.submission_date = datetime.datetime.now()
-        # TODO: There must be a better way to do this than the following line
-        fr.form_instance_id = self.context['request'].parser_context["kwargs"]["form_instance_id"]
         fr.save()
         return fr
 
