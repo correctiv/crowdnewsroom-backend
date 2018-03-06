@@ -1,8 +1,10 @@
 import csv
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
+from guardian.decorators import permission_required
 from guardian.mixins import PermissionRequiredMixin
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -10,9 +12,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from guardian.shortcuts import get_objects_for_user
 from django.utils.translation import gettext as _
 
-
 from forms.forms import CommentForm, FormResponseStatusForm
-from forms.models import FormResponse, Investigation, Comment, FormInstance
+from forms.models import FormResponse, Investigation, Comment, FormInstance, Form
 
 
 class BreadCrumbMixin(object):
@@ -118,26 +119,68 @@ class FormResponseStatusView(PermissionRequiredMixin, LoginRequiredMixin, Update
         return Investigation.objects.get(id=self.kwargs.get("investigation_id"))
 
 
+@login_required(login_url="/admin/login")
+@permission_required('forms.view_investigation', (Investigation, 'id', 'investigation_id'), return_403=True)
 def form_response_csv_view(request, *args, **kwargs):
+    form_id = kwargs.get("form_id")
+    investigation_id = kwargs.get("investigation_id")
+
+    form = get_object_or_404(Form, id=form_id)
+    if form.investigation_id != investigation_id:
+        raise HttpResponse(status_code=403)
+
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    filename = 'crowdnewsroom_download_{}_{}.csv'.format(investigation_id, form_id)
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
 
-    form_instance = FormInstance.get_latest_for_form(kwargs.get("form_id"))
-    form_instance = FormInstance.objects.get(id=1)
-    responses = FormResponse.objects.filter(form_instance=form_instance).all()
+    create_form_csv(form_id, investigation_id, request, response)
 
-    keys = set(form_instance.form_json["properties"].keys())
-    file_keys = {key for (key, value)
-                 in form_instance.ui_schema_json.items()
-                 if key != "ui:order" and value.get("ui:widget") in ['signatureWidget', 'fileWidget']}
-    writer = csv.DictWriter(response, fieldnames=keys-file_keys, extrasaction='ignore')
+    return response
+
+
+def create_form_csv(form_id, investigation_id, request, io_object):
+    form_instances = FormInstance.objects.filter(form_id=form_id)
+    responses = FormResponse.objects.filter(form_instance__form_id=form_id).all()
+
+    fields = []
+    for instance in form_instances:
+        fields += get_keys(instance)
+
+    writer = csv.DictWriter(io_object, fieldnames=fields, extrasaction='ignore')
+    writer.writeheader()
     for form_response in responses:
         try:
-            writer.writerow(form_response.json["formData"])
+            row = form_response.json["formData"]
+            path = reverse("response_details", kwargs={"investigation_id": investigation_id,
+                                                       "response_id": form_response.id})
+            url = request.build_absolute_uri(path)
+            meta_data = {"meta_version": form_response.form_instance.version,
+                         "meta_url": url,
+                         "meta_status": form_response.get_status_display(),
+                         "meta_email": form_response.email,
+                         "meta_submission_date": form_response.submission_date}
+            row.update(meta_data)
+            writer.writerow(row)
+
         except TypeError:
             print("Skipping row")
         except KeyError:
             print("Skipping row")
 
-    return response
 
+def get_keys(form_instance):
+    keys = set(form_instance.form_json["properties"].keys())
+    file_keys = _get_file_keys(form_instance)
+    non_file_fields = list(keys - file_keys)
+    extra_fields = ["url", "version", "status", "email", "submission_date"]
+    fields = non_file_fields + ["meta_{}".format(field) for field in extra_fields]
+    return fields
+
+
+def _get_file_keys(form_instance):
+    file_widgets = ['signatureWidget', 'fileWidget']
+    non_property_keys = ["ui:order"]
+    return {key for (key, value)
+            in form_instance.ui_schema_json.items()
+            if key not in non_property_keys
+            and value.get("ui:widget") in file_widgets}
