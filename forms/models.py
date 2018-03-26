@@ -1,8 +1,11 @@
+import uuid
+
 from django.core.mail import send_mail
 from django.template import Engine, Context
 from django.utils.safestring import mark_safe
 
 from . import secrets  # TODO: Replace with included module once updated to python 3.6
+from .mixins import UniqueSlugMixin
 
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import Group, AbstractUser, BaseUserManager
@@ -12,13 +15,14 @@ from django.dispatch import receiver
 from guardian.shortcuts import assign_perm
 
 
-class Investigation(models.Model):
+class Investigation(models.Model, UniqueSlugMixin):
     STATUSES = (
         ('D', _('Draft')),
         ('P', _('Published')),
         ('A', _('Archived'))
     )
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     cover_image = models.FileField(blank=True, null=True, default=None)
     logo = models.FileField(blank=True, null=True, default=None)
     short_description = models.TextField()
@@ -134,7 +138,7 @@ class Partner(models.Model):
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
 
 
-class Form(models.Model):
+class Form(models.Model, UniqueSlugMixin):
     STATUSES = (
         ('D', _('Draft')),
         ('U', _('Unlisted')),
@@ -143,6 +147,7 @@ class Form(models.Model):
         ('A', _('Archived'))
     )
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     status = models.CharField(max_length=1, choices=STATUSES, default='D')
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
 
@@ -150,8 +155,8 @@ class Form(models.Model):
         return self.name
 
     @classmethod
-    def get_all_for_investigation(cls, investigation_id):
-        return cls.objects.filter(investigation_id=investigation_id).all()
+    def get_all_for_investigation(cls, investigation_slug):
+        return cls.objects.filter(investigation__slug=investigation_slug).all()
 
 
 class FormInstance(models.Model):
@@ -167,9 +172,9 @@ class FormInstance(models.Model):
         return "{} - Instance version {}".format(self.form.name, self.version)
 
     @staticmethod
-    def get_latest_for_form(form_id):
+    def get_latest_for_form(form_slug):
         return FormInstance.objects \
-            .filter(form_id=form_id) \
+            .filter(form_slug=form_slug) \
             .order_by("-version") \
             .first()
 
@@ -233,13 +238,13 @@ class FormResponse(models.Model):
         return self.json.get("email", "")
 
     @classmethod
-    def belongs_to_investigation(cls, form_response_id, investigation_id):
+    def belongs_to_investigation(cls, form_response_id, investigation_slug):
         response = FormResponse.objects.select_related('form_instance__form__investigation').get(id=form_response_id)
-        return response.form_instance.form.investigation_id == investigation_id
+        return response.form_instance.form.investigation.slug == investigation_slug
 
     @classmethod
-    def get_all_for_investigation(cls, investigation_id):
-        return cls.objects.filter(form_instance__form__investigation_id=investigation_id)
+    def get_all_for_investigation(cls, investigation_slug):
+        return cls.objects.filter(form_instance__form__investigation__slug=investigation_slug)
 
     @classmethod
     def get_all_for_form(cls, form):

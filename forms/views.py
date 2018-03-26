@@ -21,7 +21,8 @@ class InvestigationDetail(generics.RetrieveAPIView):
     # Investigations that are published and not in draft or unlisted state
     queryset = Investigation
     serializer_class = InvestigationSerializer
-    lookup_url_kwarg = "investigation_id"
+    lookup_url_kwarg = "investigation_slug"
+    lookup_field = "slug"
 
 
 class FormSerializer(ModelSerializer):
@@ -32,11 +33,11 @@ class FormSerializer(ModelSerializer):
 
 class FormInstanceDetail(generics.RetrieveAPIView):
     serializer_class = FormSerializer
-    lookup_url_kwarg = "form_id"
+    lookup_url_kwarg = "form_slug"
 
     def get_object(self, *args, **kwargs):
-        form_id = self.kwargs.get("form_id")
-        return FormInstance.get_latest_for_form(form_id)
+        form_slug = self.kwargs.get("form_slug")
+        return FormInstance.get_latest_for_form(form_slug)
 
 
 class FormResponseSerializer(ModelSerializer):
@@ -64,7 +65,7 @@ class FormResponseListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         responses = get_objects_for_user(self.request.user, "edit_response", FormResponse)
-        responses = responses.filter(form_instance__form_id=self.kwargs["form_id"])
+        responses = responses.filter(form_instance__form_slug=self.kwargs["form_slug"])
         return responses
 
     def post(self, request, *args, **kwargs):

@@ -45,19 +45,19 @@ class InvestigationAuthMixin(PermissionRequiredMixin, LoginRequiredMixin):
 class FormListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
     @cached_property
     def investigation(self):
-        return get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
+        return get_object_or_404(Investigation, slug=self.kwargs.get("investigation_slug"))
 
     def get_breadcrumbs(self):
         return [
             (_("Investigations"), reverse("investigation_list")),
-            (self.investigation.name, reverse("form_list", kwargs={"investigation_id": self.investigation.id})),
+            (self.investigation.name, reverse("form_list", kwargs={"investigation_slug": self.investigation.slug})),
         ]
 
     def get_permission_object(self):
         return self.investigation
 
     def get_queryset(self):
-        return Form.get_all_for_investigation(self.kwargs.get("investigation_id"))
+        return Form.get_all_for_investigation(self.kwargs.get("investigation_slug"))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,25 +68,25 @@ class FormListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
 class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
     @cached_property
     def investigation(self):
-        return get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
+        return get_object_or_404(Investigation, slug=self.kwargs.get("investigation_slug"))
 
     @cached_property
     def form(self):
-        return get_object_or_404(Form, id=self.kwargs.get("form_id"))
+        return get_object_or_404(Form, slug=self.kwargs.get("form_slug"))
 
     def get_breadcrumbs(self):
         return [
             (_("Investigations"), reverse("investigation_list")),
-            (self.investigation.name, reverse("form_list", kwargs={"investigation_id": self.investigation.id})),
-            (self.form.name, reverse("form_responses", kwargs={"investigation_id": self.investigation.id,
-                                                               "form_id": self.form.id})),
+            (self.investigation.name, reverse("form_list", kwargs={"investigation_slug": self.investigation.slug})),
+            (self.form.name, reverse("form_responses", kwargs={"investigation_slug": self.investigation.slug,
+                                                               "form_slug": self.form.slug})),
         ]
 
     def get_permission_object(self):
         return self.investigation
 
     def get_queryset(self):
-        return FormResponse.get_all_for_investigation(self.kwargs.get("investigation_id"))
+        return FormResponse.get_all_for_investigation(self.kwargs.get("investigation_slug"))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -101,19 +101,19 @@ class FormResponseDetailView(InvestigationAuthMixin, BreadCrumbMixin, DetailView
 
     @cached_property
     def investigation(self):
-        return get_object_or_404(Investigation, id=self.kwargs.get("investigation_id"))
+        return get_object_or_404(Investigation, slug=self.kwargs.get("investigation_slug"))
 
     @cached_property
     def form(self):
-        return get_object_or_404(Form, id=self.kwargs.get("form_id"))
+        return get_object_or_404(Form, slug=self.kwargs.get("form_slug"))
 
     def get_permission_object(self):
         return self.investigation
 
     def dispatch(self, request, *args, **kwargs):
         form_response_id = self.kwargs[self.pk_url_kwarg]
-        investigation_id = self.kwargs["investigation_id"]
-        if not FormResponse.belongs_to_investigation(form_response_id, investigation_id):
+        investigation_slug = self.kwargs["investigation_slug"]
+        if not FormResponse.belongs_to_investigation(form_response_id, investigation_slug):
             raise Http404()
         return super().dispatch(request, *args, **kwargs)
 
@@ -127,11 +127,11 @@ class FormResponseDetailView(InvestigationAuthMixin, BreadCrumbMixin, DetailView
     def get_breadcrumbs(self):
         return [
             (_("Investigations"), reverse("investigation_list")),
-            (self.investigation.name, reverse("form_list", kwargs={"investigation_id": self.investigation.id})),
-            (self.form.name, reverse("form_responses", kwargs={"investigation_id": self.investigation.id,
-                                                               "form_id": self.form.id})),
-            (self.object.email, reverse("response_details", kwargs={"investigation_id": self.investigation.id,
-                                                                     "form_id": self.form.id,
+            (self.investigation.name, reverse("form_list", kwargs={"investigation_slug": self.investigation.slug})),
+            (self.form.name, reverse("form_responses", kwargs={"investigation_slug": self.investigation.slug,
+                                                               "form_slug": self.form.slug})),
+            (self.object.email, reverse("response_details", kwargs={"investigation_slug": self.investigation.slug,
+                                                                     "form_slug": self.form.slug,
                                                                      "response_id": self.object.id})),
         ]
 
@@ -144,7 +144,7 @@ class CommentAddView(InvestigationAuthMixin, CreateView):
         return reverse("response_details", kwargs=self.kwargs)
 
     def get_permission_object(self):
-        return Investigation.objects.get(id=self.kwargs.get("investigation_id"))
+        return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
 
     def form_valid(self, form):
         response = FormResponse.objects.get(id=self.kwargs.get("response_id"))
@@ -161,24 +161,24 @@ class FormResponseStatusView(InvestigationAuthMixin, UpdateView):
         return reverse("response_details", kwargs=self.kwargs)
 
     def get_permission_object(self):
-        return Investigation.objects.get(id=self.kwargs.get("investigation_id"))
+        return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
 
 
 @login_required(login_url="/admin/login")
 @permission_required('forms.view_investigation', (Investigation, 'id', 'investigation_id'), return_403=True)
 def form_response_csv_view(request, *args, **kwargs):
-    form_id = kwargs.get("form_id")
-    investigation_id = kwargs.get("investigation_id")
+    form_slug = kwargs.get("form_slug")
+    investigation_slug = kwargs.get("investigation_slug")
 
-    form = get_object_or_404(Form, id=form_id)
-    if form.investigation_id != investigation_id:
+    form = get_object_or_404(Form, slug=form_slug)
+    if form.investigation.slug != investigation_slug:
         raise HttpResponse(status_code=403)
 
     response = HttpResponse(content_type='text/csv')
-    filename = 'crowdnewsroom_download_{}_{}.csv'.format(investigation_id, form_id)
+    filename = 'crowdnewsroom_download_{}_{}.csv'.format(investigation_slug, form_slug)
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
 
-    create_form_csv(form_id, investigation_id, request, response)
+    create_form_csv(form_slug, investigation_slug, request, response)
 
     return response
 

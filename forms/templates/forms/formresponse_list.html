@@ -20,7 +20,7 @@
         {% for response in formresponse_list %}
             <tr>
                 <td>
-                    <a href="{% url "response_details" investigation.id form.id response.id %}"
+                    <a href="{% url "response_details" investigation.slug form.slug response.id %}"
                         style="text-decoration: none">
                         <i class="fa {% response_icon response.status %}"></i>
                         {{ response.json_email }} - {{ response.submission_date }}
@@ -31,7 +31,7 @@
             </tr>
         {% endfor %}
     </table>
-    <a href="{% url "form_responses_csv" investigation.id form.id %}">
+    <a href="{% url "form_responses_csv" investigation.slug form.slug %}">
       <i class="fa fa-download"></i>
       {% trans "Download data as csv" %}
       </a>

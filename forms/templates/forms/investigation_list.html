@@ -21,7 +21,7 @@
       {% get_obj_perms request.user for investigation as "investigation_perms" %}
 
       <li>
-       <a href="{% url "form_list" investigation.id %}">
+       <a href="{% url "form_list" investigation.slug %}">
             <div class="status {{ investigation.status }}">
                 <img src="{{ investigation.cover_image_url }}" alt=""/>
             </div>

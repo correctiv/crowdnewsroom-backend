@@ -10,7 +10,7 @@
 <div class="forms-list">
     <ul>
     {% for form in form_list %}
-        <li><a href="{% url "form_responses" investigation.id form.id %}">{{ form }}</a></li>
+        <li><a href="{% url "form_responses" investigation.slug form.slug %}">{{ form }}</a></li>
     {% endfor %}
     </ul>
 </div>

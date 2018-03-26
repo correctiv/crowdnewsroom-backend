@@ -7,3 +7,4 @@ django-json-widget==0.1.1
 djangorestframework==3.7.7
 psycopg2==2.7.3.2
 pytz==2017.3
+awesome-slugify==1.6.5

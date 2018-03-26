@@ -10,7 +10,7 @@
     <div class="formresponse-details">
         <div>
             <h2 style="display: inline-block;">{% trans "Content of Response" %}</h2>
-            <form action="{% url 'response_details_status' investigation_id=formresponse.form_instance.form.investigation_id form_id=formresponse.form_instance.form.id response_id=formresponse.id %}"
+            <form action="{% url 'response_details_status' investigation_slug=formresponse.form_instance.form.investigation.slug form_slug=formresponse.form_instance.form.slug response_id=formresponse.id %}"
                   method="post"
                   style="display: inline-block; margin-left: 2em">
                 {% csrf_token %}
@@ -53,7 +53,7 @@
         </table>
 
         <h2>Comments</h2>
-        <form action="{% url 'response_details_comments' investigation_id=formresponse.form_instance.form.investigation_id form_id=formresponse.form_instance.form.id response_id=formresponse.id %}" method="post">
+        <form action="{% url 'response_details_comments' investigation_slug=formresponse.form_instance.form.investigation.slug form_slug=formresponse.form_instance.form.slug response_id=formresponse.id %}" method="post">
             <div class="form-group">
                 {% csrf_token %}
                 {{ comment_form }}
