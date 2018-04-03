@@ -4,6 +4,7 @@
         "pk": 1,
         "fields": {
             "name": "Signable Investigation",
+            "slug": "signable-investigation",
             "cover_image": "kelly-sikkema-399338-unsplash.jpg",
             "logo": "",
             "short_description": ".",
@@ -20,6 +21,7 @@
         "pk": 2,
         "fields": {
             "name": "Wem geh\u00f6rt Hamburg",
+            "slug": "wem-gehoert-hamburg",
             "cover_image": "Bild2.jpg",
             "logo": "wghh-logo.png",
             "short_description": ".",
@@ -36,6 +38,7 @@
         "pk": 1,
         "fields": {
             "name": "The first form",
+            "slug": "the-first-form",
             "status": "D",
             "investigation": 1
         }
@@ -45,6 +48,7 @@
         "pk": 2,
         "fields": {
             "name": "Mietformular",
+            "slug": "mietformular",
             "status": "D",
             "investigation": 2
         }
