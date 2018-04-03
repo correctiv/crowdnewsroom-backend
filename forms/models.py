@@ -174,7 +174,7 @@ class FormInstance(models.Model):
     @staticmethod
     def get_latest_for_form(form_slug):
         return FormInstance.objects \
-            .filter(form_slug=form_slug) \
+            .filter(form__slug=form_slug) \
             .order_by("-version") \
             .first()
 
