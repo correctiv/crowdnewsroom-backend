@@ -12,6 +12,9 @@
 
 {% block main %}
   <div class="formresponse-list">
+      <div style="width:100%; height: 400px;">
+          <canvas id="canvas"></canvas>
+      </div>
       <form action="" method="GET">
           <label for="has_filter">{% trans "Only show responses that have" %}</label>
           <select id="has_filter" name="has" onChange="this.form.submit()">
@@ -66,5 +69,21 @@
       {% trans "Download data as csv" %}
       </a>
   </div>
+
+<script>
+const labels = [
+{% for entry in form.submissions_by_date %}
+            new Date({{ entry.date | date:"U" }} * 1000),
+{% endfor %}
+            ];
+const values  = [
+{% for entry in form.submissions_by_date %}
+            {{ entry.c }},
+{% endfor %}
+];
+window.addEventListener("load", function(event){
+    makeChart(labels, values);
+});
+</script>
 
 {% endblock %}

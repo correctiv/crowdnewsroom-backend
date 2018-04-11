@@ -59,7 +59,9 @@
   "dependencies": {
     "babel-polyfill": "^6.9.0",
     "bootstrap": "^4.0.0",
+    "chart.js": "^2.7.2",
     "file-loader": "^1.1.11",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "moment": "^2.22.1"
   }
 }

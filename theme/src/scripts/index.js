@@ -7,4 +7,5 @@ if (module.hot) {
 import 'babel-polyfill'
 
 // style
-import '../styles/main.sass'
+import "../styles/main.sass";
+import "./charts.js"
