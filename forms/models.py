@@ -175,7 +175,8 @@ class Form(models.Model, UniqueSlugMixin):
             .annotate(date=TruncDate('submission_date')) \
             .values('date') \
             .annotate(c=Count('id')) \
-            .values('date', 'c')
+            .values('date', 'c') \
+            .order_by('date')
 
 
 class FormInstance(models.Model):
