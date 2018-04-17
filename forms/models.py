@@ -8,7 +8,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
-from . import secrets  # TODO: Replace with included module once updated to python 3.6
 from .mixins import UniqueSlugMixin
 
 from django.utils.translation import ugettext_lazy as _
@@ -268,8 +267,6 @@ class FormResponse(models.Model):
     json = JSONField()
     form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUSES, default='S')
-    token = models.CharField(max_length=256, db_index=True, default=secrets.token_urlsafe)
-    email = models.EmailField()
     submission_date = models.DateTimeField()
     tags = models.ManyToManyField(Tag)
     assignees = models.ManyToManyField(User)

@@ -31,27 +31,28 @@ class Utils(TestCase):
                                                             "slug": "first",
                                                             "properties": {
                                                                 "name": {"type": "string"},
+                                                                "email": {"type": "string"}
                                                             }
                                                         }
                                                     }])
 
         response_1 = FormResponseFactory.create(form_instance=form_instance,
-                                   email="peter@example.com",
                                    submission_date=datetime(2018, 1, 1, tzinfo=pytz.utc),
                                    json={
-                                       "name": "Peter"
+                                       "name": "Peter",
+                                       "email": "peter@example.com"
                                    })
         response_2 =FormResponseFactory.create(form_instance=form_instance,
-                                   email="katharina@example.com",
                                    submission_date=datetime(2018, 1, 2, tzinfo=pytz.utc),
                                    json={
-                                       "name": "Katharina"
+                                       "name": "Katharina",
+                                       "email": "katharina@example.com"
                                    })
         create_form_csv(self.form, self.investigation.slug, build_absolute_uri, buffer)
         lines = buffer.getvalue().split('\n')
 
         header = lines[0].strip()
-        expected_header = "meta_email,meta_id,meta_status,meta_submission_date,meta_url,meta_version,name"
+        expected_header = "email,meta_id,meta_status,meta_submission_date,meta_url,meta_version,name"
         self.assertEquals(header, expected_header)
 
         first = lines[1].strip()
@@ -79,7 +80,6 @@ class Utils(TestCase):
                                                     }])
 
         response = FormResponseFactory.create(form_instance=form_instance,
-                                              email="katharina@example.com",
                                               submission_date=datetime(2018, 1, 2, tzinfo=pytz.utc),
                                               json={
                                                   "name": "Katharina",
@@ -89,12 +89,11 @@ class Utils(TestCase):
         lines = buffer.getvalue().split('\n')
 
         header = lines[0].strip()
-        expected_header = "meta_email,meta_id,meta_status,meta_submission_date,meta_url,meta_version,name,picture"
+        expected_header = "meta_id,meta_status,meta_submission_date,meta_url,meta_version,name,picture"
         self.assertEquals(header, expected_header)
 
         first = lines[1].strip()
-        expected_first = ",".join(["katharina@example.com",
-                                   str(response.id),
+        expected_first = ",".join([str(response.id),
                                    "Inbox",
                                    "2018-01-02 00:00:00+00:00",
                                    "https://example.com/forms/admin/investigations/first-investigation/forms/first-form/responses/{}".format(
