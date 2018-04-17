@@ -8,6 +8,6 @@ def response_icon(status):
     icons = {
         "S": "fa-envelope",
         "V": "fa-check",
-        "I": "fa-flag"
+        "I": "fa-trash"
     }
     return icons.get(status, "fa-question")

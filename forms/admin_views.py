@@ -81,13 +81,21 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
             (_("Investigations"), reverse("investigation_list")),
             (self.investigation.name, reverse("form_list", kwargs={"investigation_slug": self.investigation.slug})),
             (self.form.name, reverse("form_responses", kwargs={"investigation_slug": self.investigation.slug,
-                                                               "form_slug": self.form.slug})),
+                                                               "form_slug": self.form.slug,
+                                                               "bucket": "inbox"})),
         ]
 
     def get_permission_object(self):
         return self.investigation
 
     def get_queryset(self):
+        bucket = self.kwargs.get("bucket")
+        mapping = {
+            "inbox": "S",
+            "trash": "I",
+            "verified": "V"
+        }
+
         has_filter = self.request.GET.get("has")
         investigation_responses = FormResponse.get_all_for_investigation(self.kwargs.get("investigation_slug"))
 
@@ -95,6 +103,8 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
             key = "json__{}__isnull".format(has_filter)
             filter = {key: True}
             return investigation_responses.exclude(**filter)
+
+        investigation_responses = investigation_responses.filter(status=mapping[bucket])
 
         return investigation_responses
 
@@ -141,7 +151,8 @@ class FormResponseDetailView(InvestigationAuthMixin, BreadCrumbMixin, DetailView
             (_("Investigations"), reverse("investigation_list")),
             (self.investigation.name, reverse("form_list", kwargs={"investigation_slug": self.investigation.slug})),
             (self.form.name, reverse("form_responses", kwargs={"investigation_slug": self.investigation.slug,
-                                                               "form_slug": self.form.slug})),
+                                                               "form_slug": self.form.slug,
+                                                               "bucket": "inbox"})),
             (self.object.email, reverse("response_details", kwargs={"investigation_slug": self.investigation.slug,
                                                                      "form_slug": self.form.slug,
                                                                      "response_id": self.object.id})),
@@ -170,7 +181,10 @@ class FormResponseStatusView(InvestigationAuthMixin, UpdateView):
     pk_url_kwarg = "response_id"
 
     def get_success_url(self):
-        return reverse("response_details", kwargs=self.kwargs)
+        self.kwargs.update(bucket="inbox")
+        kwargs = self.kwargs
+        kwargs.pop("response_id")
+        return reverse("form_responses", kwargs=kwargs)
 
     def get_permission_object(self):
         return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
