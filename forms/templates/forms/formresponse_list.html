@@ -48,8 +48,8 @@
       </form>
     <table class="table">
         <tr>
-            <td>{% trans "Response" %}</td>
-            <td>{% trans "Status" %}</td>
+            <td>{% trans "Email" %}</td>
+            <td>{% trans "Date" %}</td>
             <td>{% trans "Comments" %}</td>
         </tr>
         {% for response in formresponse_list %}
@@ -58,10 +58,14 @@
                     <a href="{% url "response_details" investigation.slug form.slug response.id %}"
                         style="text-decoration: none">
                         <i class="fa {% response_icon response.status %}"></i>
-                        {{ response.json_email }} - {{ response.submission_date | localtime }}
+                        {% if response.json_email %}
+                            {{ response.json_email }}
+                        {% else %}
+                            <i> {% trans "No Email Provided" %}</i>
+                        {% endif %}
                     </a>
                 </td>
-                <td>{{ response.get_status_display }}</td>
+                <td>{{ response.submission_date | localtime }}</td>
                 <td>{{ response.comment_set.count }}</td>
             </tr>
         {% endfor %}
