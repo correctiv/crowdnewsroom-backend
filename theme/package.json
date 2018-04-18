@@ -57,6 +57,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.6",
     "babel-polyfill": "^6.9.0",
     "bootstrap": "^4.0.0",
     "chart.js": "^2.7.2",

@@ -1,9 +1,11 @@
 import smtplib
+from datetime import timedelta
 
 from django.core.mail import send_mail
 from django.db.models import Count
 from django.template import Engine, Context
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 
 from . import secrets  # TODO: Replace with included module once updated to python 3.6
@@ -53,6 +55,20 @@ class Investigation(models.Model, UniqueSlugMixin):
     def __str__(self):
         return self.name
 
+    def submission_stats(self):
+        investigations = FormResponse.objects.filter(form_instance__form__investigation=self)
+        total = investigations.count()
+        today_start = timezone.now().replace(minute=0, hour=0, second=0)
+        yesterday_start = today_start - timedelta(days=1)
+        yesterday = investigations.filter(submission_date__gte=yesterday_start)\
+                                  .filter(submission_date__lt=today_start)\
+                                  .count()
+        to_verify = investigations.filter(status="S").count()
+        return {
+            "total": total,
+            "yesterday": yesterday,
+            "to_verify": to_verify,
+        }
 
 @receiver(models.signals.post_save, sender=Investigation)
 def execute_after_save(sender, instance, created, *args, **kwargs):

@@ -17,22 +17,35 @@
     </div>
 
     <ul>
-    {% for investigation in investigation_list %}
-      {% get_obj_perms request.user for investigation as "investigation_perms" %}
+        {% for investigation in investigation_list %}
+        {% get_obj_perms request.user for investigation as "investigation_perms" %}
 
-      <li>
-       <a href="{% url "form_list" investigation.slug %}">
-            <div class="status {{ investigation.status }}">
-                <img src="{{ investigation.cover_image_url }}" alt=""/>
+        <li class="list-unstyled">
+            <div class="card m-3">
+                <div class="card-body">
+                    <div class="d-flex card-title justify-content-between">
+                        <h3 class="text-primary">{{investigation.name}}</h3>
+                        <div class="buttons">
+                            {% if "manage_investigation" in investigation_perms %}
+                            <button class="btn btn-secondary">Edit</button>
+                            {% endif %}
+                            <a class="btn btn-primary"
+                               href="{% url 'form_list' investigation.slug %}">View</a>
+                        </div>
+                    </div>
+
+                    {% with stats=investigation.submission_stats %}
+                    <ul class="list-unstyled card-text icon-list">
+                        <li><i class="fas fa-chart-line text-primary"></i> {{ stats.total }} {% trans "submissions in total" %}</li>
+                        <li><i class="fas fa-calendar-alt text-primary"></i> {{ stats.yesterday }} {% trans "submissions in the last 24 hours" %}</li>
+                        <li><i class="fas fa-check-square text-primary"></i> {{ stats.to_verify }} {% trans "submissions left to verify" %}</li>
+                    </ul>
+                    {% endwith %}
+                </div>
             </div>
-            <h3>{{ investigation.name }}</h3>
+        </li>
 
-            {% if "manage_investigation" in investigation_perms %}
-                <a href="{{ investigation.id }}">{% trans "Edit" %}</a>
-            {% endif %}
-        </a>
-      </li>
-  {% endfor %}
+        {% endfor %}
     </ul>
 </div>
 
