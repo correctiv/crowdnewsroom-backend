@@ -7,10 +7,7 @@ if (module.hot) {
 import Chart from "chart.js";
 import moment from "moment";
 
-const timeFormat = "MM/DD/YYYY HH:mm";
-
-window.makeChart = (labels, values) => {
-    const color = Chart.helpers.color;
+window.makeDateChart = (labels, values, element) => {
     const config = {
       type: "bar",
       data: {
@@ -47,13 +44,45 @@ window.makeChart = (labels, values) => {
                     if (tooltipItem.length) {
                         return moment(tooltipItem[0].xLabel).format("ddd DD.MM.YYYY");
                     }
-                    return "?"
+                    return "?";
                 }
             }
         }
       }
     };
 
-    var ctx = document.getElementById("canvas").getContext("2d");
+    const ctx = element.getContext("2d");
     new Chart(ctx, config);
-}
+};
+
+window.makeBarChart = (labels, values, element) => {
+  const config = {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Contributions",
+          backgroundColor: "rgb(74, 144, 226)",
+          fill: false,
+          data: values
+        }
+      ]
+    },
+    options: {
+      legend: {display: false},
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      },
+    }
+  };
+
+  const ctx = element.getContext("2d");
+  new Chart(ctx, config);
+};
