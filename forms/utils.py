@@ -5,15 +5,15 @@ from django.urls import reverse
 from forms.models import FormInstance, FormResponse
 
 
-def create_form_csv(form, investigation_slug, request, io_object):
+def create_form_csv(form, investigation_slug, build_absolute_uri, io_object):
     form_instances = FormInstance.objects.filter(form_id=form.id)
-    responses = FormResponse.objects.filter(form_instance__form_id=form.id).all()
+    responses = FormResponse.objects.filter(form_instance__form_id=form.id).order_by("id").all()
 
     fields = set()
     for instance in form_instances:
         fields |= get_keys(instance)
 
-    writer = csv.DictWriter(io_object, fieldnames=fields, extrasaction='ignore')
+    writer = csv.DictWriter(io_object, fieldnames=sorted(fields), extrasaction='ignore')
     writer.writeheader()
     for form_response in responses:
         try:
@@ -21,7 +21,7 @@ def create_form_csv(form, investigation_slug, request, io_object):
             path = reverse("response_details", kwargs={"investigation_slug": investigation_slug,
                                                        "form_slug": form.slug,
                                                        "response_id": form_response.id})
-            url = request.build_absolute_uri(path)
+            url = build_absolute_uri(path)
             meta_data = {"meta_version": form_response.form_instance.version,
                          "meta_url": url,
                          "meta_status": form_response.get_status_display(),

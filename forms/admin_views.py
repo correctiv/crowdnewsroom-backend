@@ -238,7 +238,7 @@ def form_response_csv_view(request, *args, **kwargs):
     filename = 'crowdnewsroom_download_{}_{}.csv'.format(investigation_slug, form_slug)
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
 
-    create_form_csv(form, investigation_slug, request, response)
+    create_form_csv(form, investigation_slug, request.build_absolute_uri, response)
 
     return response
 
