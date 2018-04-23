@@ -254,7 +254,7 @@ class FormResponse(models.Model):
 
         for name, props in properties.items():
             title = flat_ui_schema.get(name, {}).get("ui:title", name)
-            row = {"title": title}
+            row = {"title": title, "json_name": name}
             if (flat_ui_schema.get(name, dict()).get("ui:widget") == "signatureWidget"
                     or props.get("format") == "data-url"):
                 if form_data.get(name):
