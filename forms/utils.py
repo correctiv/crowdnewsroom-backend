@@ -13,7 +13,7 @@ def create_form_csv(form, investigation_slug, build_absolute_uri, io_object, fil
         .order_by("id")\
         .all()
 
-    extra_fields = {"url", "version", "status", "email", "submission_date"}
+    extra_fields = {"url", "version", "status", "email", "submission_date", "id"}
     fields = {"meta_{}".format(field) for field in extra_fields}
     for instance in form_instances:
         fields |= instance.json_properties
@@ -34,6 +34,7 @@ def create_form_csv(form, investigation_slug, build_absolute_uri, io_object, fil
                                                        "response_id": form_response.id})
             url = build_absolute_uri(path)
             meta_data = {"meta_version": form_response.form_instance.version,
+                         "meta_id": form_response.id,
                          "meta_url": url,
                          "meta_status": form_response.get_status_display(),
                          "meta_email": form_response.email,
