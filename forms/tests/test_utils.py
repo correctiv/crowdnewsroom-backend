@@ -78,12 +78,12 @@ class Utils(TestCase):
                                                     }])
 
         response = FormResponseFactory.create(form_instance=form_instance,
-                                   email="katharina@example.com",
-                                   submission_date=datetime(2018, 1, 2, tzinfo=pytz.utc),
-                                   json={
-                                       "name": "Katharina",
-                                       "picture": "data-url...."
-                                   })
+                                              email="katharina@example.com",
+                                              submission_date=datetime(2018, 1, 2, tzinfo=pytz.utc),
+                                              json={
+                                                  "name": "Katharina",
+                                                  "picture": "data-url...."
+                                              })
         create_form_csv(form_instance.form, form_instance.form.investigation.slug, build_absolute_uri, buffer)
         lines = buffer.getvalue().split('\n')
 
@@ -93,11 +93,83 @@ class Utils(TestCase):
 
         first = lines[1].strip()
         expected_first = ",".join(["katharina@example.com",
-                         "Submitted",
-                         "2018-01-02 00:00:00+00:00",
-                         "https://example.com/forms/admin/investigations/first-investigation/forms/first-form/responses/{}".format(response.id),
-                         "0",
-                         "Katharina",
-                         "https://example.com/forms/admin/investigations/first-investigation/forms/first-form/responses/{}/files/picture".format(response.id)])
+                                   "Submitted",
+                                   "2018-01-02 00:00:00+00:00",
+                                   "https://example.com/forms/admin/investigations/first-investigation/forms/first-form/responses/{}".format(
+                                       response.id),
+                                   "0",
+                                   "Katharina",
+                                   "https://example.com/forms/admin/investigations/first-investigation/forms/first-form/responses/{}/files/picture".format(
+                                       response.id)])
         self.assertEquals(first, expected_first)
+
+    def test_create_form_csv_file_filter(self):
+        buffer = StringIO()
+        build_absolute_uri = lambda x: "https://example.com{}".format(x)
+
+        form_instance = FormInstance.objects.create(form=self.form,
+                                                    form_json=[{
+                                                        "schema": {
+                                                            "slug": "first",
+                                                            "properties": {
+                                                                "name": {"type": "string"},
+                                                                "picture": {"type": "string",
+                                                                            "format": "data-url"},
+                                                            }
+                                                        }
+                                                    }])
+
+        FormResponseFactory.create(form_instance=form_instance,
+                                   json={
+                                       "name": "Katharina",
+                                       "picture": "data-url...."
+                                   })
+        FormResponseFactory.create(form_instance=form_instance,
+                                   status="I",
+                                   json={
+                                       "name": "Peter",
+                                   })
+        create_form_csv(form_instance.form,
+                        form_instance.form.investigation.slug,
+                        build_absolute_uri,
+                        buffer,
+                        {"status": "I"})
+        lines = [line for line in buffer.getvalue().split('\r\n') if line != ""]
+
+        self.assertEqual(len(lines), 2)
+
+    def test_create_form_csv_file_filter_json(self):
+        buffer = StringIO()
+        build_absolute_uri = lambda x: "https://example.com{}".format(x)
+
+        form_instance = FormInstance.objects.create(form=self.form,
+                                                    form_json=[{
+                                                        "schema": {
+                                                            "slug": "first",
+                                                            "properties": {
+                                                                "name": {"type": "string"},
+                                                                "picture": {"type": "string",
+                                                                            "format": "data-url"},
+                                                            }
+                                                        }
+                                                    }])
+
+        FormResponseFactory.create(form_instance=form_instance,
+                                   json={
+                                       "name": "Katharina",
+                                       "picture": "data-url...."
+                                   })
+        FormResponseFactory.create(form_instance=form_instance,
+                                   status="I",
+                                   json={
+                                       "name": "Peter",
+                                   })
+        create_form_csv(form_instance.form,
+                        form_instance.form.investigation.slug,
+                        build_absolute_uri,
+                        buffer,
+                        {"json__picture__isnull": False})
+        lines = [line for line in buffer.getvalue().split('\r\n') if line != ""]
+
+        self.assertEqual(len(lines), 2)
 

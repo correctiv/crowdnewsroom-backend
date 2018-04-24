@@ -5,9 +5,13 @@ from django.urls import reverse
 from forms.models import FormInstance, FormResponse
 
 
-def create_form_csv(form, investigation_slug, build_absolute_uri, io_object):
+def create_form_csv(form, investigation_slug, build_absolute_uri, io_object, filter_params={}):
     form_instances = FormInstance.objects.filter(form_id=form.id)
-    responses = FormResponse.objects.filter(form_instance__form_id=form.id).order_by("id").all()
+    responses = FormResponse.objects\
+        .filter(form_instance__form_id=form.id)\
+        .filter(**filter_params)\
+        .order_by("id")\
+        .all()
 
     extra_fields = {"url", "version", "status", "email", "submission_date"}
     fields = {"meta_{}".format(field) for field in extra_fields}

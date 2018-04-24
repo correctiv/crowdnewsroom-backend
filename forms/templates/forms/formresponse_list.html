@@ -106,7 +106,7 @@
             </div>
         </div>
     {% endif %}
-    <a href="{% url 'form_responses_csv' investigation.slug form.slug %}">
+    <a href="{{ csv_url }}">
       <i class="fa fa-download"></i>
       {% trans "Download data as csv" %}
       </a>

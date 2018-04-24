@@ -1,4 +1,5 @@
 import base64
+import re
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +17,24 @@ from forms.forms import CommentForm, FormResponseStatusForm
 from forms.models import FormResponse, Investigation, Comment, Form
 from forms.utils import create_form_csv
 
+
+def _get_filter_params(kwargs, get_params):
+    bucket = kwargs.get("bucket") or get_params.get("bucket")
+    has_filter = get_params.get("has")
+    mapping = {
+        "inbox": "S",
+        "trash": "I",
+        "verified": "V"
+    }
+
+    filter_params = {}
+
+    if has_filter:
+        key = "json__{}__isnull".format(has_filter)
+        filter_params[key] = False
+
+    filter_params["status"] = mapping.get(bucket, "S")
+    return filter_params
 
 class BreadCrumbMixin(object):
     def get_breadcrumbs(self):
@@ -89,23 +108,9 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         return self.investigation
 
     def get_queryset(self):
-        bucket = self.kwargs.get("bucket")
-        mapping = {
-            "inbox": "S",
-            "trash": "I",
-            "verified": "V"
-        }
-
-        has_filter = self.request.GET.get("has")
         investigation_responses = FormResponse.get_all_for_investigation(self.kwargs.get("investigation_slug"))
-
-        if has_filter:
-            key = "json__{}__isnull".format(has_filter)
-            filter = {key: True}
-            investigation_responses = investigation_responses.exclude(**filter)
-
-        investigation_responses = investigation_responses.filter(status=mapping[bucket])
-
+        filter_params = _get_filter_params(self.kwargs, self.request.GET)
+        investigation_responses = investigation_responses.filter(**filter_params)
         return investigation_responses
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -120,6 +125,15 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
             context['query_params'] = ""
 
         context['has_param'] = has_param
+
+        csv_base = reverse("form_responses_csv", kwargs={
+            "investigation_slug": self.investigation.slug,
+            "form_slug": self.form.slug,
+            "bucket": self.kwargs.get("bucket")
+        })
+
+        get_params = '&'.join(['{}={}'.format(k, v) for k, v in self.request.GET.items()])
+        context['csv_url'] = "{}?{}".format(csv_base, get_params)
         return context
 
 
@@ -234,11 +248,13 @@ def form_response_csv_view(request, *args, **kwargs):
     if form.investigation.slug != investigation_slug:
         raise HttpResponse(status_code=403)
 
+    filter_params = _get_filter_params(kwargs, request.GET)
+
     response = HttpResponse(content_type='text/csv')
     filename = 'crowdnewsroom_download_{}_{}.csv'.format(investigation_slug, form_slug)
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
 
-    create_form_csv(form, investigation_slug, request.build_absolute_uri, response)
+    create_form_csv(form, investigation_slug, request.build_absolute_uri, response, filter_params)
 
     return response
 
