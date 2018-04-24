@@ -17,7 +17,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.dispatch import receiver
 from guardian.shortcuts import assign_perm
-from django.db.models.functions import TruncDate
+from django.db.models.functions import TruncDate, ExtractHour
 
 
 class Investigation(models.Model, UniqueSlugMixin):
@@ -69,6 +69,7 @@ class Investigation(models.Model, UniqueSlugMixin):
             "yesterday": yesterday,
             "to_verify": to_verify,
         }
+
 
 @receiver(models.signals.post_save, sender=Investigation)
 def execute_after_save(sender, instance, created, *args, **kwargs):
@@ -193,6 +194,15 @@ class Form(models.Model, UniqueSlugMixin):
             .annotate(c=Count('id')) \
             .values('date', 'c') \
             .order_by('date')
+
+    def submissions_by_hour(self):
+        return FormResponse.objects \
+            .filter(form_instance__form=self) \
+            .annotate(hour=ExtractHour('submission_date')) \
+            .values('hour') \
+            .annotate(c=Count('id')) \
+            .values('hour', 'c') \
+            .order_by('hour')
 
 
 class FormInstance(models.Model):

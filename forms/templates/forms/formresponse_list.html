@@ -13,7 +13,10 @@
 {% block main %}
   <div class="formresponse-list">
       <div style="width:100%; height: 400px;">
-          <canvas id="canvas"></canvas>
+          <canvas id="date-canvas"></canvas>
+      </div>
+      <div style="width:100%; height: 400px;">
+          <canvas id="time-canvas"></canvas>
       </div>
       <ul class="nav nav-tabs">
       <li class="nav-item">
@@ -113,19 +116,31 @@
   </div>
 
 <script>
-const labels = [
+var labels = [
 {% for entry in form.submissions_by_date %}
             new Date({{ entry.date | date:"U" }} * 1000),
 {% endfor %}
             ];
-const values  = [
+var values  = [
 {% for entry in form.submissions_by_date %}
             {{ entry.c }},
 {% endfor %}
 ];
-window.addEventListener("load", function(event){
-    makeChart(labels, values);
 
+var hourData = {
+{% for entry in form.submissions_by_hour %}
+            {{ entry.hour}}: {{entry.c}},
+{% endfor %}
+            };
+
+var hourLabels = [];
+var hourValues = [];
+for (var i=0; i<24; i++) {
+    hourLabels.push(i);
+    hourValues.push(hourData[i] || 0);
+}
+
+window.addEventListener("load", function(event){
     var bulkActions = document.querySelector("#bulk-actions");
     bulkActions.classList.add("d-none");
 
@@ -145,6 +160,9 @@ window.addEventListener("load", function(event){
     });
 
     updateFilterVisibility();
+
+    makeDateChart(labels, values, document.getElementById("date-canvas"));
+    makeBarChart(hourLabels, hourValues, document.getElementById("time-canvas"));
 });
 </script>
 
