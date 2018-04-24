@@ -194,6 +194,13 @@ class Form(models.Model, UniqueSlugMixin):
             .values('date', 'c') \
             .order_by('date')
 
+    def count_by_bucket(self):
+        results = FormResponse.objects \
+            .filter(form_instance__form=self) \
+            .values("status") \
+            .annotate(count=Count('status'))
+        return {bucket["status"]: bucket["count"] for bucket in results}
+
 
 class FormInstance(models.Model):
     form_json = JSONField()

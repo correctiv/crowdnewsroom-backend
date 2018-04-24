@@ -11,14 +11,18 @@ from forms.tests.factories import FormResponseFactory, FormInstanceFactory, Form
 class FormTest(TestCase):
     def setUp(self):
         form_instance = FormInstanceFactory.create()
-        dates = [timezone.datetime(2018, 1, 2, tzinfo=pytz.utc),
-                 timezone.datetime(2018, 1, 5, tzinfo=pytz.utc),
-                 timezone.datetime(2018, 1, 1, tzinfo=pytz.utc),
-                 timezone.datetime(2018, 1, 1, tzinfo=pytz.utc),
-                 timezone.datetime(2018, 1, 1, tzinfo=pytz.utc)]
+        response_data = [
+            (timezone.datetime(2018, 1, 2, tzinfo=pytz.utc), "S"),
+            (timezone.datetime(2018, 1, 5, tzinfo=pytz.utc), "S"),
+            (timezone.datetime(2018, 1, 1, tzinfo=pytz.utc), "I"),
+            (timezone.datetime(2018, 1, 1, tzinfo=pytz.utc), "V"),
+            (timezone.datetime(2018, 1, 1, tzinfo=pytz.utc), "V")
+        ]
 
-        for date in dates:
-            FormResponseFactory.create(submission_date=date, form_instance=form_instance)
+        for date, status in response_data:
+            FormResponseFactory.create(submission_date=date,
+                                       form_instance=form_instance,
+                                       status=status)
 
         self.form = form_instance.form
 
@@ -33,3 +37,7 @@ class FormTest(TestCase):
     def test_submissions_by_date_no_submissions(self):
         form = FormFactory.create()
         self.assertQuerysetEqual(form.submissions_by_date(), [])
+
+    def test_count_by_bucket(self):
+        self.assertDictEqual(self.form.count_by_bucket(), {'I': 1, 'S': 2, 'V': 2})
+
