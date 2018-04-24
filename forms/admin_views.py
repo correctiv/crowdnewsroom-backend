@@ -36,6 +36,7 @@ def _get_filter_params(kwargs, get_params):
     filter_params["status"] = mapping.get(bucket, "S")
     return filter_params
 
+
 class BreadCrumbMixin(object):
     def get_breadcrumbs(self):
         return []
@@ -118,13 +119,13 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         context['investigation'] = self.investigation
         context['form'] = self.form
 
-        has_param = self.request.GET.get("has")
-        if has_param:
-            context['query_params'] = "&has={}".format(has_param)
-        else:
-            context['query_params'] = ""
+        allowed_params = ['has']
 
-        context['has_param'] = has_param
+        context['query_params'] = '&'.join(['{}={}'.format(k, v)
+                                            for k, v
+                                            in self.request.GET.items()
+                                            if k in allowed_params])
+        context['has_param'] = self.request.GET.get('has')
 
         csv_base = reverse("form_responses_csv", kwargs={
             "investigation_slug": self.investigation.slug,
@@ -132,8 +133,7 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
             "bucket": self.kwargs.get("bucket")
         })
 
-        get_params = '&'.join(['{}={}'.format(k, v) for k, v in self.request.GET.items()])
-        context['csv_url'] = "{}?{}".format(csv_base, get_params)
+        context['csv_url'] = "{}?{}".format(csv_base, context['query_params'])
         return context
 
 
@@ -175,8 +175,8 @@ class FormResponseDetailView(InvestigationAuthMixin, BreadCrumbMixin, DetailView
                                                                "form_slug": self.form.slug,
                                                                "bucket": "inbox"})),
             (self.object.json_email, reverse("response_details", kwargs={"investigation_slug": self.investigation.slug,
-                                                                     "form_slug": self.form.slug,
-                                                                     "response_id": self.object.id})),
+                                                                         "form_slug": self.form.slug,
+                                                                         "response_id": self.object.id})),
         ]
 
 
@@ -299,5 +299,3 @@ def form_response_file_view(request, *args, **kwargs):
     response.write(base64.b64decode(content))
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
     return response
-
-
