@@ -264,6 +264,26 @@ def form_response_csv_view(request, *args, **kwargs):
     return response
 
 
+def _get_file_data(file):
+    try:
+        header, content = file.split(";base64,")
+        if ";name=" in header:
+            file_type, filename = header.split(";name=")
+        # TODO: It is probably not safe here to assume that this is
+        # always going to be a signature. Maybe check the uiSchema
+        # to make sure.
+        else:
+            file_type = header
+            filename = "signature.png"
+    except AttributeError:
+        raise Http404()
+
+    file_type = file_type.replace("data:", "")
+
+    file_content = base64.b64decode(content)
+    return filename, file_type, file_content
+
+
 @login_required(login_url="/admin/login")
 @permission_required('forms.view_investigation', (Investigation, 'slug', 'investigation_slug'), return_403=True)
 def form_response_file_view(request, *args, **kwargs):
@@ -287,22 +307,9 @@ def form_response_file_view(request, *args, **kwargs):
             raise Http404
         file = file[file_index]
 
-    try:
-        header, content = file.split(";base64,")
-        if ";name=" in header:
-            file_type, filename = header.split(";name=")
-        # TODO: It is probably not safe here to assume that this is
-        # always going to be a signature. Maybe check the uiSchema
-        # to make sure.
-        else:
-            file_type = header
-            filename = "signature.png"
-    except AttributeError:
-        raise Http404()
-
-    file_type = file_type.replace("data:", "")
+    filename, file_type, file_content = _get_file_data(file)
 
     response = HttpResponse(content_type=file_type)
-    response.write(base64.b64decode(content))
+    response.write(file_content)
     response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
     return response
