@@ -275,7 +275,7 @@ def _get_file_data(file):
         else:
             file_type = header
             filename = "signature.png"
-    except AttributeError:
+    except ValueError:
         raise Http404()
 
     file_type = file_type.replace("data:", "")
