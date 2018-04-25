@@ -300,7 +300,9 @@ def form_response_file_view(request, *args, **kwargs):
     except AttributeError:
         raise Http404()
 
+    file_type = file_type.replace("data:", "")
+
     response = HttpResponse(content_type=file_type)
     response.write(base64.b64decode(content))
-    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
     return response
