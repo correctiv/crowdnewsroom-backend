@@ -123,13 +123,13 @@
         <div class="responses-pagination">
             <div class="page-links">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}{{query_params}}">{% trans "previous" %}</a>
+                    <a href="?page={{ page_obj.previous_page_number }}&{{query_params}}">{% trans "previous" %}</a>
                 {% endif %}
                 <span class="page-current">
                     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                 </span>
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}{{query_params}}">{% trans "next" %}</a>
+                    <a href="?page={{ page_obj.next_page_number }}&{{query_params}}">{% trans "next" %}</a>
                 {% endif %}
             </div>
             <div class="total">
