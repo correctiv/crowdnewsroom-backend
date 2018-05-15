@@ -98,6 +98,30 @@ class FormListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         return context
 
 
+def convert_to_heatmap(time_stats):
+    days = [_("Mon"),
+            _("Tue"),
+            _("Wed"),
+            _("Thu"),
+            _("Fri"),
+            _("Sat"),
+            _("Sun"),
+            ]
+    max_value = max([entry["count"] for entry in time_stats])
+    values = []
+    for day in range(7):
+        values.append({"day": days[day],
+                       "hours": [{"style": "width: 0; height: 0;"} for i in range(24)]})
+
+    for entry in time_stats:
+        value = (entry["count"] / max_value) * 100
+        size = "calc({}% - 2px)".format(value)
+        style = 'width: {}; height: {};'.format(size, size)
+        values[entry["day"] - 1]["hours"][entry["hour"] - 1]["style"] = style
+
+    return values
+
+
 class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
     paginate_by = 25
 
@@ -170,6 +194,8 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
             "form_slug": self.form.slug,
             "bucket": self.kwargs.get("bucket")
         })
+        context['heatmap_data'] = convert_to_heatmap(self.form.submissions_by_time())
+        context['hours'] = range(24)
 
         context['csv_url'] = "{}?{}".format(csv_base, context['query_params'])
         return context

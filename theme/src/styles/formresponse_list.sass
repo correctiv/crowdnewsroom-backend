@@ -1,11 +1,38 @@
 .formresponse-list
-  table
-    margin-bottom: 2em
-    th
-      font-weight: bold
-    td
-      padding: 1em
 
-    a
-      text-decoration: underline
+  .heatmap
+
+    .dayName
+      text-align: right
+
+    td
+      width: 4%
+      position: relative
+      text-align: center
+
+    .blob
+      background: $blue
+      border-radius: 50%
+      margin: auto auto
+
+    td:after
+      content: ''
+      display: block
+      margin-top: 100%
+
+    td div
+      position: absolute
+      left: 0
+      right: 0
+      top: 0
+      bottom: 0
+
+
+    tr:not(:last-child)
+      border-bottom: 1px solid lightgrey
+
+
+    tr:nth-child(7)
+      border-bottom: none
+
 
