@@ -164,6 +164,9 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def __str__(self):
+        return self.first_name or self.email
+
 
 class Partner(models.Model):
     name = models.CharField(max_length=200)

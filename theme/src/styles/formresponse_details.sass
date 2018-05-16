@@ -1,7 +1,11 @@
 .formresponse-details
+  #tags-form, #assignees-form
+    label
+      cursor: pointer
+      font-weight: 400
 
-  .commentList li
-    list-style-type: none
-    margin-top: 2em
+    .badge-light:hover
+      background-color: darken($light, 10)
 
-
+    .badge-primary:hover
+      background-color: darken($primary, 10)

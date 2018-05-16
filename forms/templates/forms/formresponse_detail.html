@@ -64,8 +64,11 @@
             {% csrf_token %}
             {%  for tag in tags_form.tags %}
                 <label for="{{ tag.id_for_label }}"
-                    {{ tag.tag }}
                        class="badge  p-2 {% if tag.data.attrs.checked %} badge-primary {% else %} badge-light {% endif %}">
+                    <span class="sr-only">
+                        {{ tag.tag }}
+                    </span>
+
                     {{ tag.choice_label }}
                 </label>
             {% endfor %}
@@ -76,8 +79,10 @@
             {% csrf_token %}
             {%  for user in assignees_form.assignees %}
                 <label for="{{ user.id_for_label }}"
-                    {{ user.tag }}
-                       class="badge  p-2 {% if user.data.attrs.checked %} badge-primary {% else %} badge-light {% endif %}">
+                       class="badge  p-2 {% if user.data.attrs.checked %} badge-secondary {% else %} badge-light {% endif %}">
+                    <span class="sr-only">
+                        {{ user.tag }}
+                    </span>
                     {{ user.choice_label }}
                 </label>
             {% endfor %}
