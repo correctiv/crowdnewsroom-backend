@@ -113,6 +113,9 @@
                   {% for tag in response.tags.all %}
                     <span class="badge badge-primary">{{ tag.name }}</span>
                   {% endfor %}
+                  {% for user in response.assignees.all %}
+                    <span class="badge badge-secondary">{{ user }}</span>
+                  {% endfor %}
                 </td>
             </tr>
             {% endfor %}
