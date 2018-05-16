@@ -293,6 +293,9 @@ class FormResponseAssigneesView(InvestigationAuthMixin, UpdateView):
     def get_success_url(self):
         return reverse("response_details", kwargs=self.kwargs)
 
+    def form_invalid(self, form):
+        return HttpResponse(status=403)
+
     def get_permission_object(self):
         return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
 
