@@ -1,6 +1,7 @@
 import base64
 import re
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
@@ -243,20 +244,25 @@ def form_response_batch_edit(request, *args, **kwargs):
     referer = request.META.get("HTTP_REFERER", "/")
     box = referer.split("/")[-1]
     return_bucket = "inbox"
-    tag = Tag.objects.get(slug=request.POST.get("tag"))
 
     if box in ["inbox", "verified", "trash"]:
         return_bucket = box
-    investigation = Investigation.objects.get(slug=kwargs["investigation_slug"])
-
+    
     # need to also filter for investigation to
     # make sure that we only edit responses that user is allowed to edit
+    investigation = Investigation.objects.get(slug=kwargs["investigation_slug"])
     form_responses = FormResponse.objects.filter(id__in=ids,
                                                  form_instance__form__investigation=investigation)
 
-    for form_response in form_responses:
-        form_response.tags.add(tag)
+    # update tags for all selected form responses
+    try:
+        tag = Tag.objects.get(slug=request.POST.get("tag"))
+        for form_response in form_responses:
+            form_response.tags.add(tag)
+    except ObjectDoesNotExist:
+        pass
 
+    # update status for all selected form responses
     if action == "mark_invalid":
         form_responses.update(status="I")
     elif action == "mark_submitted":
