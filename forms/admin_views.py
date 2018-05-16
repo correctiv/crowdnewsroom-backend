@@ -255,38 +255,17 @@ class FormResponseStatusView(InvestigationAuthMixin, UpdateView):
         return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
 
 
-class FormResponseTagsView(InvestigationAuthMixin, UpdateView):
+class FormResponseMultiSelectFormView(InvestigationAuthMixin, UpdateView):
     model = FormResponse
-    form_class = FormResponseTagsForm
     pk_url_kwarg = "response_id"
 
     def post(self, request, *args, **kwargs):
-        if request.POST.get("tags"):
+        if request.POST.get(self.field):
             return super().post(request, *args, **kwargs)
         else:
             instance = self.get_object()
-            instance.tags.clear()
-            redirect = reverse("response_details", kwargs=self.kwargs)
-            return HttpResponseRedirect(redirect_to=redirect)
-
-    def get_success_url(self):
-        return reverse("response_details", kwargs=self.kwargs)
-
-    def get_permission_object(self):
-        return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
-
-
-class FormResponseAssigneesView(InvestigationAuthMixin, UpdateView):
-    model = FormResponse
-    form_class = FormResponseAssigneesForm
-    pk_url_kwarg = "response_id"
-
-    def post(self, request, *args, **kwargs):
-        if request.POST.get("assignees"):
-            return super().post(request, *args, **kwargs)
-        else:
-            instance = self.get_object()
-            instance.assignees.clear()
+            objects = getattr(instance, self.field)
+            objects.clear()
             redirect = reverse("response_details", kwargs=self.kwargs)
             return HttpResponseRedirect(redirect_to=redirect)
 
@@ -298,6 +277,16 @@ class FormResponseAssigneesView(InvestigationAuthMixin, UpdateView):
 
     def get_permission_object(self):
         return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
+
+
+class FormResponseTagsView(FormResponseMultiSelectFormView):
+    form_class = FormResponseTagsForm
+    field = "tags"
+
+
+class FormResponseAssigneesView(FormResponseMultiSelectFormView):
+    form_class = FormResponseAssigneesForm
+    field = "assignees"
 
 
 @login_required(login_url="/admin/login")
