@@ -15,7 +15,7 @@ from django.utils.translation import gettext as _
 from jsonschema import validate, ValidationError, FormatChecker
 
 from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm, FormResponseAssigneesForm
-from forms.models import FormResponse, Investigation, Comment, Form
+from forms.models import FormResponse, Investigation, Comment, Form, Tag
 from forms.utils import create_form_csv
 
 
@@ -243,6 +243,8 @@ def form_response_batch_edit(request, *args, **kwargs):
     referer = request.META.get("HTTP_REFERER", "/")
     box = referer.split("/")[-1]
     return_bucket = "inbox"
+    tag = Tag.objects.get(slug=request.POST.get("tag"))
+
     if box in ["inbox", "verified", "trash"]:
         return_bucket = box
     investigation = Investigation.objects.get(slug=kwargs["investigation_slug"])
@@ -251,12 +253,17 @@ def form_response_batch_edit(request, *args, **kwargs):
     # make sure that we only edit responses that user is allowed to edit
     form_responses = FormResponse.objects.filter(id__in=ids,
                                                  form_instance__form__investigation=investigation)
+
+    for form_response in form_responses:
+        form_response.tags.add(tag)
+
     if action == "mark_invalid":
         form_responses.update(status="I")
     elif action == "mark_submitted":
         form_responses.update(status="S")
     elif action == "mark_verified":
         form_responses.update(status="V")
+
     return HttpResponseRedirect(reverse("form_responses", kwargs={"investigation_slug": kwargs["investigation_slug"],
                                                                   "form_slug": kwargs["form_slug"],
                                                                   "bucket": return_bucket}))
