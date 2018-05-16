@@ -16,7 +16,7 @@ from django.contrib.auth.models import Group, AbstractUser, BaseUserManager
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.dispatch import receiver
-from guardian.shortcuts import assign_perm
+from guardian.shortcuts import assign_perm, get_users_with_perms
 from django.db.models.functions import TruncDate
 
 
@@ -72,6 +72,11 @@ class Investigation(models.Model, UniqueSlugMixin):
             "yesterday": yesterday,
             "to_verify": to_verify,
         }
+
+    @property
+    def manager_users(self):
+        user_perms = get_users_with_perms(self, with_superusers=True, attach_perms=True)
+        return [user for (user, perms) in user_perms.items() if "manage_investigation" in perms]
 
 
 @receiver(models.signals.post_save, sender=Investigation)
@@ -264,6 +269,7 @@ class FormResponse(models.Model):
     email = models.EmailField()
     submission_date = models.DateTimeField()
     tags = models.ManyToManyField(Tag)
+    assignees = models.ManyToManyField(User)
 
     class Meta:
         permissions = (

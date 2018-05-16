@@ -14,7 +14,7 @@ from guardian.shortcuts import get_objects_for_user
 from django.utils.translation import gettext as _
 from jsonschema import validate, ValidationError, FormatChecker
 
-from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm
+from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm, FormResponseAssigneesForm
 from forms.models import FormResponse, Investigation, Comment, Form
 from forms.utils import create_form_csv
 
@@ -180,6 +180,7 @@ class FormResponseDetailView(InvestigationAuthMixin, BreadCrumbMixin, DetailView
         context['comment_form'] = CommentForm()
         context['tags_form'] = FormResponseTagsForm(instance=self.object)
         context['status_form'] = FormResponseStatusForm(instance=self.object)
+        context['assignees_form'] = FormResponseAssigneesForm(instance=self.object)
         context['investigation'] = self.investigation
         return context
 
@@ -265,6 +266,27 @@ class FormResponseTagsView(InvestigationAuthMixin, UpdateView):
         else:
             instance = self.get_object()
             instance.tags.clear()
+            redirect = reverse("response_details", kwargs=self.kwargs)
+            return HttpResponseRedirect(redirect_to=redirect)
+
+    def get_success_url(self):
+        return reverse("response_details", kwargs=self.kwargs)
+
+    def get_permission_object(self):
+        return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
+
+
+class FormResponseAssigneesView(InvestigationAuthMixin, UpdateView):
+    model = FormResponse
+    form_class = FormResponseAssigneesForm
+    pk_url_kwarg = "response_id"
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get("assignees"):
+            return super().post(request, *args, **kwargs)
+        else:
+            instance = self.get_object()
+            instance.assignees.clear()
             redirect = reverse("response_details", kwargs=self.kwargs)
             return HttpResponseRedirect(redirect_to=redirect)
 

@@ -3,7 +3,7 @@ from django.urls import path, register_converter
 
 from forms.admin_views import InvestigationListView, FormResponseListView, FormResponseDetailView, CommentAddView, \
     FormResponseStatusView, form_response_csv_view, FormListView, form_response_file_view, FormResponseTagsView, \
-    form_response_batch_edit, form_response_json_edit_view, UserSettingsView
+    form_response_batch_edit, form_response_json_edit_view, UserSettingsView, FormResponseAssigneesView
 from forms.views import FormInstanceDetail, FormResponseCreate, InvestigationDetail
 
 
@@ -38,6 +38,8 @@ urlpatterns = [
     path('admin/investigations/<slug:investigation_slug>/forms/<slug:form_slug>/responses/<int:response_id>/comments', CommentAddView.as_view(), name="response_details_comments"),
     path('admin/investigations/<slug:investigation_slug>/forms/<slug:form_slug>/responses/<int:response_id>/tags',
          FormResponseTagsView.as_view(), name="response_details_tags"),
+    path('admin/investigations/<slug:investigation_slug>/forms/<slug:form_slug>/responses/<int:response_id>/assignees',
+         FormResponseAssigneesView.as_view(), name="response_details_assignees"),
     path('admin/investigations/<slug:investigation_slug>/forms/<slug:form_slug>/responses/<int:response_id>/status', FormResponseStatusView.as_view(), name="response_details_status"),
     path('admin/investigations/<slug:investigation_slug>/forms/<slug:form_slug>/responses/<int:response_id>/files/<file_field>', form_response_file_view, name="response_file"),
     path('admin/investigations/<slug:investigation_slug>/forms/<slug:form_slug>/responses/<int:response_id>/files/<file_field>/<int:file_index>', form_response_file_view, name="response_file_array"),
