@@ -90,7 +90,6 @@
         {% csrf_token %}
         <div id="bulk-assignment" class="p-3">
             <select name="tag">
-                <option value="">---</option>
                 {% for tag in investigation.tags %}
                 <option value="{{tag.slug}}">{{tag.name}}</option>
                 {% endfor %}
