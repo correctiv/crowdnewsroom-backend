@@ -85,6 +85,20 @@
 
       </form>
     </div>
+
+    <form action="batch_assign" method="POST">
+        <div id="bulk-assignment" class="p-3">
+            <select name="action">
+                <option value="">---</option>
+                {% for tag in investigation.tags %}
+                <option value="{{tag.slug}}">{{tag.name}}</option>
+                {% endfor %}
+            </select>
+            {% csrf_token %}
+            <input type="submit" value="{% trans 'Assign tag' %}">
+        </div>
+    </form>
+
     <form action="batch_edit" method="POST">
         <div id="bulk-actions" class="p-3">
             <select name="action">
