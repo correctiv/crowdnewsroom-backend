@@ -88,20 +88,25 @@
 
     <form action="batch_edit" method="POST">
         {% csrf_token %}
-        <div id="bulk-assignment" class="p-3">
-            <select name="tag">
-                {% for tag in investigation.tags %}
-                <option value="{{tag.slug}}">{{tag.name}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit" value="{% trans 'Assign tag' %}">
-        </div>
         <div id="bulk-actions" class="p-3">
-            <select name="action">
-                <option value="mark_submitted">{% trans "Move to inbox" %}</option>
-                <option value="mark_verified">{% trans "Mark as verified" %}</option>
-                <option value="mark_invalid">{% trans "Move to trash" %}</option>
-            </select>
+            <div>
+                <label for="apply_tag">{% trans "Apply tag" %}</label>
+                <select id="apply_tag" name="tag">
+                    <option value="">---</option>
+                    {% for tag in investigation.tags %}
+                    <option value="{{tag.slug}}">{{tag.name}}</option>
+                    {% endfor %}
+                </select>            
+            </div>
+            <div>
+                <label for="apply_action">Mark as</label>
+                <select for="apply_action" name="action">
+                    <option value="">---</option>
+                    <option value="mark_submitted">{% trans "Move to inbox" %}</option>
+                    <option value="mark_verified">{% trans "Mark as verified" %}</option>
+                    <option value="mark_invalid">{% trans "Move to trash" %}</option>
+                </select>
+            </div>
             <input type="submit" data-template="{% trans 'Apply to COUNT submission(s)' %}">
         </div>
         <table class="table">
