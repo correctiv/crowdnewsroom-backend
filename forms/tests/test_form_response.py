@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from forms.models import User, FormResponse, UserGroup
-from forms.tests.factories import FormResponseFactory, FormInstanceFactory, UserFactory
+from forms.tests.factories import FormResponseFactory, FormInstanceFactory, UserFactory, TagFactory
 
 
 class FormReponseTest(TestCase):
@@ -65,7 +65,6 @@ class FormReponseBatchEditTest(TestCase):
     def setUp(self):
         form_instances = [FormInstanceFactory.create() for _ in range(2)]
         investigations = [instance.form.investigation for instance in form_instances]
-
         responses = [[], []]
         for index, instance in enumerate(form_instances):
             for _ in range(5):
@@ -82,6 +81,26 @@ class FormReponseBatchEditTest(TestCase):
 
         self.client = Client()
         self.client.force_login(self.admin_user)
+
+    def test_assign_tags_multiple(self):
+        TagFactory.create(name='Pasta', slug='pasta')
+        responses = self.responses[0]
+        form = responses[0].form_instance.form
+        payload = {
+            "selected_responses": [responses[3].id, responses[4].id],
+            "tag": "pasta"
+        }
+        
+        self.client.post(make_url(form), data=payload)
+
+        updated_responses = FormResponse.objects.filter(form_instance__form=form).all()
+        tags = [response.tags.all() for response in updated_responses]
+
+        self.assertQuerysetEqual(tags[0], [])
+        self.assertQuerysetEqual(tags[1], [])
+        self.assertQuerysetEqual(tags[2], [])
+        self.assertQuerysetEqual(tags[3], ['<Tag: Pasta>'])
+        self.assertQuerysetEqual(tags[4], ['<Tag: Pasta>'])
 
     def test_archive_multiple_allowed(self):
         responses = self.responses[0]
