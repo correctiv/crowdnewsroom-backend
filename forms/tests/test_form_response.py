@@ -1,8 +1,9 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from forms.models import User, FormResponse, UserGroup
-from forms.tests.factories import FormResponseFactory, FormInstanceFactory, UserFactory, TagFactory
+from forms.models import FormResponse, UserGroup
+from forms.tests.factories import FormResponseFactory, FormInstanceFactory, \
+    UserFactory, TagFactory, InvestigationFactory
 
 
 class FormReponseTest(TestCase):
@@ -83,9 +84,13 @@ class FormReponseBatchEditTest(TestCase):
         self.client.force_login(self.admin_user)
 
     def test_assign_tags_multiple(self):
-        TagFactory.create(name='Pasta', slug='pasta')
         responses = self.responses[0]
         form = responses[0].form_instance.form
+        investigation = responses[0].form_instance.form.investigation
+        
+        TagFactory.create(name='Pasta', slug='pasta',
+                          investigation=investigation)
+                          
         payload = {
             "selected_responses": [responses[3].id, responses[4].id],
             "tag": "pasta"
@@ -93,14 +98,29 @@ class FormReponseBatchEditTest(TestCase):
         
         self.client.post(make_url(form), data=payload)
 
-        updated_responses = FormResponse.objects.filter(form_instance__form=form).all()
-        tags = [response.tags.all() for response in updated_responses]
+        self.assertQuerysetEqual(responses[0].tags.all(), [])
+        self.assertQuerysetEqual(responses[1].tags.all(), [])
+        self.assertQuerysetEqual(responses[2].tags.all(), [])
+        self.assertQuerysetEqual(responses[3].tags.all(), ['<Tag: Pasta>'])
+        self.assertQuerysetEqual(responses[4].tags.all(), ['<Tag: Pasta>'])
 
-        self.assertQuerysetEqual(tags[0], [])
-        self.assertQuerysetEqual(tags[1], [])
-        self.assertQuerysetEqual(tags[2], [])
-        self.assertQuerysetEqual(tags[3], ['<Tag: Pasta>'])
-        self.assertQuerysetEqual(tags[4], ['<Tag: Pasta>'])
+
+    def test_assign_tags_from_other_investigation_fails(self):
+        responses = self.responses[0]
+        investigation = InvestigationFactory.create()
+        TagFactory.create(name='Other-investigation-tag',
+                          slug='other-investigation-tag',
+                          investigation=investigation)
+        form = responses[0].form_instance.form
+        payload = {
+            "selected_responses": [responses[2].id],
+            "tag": "other-investigation-tag"
+        }
+
+        self.client.post(make_url(form), data=payload)
+
+        self.assertQuerysetEqual(responses[2].tags.all(), [])
+
 
     def test_archive_multiple_allowed(self):
         responses = self.responses[0]

@@ -256,7 +256,8 @@ def form_response_batch_edit(request, *args, **kwargs):
 
     # update tags for all selected form responses
     try:
-        tag = Tag.objects.get(slug=request.POST.get("tag"))
+        t_slug = request.POST.get("tag")
+        tag = Tag.objects.filter(investigation=investigation).get(slug=t_slug)
         for form_response in form_responses:
             form_response.tags.add(tag)
     except ObjectDoesNotExist:
