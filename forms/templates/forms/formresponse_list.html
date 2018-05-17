@@ -100,7 +100,7 @@
             </div>
             <div>
                 <label for="apply_action">Mark as</label>
-                <select for="apply_action" name="action">
+                <select id="apply_action" name="action">
                     <option value="">---</option>
                     <option value="mark_submitted">{% trans "Move to inbox" %}</option>
                     <option value="mark_verified">{% trans "Mark as verified" %}</option>
@@ -112,6 +112,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th scope="col"><input type="checkbox" id="selectAllResponsesCheckbox"></th>
                 <th scope="col">{% trans "Email" %}</th>
                 <th scope="col">{% trans "Submission Date" %}</th>
                 <th scope="col">{% trans "Comments" %}</th>
@@ -123,6 +124,8 @@
             <tr>
                 <td>
                     <input type="checkbox" value="{{response.id}}" name="selected_responses">
+                </td>
+                <td>
                     <a href="{% url 'response_details' investigation.slug form.slug response.id %}"
                        style="text-decoration: none">
                         <i class="fa {% response_icon response.status %}"></i>
@@ -195,8 +198,11 @@ window.addEventListener("load", function(event){
     var bulkActions = document.querySelector("#bulk-actions");
     bulkActions.classList.add("d-none");
 
+    var selectedResponsesCheckboxes = document.querySelectorAll("input[name='selected_responses']");
+    var selectAllCheckbox = document.getElementById("selectAllResponsesCheckbox");
+
     function updateFilterVisibility(){
-        var selectedCount = document.querySelectorAll("form input[type='checkbox']:checked").length;
+        var selectedCount = document.querySelectorAll("input[name='selected_responses']:checked").length;
         if (selectedCount > 0){
             bulkActions.classList.remove("d-none");
             var submitButton = bulkActions.querySelector("input[type='submit']");
@@ -206,9 +212,36 @@ window.addEventListener("load", function(event){
         }
     }
 
-    document.querySelectorAll("form input[type='checkbox']").forEach(function(input) {
-        input.onclick = updateFilterVisibility;
+    function updateSelectAllState(){
+        var values = [].slice.call(selectedResponsesCheckboxes);
+        var allChecked = values.every(function(checkbox) { return checkbox.checked; });
+        var noneChecked = values.every(function(checkbox) { return !checkbox.checked; });
+        // need to disable indeterminate for checked to be read
+        selectAllCheckbox.indeterminate = false;
+        if (allChecked) {
+            selectAllCheckbox.checked = true;
+        } else if (noneChecked) {
+            selectAllCheckbox.checked = false;
+        } else {
+            selectAllCheckbox.indeterminate = true;
+        }
+    }
+
+    selectedResponsesCheckboxes.forEach(function(input) {
+        input.onclick = function() {
+            updateFilterVisibility();
+            updateSelectAllState();
+        }
     });
+
+
+    selectAllCheckbox.addEventListener("click", function(event){
+        selectedResponsesCheckboxes.forEach(function(input){
+            input.checked = event.target.checked;
+            updateFilterVisibility();
+        });
+    });
+
 
     updateFilterVisibility();
 });
