@@ -104,6 +104,41 @@ class FormReponseBatchEditTest(TestCase):
         self.assertQuerysetEqual(responses[3].tags.all(), ['<Tag: Pasta>'])
         self.assertQuerysetEqual(responses[4].tags.all(), ['<Tag: Pasta>'])
 
+    def test_assign_multiple_assignee(self):
+        responses = self.responses[0]
+        form = responses[0].form_instance.form
+        investigation = form.investigation
+        editor_group = UserGroup.objects.filter(investigation=investigation, role="O").first().group
+        user = UserFactory.create()
+        user.groups.add(editor_group)
+
+        payload = {
+            "selected_responses": [responses[3].id, responses[4].id],
+            "assignee_email": user.email
+        }
+
+        self.client.post(make_url(form), data=payload)
+
+        self.assertQuerysetEqual(responses[0].assignees.all(), [])
+        self.assertQuerysetEqual(responses[1].assignees.all(), [])
+        self.assertQuerysetEqual(responses[2].assignees.all(), [])
+        self.assertQuerysetEqual(responses[3].assignees.all(), [repr(user)])
+        self.assertQuerysetEqual(responses[4].assignees.all(), [repr(user)])
+
+    def test_assign_multiple_assignee_fails_with_wrong_user(self):
+        responses = self.responses[0]
+        form = responses[0].form_instance.form
+        user = UserFactory.create()
+
+        payload = {
+            "selected_responses": [responses[3].id, responses[4].id],
+            "assignee_email": user.email
+        }
+
+        self.client.post(make_url(form), data=payload)
+
+        self.assertQuerysetEqual(responses[3].tags.all(), [])
+        self.assertQuerysetEqual(responses[4].tags.all(), [])
 
     def test_assign_tags_from_other_investigation_fails(self):
         responses = self.responses[0]
@@ -120,7 +155,6 @@ class FormReponseBatchEditTest(TestCase):
         self.client.post(make_url(form), data=payload)
 
         self.assertQuerysetEqual(responses[2].tags.all(), [])
-
 
     def test_archive_multiple_allowed(self):
         responses = self.responses[0]

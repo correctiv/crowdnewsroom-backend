@@ -99,6 +99,15 @@
                 </select>            
             </div>
             <div>
+                <label for="apply_assignee">{% trans "Apply assignee" %}</label>
+                <select id="apply_assignee" name="assignee_email">
+                    <option value="">---</option>
+                    {% for user in investigation.manager_users %}
+                        <option value="{{user.email}}">{{user.first_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
                 <label for="apply_action">Mark as</label>
                 <select id="apply_action" name="action">
                     <option value="">---</option>

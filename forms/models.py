@@ -91,7 +91,7 @@ class UserGroup(models.Model):
         ('O', _('Owner')),
         ('A', _('Admin')),
         ('E', _('Editor')),
-        ('A', _('Auditor')),
+        ('A', _('Auditor')),  # FIXME: We have two roles with the same letter...
         ('V', _('Viewer'))
     )
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)

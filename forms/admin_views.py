@@ -16,7 +16,7 @@ from django.utils.translation import gettext as _
 from jsonschema import validate, ValidationError, FormatChecker
 
 from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm, FormResponseAssigneesForm
-from forms.models import FormResponse, Investigation, Comment, Form, Tag
+from forms.models import FormResponse, Investigation, Comment, Form, Tag, User
 from forms.utils import create_form_csv
 
 
@@ -242,7 +242,7 @@ def form_response_batch_edit(request, *args, **kwargs):
     action = request.POST.get("action")
     ids = [int(id) for id in request.POST.getlist("selected_responses", [])]
     referer = request.META.get("HTTP_REFERER", "/")
-    box = referer.split("/")[-1]
+    box = referer.split("/")[-1].replace("?", "")
     return_bucket = "inbox"
 
     if box in ["inbox", "verified", "trash"]:
@@ -260,6 +260,15 @@ def form_response_batch_edit(request, *args, **kwargs):
         tag = Tag.objects.filter(investigation=investigation).get(slug=t_slug)
         for form_response in form_responses:
             form_response.tags.add(tag)
+    except ObjectDoesNotExist:
+        pass
+
+    try:
+        email = request.POST.get("assignee_email")
+        user = User.objects.get(email=email)
+        if user.has_perm("manage_investigation", investigation):
+            for form_response in form_responses:
+                form_response.assignees.add(user)
     except ObjectDoesNotExist:
         pass
 
