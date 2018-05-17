@@ -111,13 +111,15 @@ def convert_to_heatmap(time_stats):
     values = []
     for day in range(7):
         values.append({"day": days[day],
-                       "hours": [{"style": "width: 0; height: 0;"} for i in range(24)]})
+                       "hours": [{"style": "width: 0; height: 0;",
+                                  "hour": i} for i in range(24)]})
 
     for entry in time_stats:
         value = (entry["count"] / max_value) * 100
         size = "calc({}% - 2px)".format(value)
         style = 'width: {}; height: {};'.format(size, size)
         values[entry["day"] - 1]["hours"][entry["hour"] - 1]["style"] = style
+        values[entry["day"] - 1]["hours"][entry["hour"] - 1]["count"] = entry["count"]
 
     return values
 

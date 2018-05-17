@@ -1,14 +1,36 @@
+.btn-secondary
+  @include button-variant($white, $blue, $active-background: $blue);
+
 .formresponse-list
 
+  .chart
+    margin-bottom: 2em
+
   .heatmap
+    width: 100%
 
-    .dayName
-      text-align: right
-
-    td
+    tbody td, tfoot th
       width: 4%
       position: relative
       text-align: center
+
+    tbody td:hover::before
+      display: block
+      content: attr(title)
+      position: absolute
+      top: 100%
+      left: 100%
+      z-index: 2
+      background: darken($blue, 50)
+      color: white
+      border-radius: 10%
+      padding: 0.5em
+      font-size: smaller
+
+    th
+      font-weight: normal
+      font-size: smaller
+      color: grey
 
     .blob
       background: $blue
