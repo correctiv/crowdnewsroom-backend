@@ -98,6 +98,37 @@ class FormListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         return context
 
 
+def convert_to_heatmap(time_stats):
+    days = [_("Mon"),
+            _("Tue"),
+            _("Wed"),
+            _("Thu"),
+            _("Fri"),
+            _("Sat"),
+            _("Sun"),
+            ]
+    values = [
+        {"day": day,
+         "hours": [{"style": "width: 0; height: 0;",
+                    "hour": i} for i in range(24)]}
+        for day in days
+    ]
+
+    if not time_stats:
+        return values
+
+    max_value = max([entry["count"] for entry in time_stats])
+
+    for entry in time_stats:
+        value = (entry["count"] / max_value) * 100
+        size = "calc({}% - 2px)".format(value)
+        style = 'width: {}; height: {};'.format(size, size)
+        values[entry["day"] - 1]["hours"][entry["hour"] - 1]["style"] = style
+        values[entry["day"] - 1]["hours"][entry["hour"] - 1]["count"] = entry["count"]
+
+    return values
+
+
 class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
     paginate_by = 25
 
@@ -170,6 +201,8 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
             "form_slug": self.form.slug,
             "bucket": self.kwargs.get("bucket")
         })
+        context['heatmap_data'] = convert_to_heatmap(self.form.submissions_by_time())
+        context['hours'] = range(24)
 
         context['csv_url'] = "{}?{}".format(csv_base, context['query_params'])
         return context
@@ -247,7 +280,7 @@ def form_response_batch_edit(request, *args, **kwargs):
 
     if box in ["inbox", "verified", "trash"]:
         return_bucket = box
-    
+
     # need to also filter for investigation to
     # make sure that we only edit responses that user is allowed to edit
     investigation = Investigation.objects.get(slug=kwargs["investigation_slug"])

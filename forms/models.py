@@ -16,7 +16,11 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.dispatch import receiver
 from guardian.shortcuts import assign_perm, get_users_with_perms
-from django.db.models.functions import TruncDate
+from django.db.models.functions import TruncDate, ExtractHour, Extract
+
+
+class ExtractIsoWeekDay(Extract):
+    lookup_name = 'isodow'
 
 
 class Investigation(models.Model, UniqueSlugMixin):
@@ -218,6 +222,16 @@ class Form(models.Model, UniqueSlugMixin):
             .annotate(c=Count('id')) \
             .values('date', 'c') \
             .order_by('date')
+
+    def submissions_by_time(self):
+        return FormResponse.objects \
+            .filter(form_instance__form=self) \
+            .annotate(day=ExtractIsoWeekDay('submission_date')) \
+            .annotate(hour=ExtractHour('submission_date')) \
+            .values('day', 'hour') \
+            .annotate(count=Count('id')) \
+            .values('day', 'hour', 'count') \
+            .order_by('day', 'hour')
 
     def count_by_bucket(self):
         results = FormResponse.objects \

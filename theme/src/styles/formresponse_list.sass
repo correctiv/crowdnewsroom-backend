@@ -1,11 +1,14 @@
-.formresponse-list
-  table
-    margin-bottom: 2em
-    th
-      font-weight: bold
-    td
-      padding: 1em
+.btn-secondary
+  @include button-variant($white, $blue, $active-background: $blue)
 
-    a
-      text-decoration: underline
+.formresponse-list
+  .chart
+    margin-bottom: 2em
+    width: 100%
+
+  #allTimeChart
+    height: 400px
+
+  @import "./punchard"
+
 
