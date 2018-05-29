@@ -17,15 +17,15 @@
               <input type="radio" name="selectedChart" value="allTime" autocomplete="off" checked> {% trans "All Time" %}
           </label>
           <label class="btn btn-secondary btn-sm">
-              <input type="radio" name="selectedChart" value="heatmap" autocomplete="off"> {% trans "Distribution" %}
+              <input type="radio" name="selectedChart" value="punchCard" autocomplete="off"> {% trans "Distribution" %}
           </label>
       </div>
 
-      <div style="width:100%; height: 400px;" class="chart" id="allTimeChart">
+      <div class="chart" id="allTimeChart">
           <canvas id="canvas"></canvas>
       </div>
-      <div style="width:100%;" class="chart" id="heatmapChart">
-            <table class="heatmap">
+      <div class="chart" id="punchCardChart">
+            <table class="punch-card">
                 <tbody>
                    {% for day in heatmap_data %}
                         <tr>

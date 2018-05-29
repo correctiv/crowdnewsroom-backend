@@ -1,60 +1,14 @@
 .btn-secondary
-  @include button-variant($white, $blue, $active-background: $blue);
+  @include button-variant($white, $blue, $active-background: $blue)
 
 .formresponse-list
-
   .chart
     margin-bottom: 2em
-
-  .heatmap
     width: 100%
 
-    tbody td, tfoot th
-      width: 4%
-      position: relative
-      text-align: center
+  #allTimeChart
+    height: 400px
 
-    tbody td:hover::before
-      display: block
-      content: attr(title)
-      position: absolute
-      top: 100%
-      left: 100%
-      z-index: 2
-      background: darken($blue, 50)
-      color: white
-      border-radius: 10%
-      padding: 0.5em
-      font-size: smaller
-
-    th
-      font-weight: normal
-      font-size: smaller
-      color: grey
-
-    .blob
-      background: $blue
-      border-radius: 50%
-      margin: auto auto
-
-    td:after
-      content: ''
-      display: block
-      margin-top: 100%
-
-    td div
-      position: absolute
-      left: 0
-      right: 0
-      top: 0
-      bottom: 0
-
-
-    tr:not(:last-child)
-      border-bottom: 1px solid lightgrey
-
-
-    tr:nth-child(7)
-      border-bottom: none
+  @import "./punchard"
 
 
