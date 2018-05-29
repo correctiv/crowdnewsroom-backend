@@ -107,12 +107,17 @@ def convert_to_heatmap(time_stats):
             _("Sat"),
             _("Sun"),
             ]
+    values = [
+        {"day": day,
+         "hours": [{"style": "width: 0; height: 0;",
+                    "hour": i} for i in range(24)]}
+        for day in days
+    ]
+
+    if not time_stats:
+        return values
+
     max_value = max([entry["count"] for entry in time_stats])
-    values = []
-    for day in range(7):
-        values.append({"day": days[day],
-                       "hours": [{"style": "width: 0; height: 0;",
-                                  "hour": i} for i in range(24)]})
 
     for entry in time_stats:
         value = (entry["count"] / max_value) * 100
@@ -275,7 +280,7 @@ def form_response_batch_edit(request, *args, **kwargs):
 
     if box in ["inbox", "verified", "trash"]:
         return_bucket = box
-    
+
     # need to also filter for investigation to
     # make sure that we only edit responses that user is allowed to edit
     investigation = Investigation.objects.get(slug=kwargs["investigation_slug"])
