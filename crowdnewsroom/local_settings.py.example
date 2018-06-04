@@ -23,4 +23,4 @@ WEBPACK_LOADER["DEFAULT"]["CACHE"] = False
 
 DEBUG = True
 
-SECRET_KEY 'your-very-secret-secret-key'
+SECRET_KEY = 'your-very-secret-secret-key'
