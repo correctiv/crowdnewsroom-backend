@@ -294,10 +294,7 @@ class FormResponseStatusView(InvestigationAuthMixin, UpdateView):
     pk_url_kwarg = "response_id"
 
     def get_success_url(self):
-        self.kwargs.update(bucket="inbox")
-        kwargs = self.kwargs
-        kwargs.pop("response_id")
-        return reverse("form_responses", kwargs=kwargs)
+        return reverse("response_details", kwargs=self.kwargs)
 
     def get_permission_object(self):
         return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
