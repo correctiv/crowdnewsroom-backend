@@ -10,7 +10,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block head-title %}Crowdnewsroom{% endblock %}</title>
     {% block head %}{% endblock %}
-    {% render_bundle 'main' %}
   </head>
   <body>
 
@@ -47,6 +46,7 @@
     </main>
 
     {% include 'includes/footer.html' %}
+    {% render_bundle 'main' %}
 
   </body>
 </html>

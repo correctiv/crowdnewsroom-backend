@@ -11,4 +11,4 @@ class UserGroupTestCase(TestCase):
         Investigation.objects.create(name="example investigation")
 
         user_groups = UserGroup.objects.all()
-        self.assertEqual(len(user_groups), 5, "should create one group for each role")
+        self.assertEqual(len(user_groups), 4, "should create one group for each role")

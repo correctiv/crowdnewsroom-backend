@@ -90,7 +90,6 @@ class UserGroup(models.Model):
         ('O', _('Owner')),
         ('A', _('Admin')),
         ('E', _('Editor')),
-        ('A', _('Auditor')),  # FIXME: We have two roles with the same letter...
         ('V', _('Viewer'))
     )
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
@@ -283,6 +282,10 @@ class FormResponse(models.Model):
         return properties
 
     @property
+    def visible_comments(self):
+        return self.comments.filter(archived=False)
+
+    @property
     def valid_keys(self):
         return self.all_json_properties().keys()
 
@@ -405,4 +408,5 @@ class Comment(models.Model):
     date = models.DateTimeField()
     form_response = models.ForeignKey(FormResponse, on_delete=models.CASCADE, related_name="comments")
     text = models.TextField()
+    archived = models.BooleanField(default=False)
 

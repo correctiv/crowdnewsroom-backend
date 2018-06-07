@@ -1,7 +1,7 @@
 import base64
 import re
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
@@ -10,12 +10,13 @@ from guardian.decorators import permission_required
 from guardian.mixins import PermissionRequiredMixin
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView, DeleteView
 from guardian.shortcuts import get_objects_for_user
 from django.utils.translation import gettext as _
 from jsonschema import validate, ValidationError, FormatChecker
 
-from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm, FormResponseAssigneesForm
+from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm, FormResponseAssigneesForm, \
+    CommentDeleteForm
 from forms.models import FormResponse, Investigation, Comment, Form, Tag, User
 from forms.utils import create_form_csv
 
@@ -237,6 +238,30 @@ class CommentAddView(InvestigationAuthMixin, CreateView):
         response = FormResponse.objects.get(id=self.kwargs.get("response_id"))
         form.save_with_extra_props(form_response=response, author=self.request.user)
         return super().form_valid(form)
+
+
+class CommentDeleteView(InvestigationAuthMixin, UpdateView):
+    model = Comment
+    form_class = CommentDeleteForm
+    pk_url_kwarg = "comment_id"
+
+    def get_success_url(self):
+        self.kwargs.pop("comment_id")
+        return reverse("response_details", kwargs=self.kwargs)
+
+    def form_invalid(self, form):
+        self.kwargs.pop("comment_id")
+        return HttpResponseRedirect(reverse("response_details", kwargs=self.kwargs))
+
+    def get_permission_object(self):
+        return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
+
+    def check_permissions(self, request):
+        comment = self.get_object()
+        if comment.author != request.user:
+            raise PermissionDenied()
+        return super().check_permissions(request)
+
 
 
 @login_required(login_url="/admin/login")

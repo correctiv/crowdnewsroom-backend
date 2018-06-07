@@ -55,3 +55,13 @@ class TagFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'Tag %s' % n)
     slug = factory.LazyAttribute(lambda a: slugify(a.name))
     investigation = factory.SubFactory(InvestigationFactory)
+
+
+class CommentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Comment
+
+    text = factory.Faker("paragraph")
+    author = factory.SubFactory(UserFactory)
+    date = timezone.now()
+    form_response = factory.SubFactory(FormResponseFactory)
