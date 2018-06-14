@@ -33,6 +33,13 @@ class FormResponseStatusForm(ModelForm):
         model = FormResponse
         fields = ["status"]
 
+    def save_with_extra_props(self, **kwargs):
+        form_response_status = self.save(commit=False)
+        form_response_status.last_status_changed_date = timezone.now()
+        for (key, value) in kwargs.items():
+            form_response_status.__setattr__(key, value)
+        form_response_status.save()
+
 
 class FormResponseTagsForm(ModelForm):
 

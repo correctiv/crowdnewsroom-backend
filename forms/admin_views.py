@@ -14,6 +14,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, T
 from guardian.shortcuts import get_objects_for_user
 from django.utils.translation import gettext as _
 from jsonschema import validate, ValidationError, FormatChecker
+from django.utils import timezone
 
 from forms.forms import CommentForm, FormResponseStatusForm, FormResponseTagsForm, FormResponseAssigneesForm, \
     CommentDeleteForm
@@ -303,10 +304,13 @@ def form_response_batch_edit(request, *args, **kwargs):
     # update status for all selected form responses
     if action == "mark_invalid":
         form_responses.update(status="I")
+        form_responses.update(last_status_changed_date=timezone.now())
     elif action == "mark_submitted":
         form_responses.update(status="S")
+        form_responses.update(last_status_changed_date=timezone.now())
     elif action == "mark_verified":
         form_responses.update(status="V")
+        form_responses.update(last_status_changed_date=timezone.now())
 
     return HttpResponseRedirect(reverse("form_responses", kwargs={"investigation_slug": kwargs["investigation_slug"],
                                                                   "form_slug": kwargs["form_slug"],
@@ -324,6 +328,9 @@ class FormResponseStatusView(InvestigationAuthMixin, UpdateView):
     def get_permission_object(self):
         return Investigation.objects.get(slug=self.kwargs.get("investigation_slug"))
 
+    def form_valid(self, form):
+        form.save_with_extra_props()
+        return super().form_valid(form)
 
 class FormResponseMultiSelectFormView(InvestigationAuthMixin, UpdateView):
     model = FormResponse

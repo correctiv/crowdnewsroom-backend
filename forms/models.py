@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from django.core.mail import send_mail
 from django.db.models import Count
+from django.db.models.functions import Coalesce
 from django.template import Engine, Context
 from django.urls import reverse
 from django.utils import timezone
@@ -267,6 +268,8 @@ class FormResponse(models.Model):
     form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUSES, default='S')
     submission_date = models.DateTimeField()
+    last_status_changed_date = models.DateTimeField(default=None, blank=True,
+                               null=True)
     tags = models.ManyToManyField(Tag)
     assignees = models.ManyToManyField(User)
 
@@ -365,7 +368,7 @@ class FormResponse(models.Model):
     def get_all_for_form(cls, form):
         return cls.objects\
                 .filter(form_instance__form=form) \
-                .order_by("-submission_date")
+                .order_by(Coalesce('last_status_changed_date', 'submission_date').desc())
 
     def set_password_for_user(self, password):
         contributor, user_created = User.objects.get_or_create(email=self.email)
