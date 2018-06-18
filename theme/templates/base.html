@@ -10,6 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block head-title %}Crowdnewsroom{% endblock %}</title>
     {% block head %}{% endblock %}
+      {% render_bundle 'style' %}
   </head>
   <body>
 
@@ -32,15 +33,15 @@
                 </div>
             </div>
         </nav>
-        <div class="title">
-            <h2>
-                {% block headertitle %}Title{% endblock %}
-            </h2>
-        </div>
     </header>
 
     <main class="page">
-      {% include 'includes/breadcrumbs.html' %}
+      <div class="cnr--header">
+          <h2>
+            {% block headertitle %}Title{% endblock %}
+          </h2>
+          {% include 'includes/breadcrumbs.html' %}
+      </div>
       {% include 'includes/messages.html' %}
       {% block main %}{% endblock %}
     </main>

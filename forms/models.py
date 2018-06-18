@@ -269,8 +269,8 @@ class FormResponse(models.Model):
     status = models.CharField(max_length=1, choices=STATUSES, default='S')
     submission_date = models.DateTimeField()
     last_status_changed_date = models.DateTimeField(default=None, blank=True,
-                               null=True)
-    tags = models.ManyToManyField(Tag)
+                                                    null=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     assignees = models.ManyToManyField(User)
 
     class Meta:
@@ -286,7 +286,7 @@ class FormResponse(models.Model):
 
     @property
     def visible_comments(self):
-        return self.comments.filter(archived=False)
+        return self.comments.filter(archived=False).order_by("-date")
 
     @property
     def valid_keys(self):
@@ -302,8 +302,7 @@ class FormResponse(models.Model):
         for name, props in self.all_json_properties().items():
             title = flat_ui_schema.get(name, {}).get("ui:title", name) or props.get("title")
             row = {"title": title, "json_name": name, "data_type": props.get("type")}
-            if (flat_ui_schema.get(name, dict()).get("ui:widget") == "signatureWidget"
-                    or props.get("format") == "data-url"):
+            if (flat_ui_schema.get(name, dict()).get("ui:widget") == "signatureWidget" or props.get("format") == "data-url"):
                 if form_data.get(name):
                     row["type"] = "link"
                     row["value"] = reverse("response_file",
@@ -370,13 +369,6 @@ class FormResponse(models.Model):
                 .filter(form_instance__form=form) \
                 .order_by(Coalesce('last_status_changed_date', 'submission_date').desc())
 
-    def set_password_for_user(self, password):
-        contributor, user_created = User.objects.get_or_create(email=self.email)
-        if user_created:
-            contributor.set_password(password)
-            contributor.save()
-        assign_perm("edit_response", contributor, self)
-
 
 def generate_emails(form_response: FormResponse):
     plaintext_template = Engine().from_string(str(form_response.form_instance.email_template))
@@ -412,4 +404,3 @@ class Comment(models.Model):
     form_response = models.ForeignKey(FormResponse, on_delete=models.CASCADE, related_name="comments")
     text = models.TextField()
     archived = models.BooleanField(default=False)
-

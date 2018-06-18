@@ -1,11 +1,16 @@
 .formresponse-list
-  table
-    margin-bottom: 2em
-    th
-      font-weight: bold
-    td
-      padding: 1em
-
+  &__content-switcher
     a
-      text-decoration: underline
+      flex-grow: 1
+
+    a:hover, a:focus
+      text-decoration: none
+
+  &__filter-header
+    display: flex
+    margin-bottom: .5rem
+    align-items: baseline
+
+    h3
+      margin-right: 1em
 

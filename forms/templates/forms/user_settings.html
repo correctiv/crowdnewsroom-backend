@@ -7,7 +7,7 @@
 {% block headertitle %}{% trans "Your Settings" %}{% endblock %}
 
 {% block main %}
-<div class="forms-list">
+<div class="main-content-padded">
     {% get_current_language as LANGUAGE_CODE %}
     <h1>{% trans "Language" %}</h1>
     <form action="{% url 'set_language' %}" method="post">

@@ -11,64 +11,53 @@
 {% endblock %}
 
 {% block main %}
-  <div class="formresponse-list">
-      <div style="width:100%; height: 400px;">
-          <canvas id="canvas"></canvas>
-      </div>
-      <ul class="nav nav-tabs">
+  <div class="formresponse-list main-content-padded">
+    <div class="formresponse-list__content-switcher">
+      <div data-content-switcher class="bx--content-switcher" role="tablist" aria-label="{% trans 'Switch bucket' %}">
       {% with counts=form.count_by_bucket %}
-      <li class="nav-item">
-        <a class="nav-link {% if request.resolver_match.kwargs.bucket == 'inbox' %} active {% endif %}" href="inbox?{{query_params}}">
-            <i class="fa {% response_icon 'S' %}"></i>
+        <a class="bx--content-switcher-btn {% if request.resolver_match.kwargs.bucket == 'inbox' %} bx--content-switcher--selected {% endif %}" href="inbox?{{query_params}}" role="tab">
+            <i class="bx--content-switcher__icon fa {% response_icon 'S' %}"></i>
             {% trans "Inbox" %}
             ({{ counts.S | default:0 }})
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link {% if request.resolver_match.kwargs.bucket == 'verified' %} active {% endif %}" href="verified?{{query_params}}">
-            <i class="fa {% response_icon 'V' %}"></i>
+        <a class="bx--content-switcher-btn {% if request.resolver_match.kwargs.bucket == 'verified' %} bx--content-switcher--selected {% endif %}" href="verified?{{query_params}}" role="tab">
+            <i class="bx--content-switcher__icon fa {% response_icon 'V' %}"></i>
             {% trans "Verified" %}
             ({{ counts.V | default:0 }})
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link {% if request.resolver_match.kwargs.bucket == 'trash' %} active {% endif %}" href="trash?{{query_params}}">
-            <i class="fa {% response_icon 'I' %}"></i>
+        <a class="bx--content-switcher-btn {% if request.resolver_match.kwargs.bucket == 'trash' %} bx--content-switcher--selected {% endif %}" href="trash?{{query_params}}" role="tab">
+            <i class="bx--content-switcher__icon fa {% response_icon 'I' %}"></i>
             {% trans "Trash" %}
             ({{ counts.I | default:0 }})
         </a>
-      </li>
       {% endwith %}
-    </ul>
-    <div class="p-3 pt-4">
+      </div>
+    </div>
+    <div class="pt-4">
+      <div class="formresponse-list__filter-header">
+        <h3>{% trans "Filter" %}</h3>
+        {% if has_filters %}
+          <a href="?"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"></path></svg> {% trans "clear all filters" %}</a>
+        {% endif %}
+      </div>
       <form action="" method="GET" style="display: flex; flex-wrap:wrap">
-          <h2>{% trans "Filter by" %}</h2>
-          <div data-search class="bx--search bx--search--sm" role="search">
-              <svg class="bx--search-magnifier" width="16" height="16" viewBox="0 0 16 16" fill-rule="evenodd">
-                  <path d="M6 2c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4zm0-2C2.7 0 0 2.7 0 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zM16 13.8L13.8 16l-3.6-3.6 2.2-2.2z"></path>
-                  <path d="M16 13.8L13.8 16l-3.6-3.6 2.2-2.2z"></path>
-              </svg>
-              <label class="bx--label" id="email-label" for="email_filter">Search by e-mail</label>
+          <div class="bx--form-item">
+              <label class="bx--visually-hidden" id="email-label" for="email_filter">Search by e-mail</label>
               <input name="email"
-                     class="bx--search-input"
+                     class="bx--text-input"
                      type="text"
                      id="email_filter"
                      role="search"
-                     placeholder="E-mail"
+                     placeholder="{% trans 'Search by email' %}"
                      aria-labelledby="email-label"
-                     value="{{ email_param|default:'' }}"
-                     style="margin: 1em auto;" >
-              <svg class="bx--search-close bx--search-close--hidden" width="16" height="16" viewBox="0 0 16 16" fill-rule="evenodd">
-                  <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm3.5 10.1l-1.4 1.4L8 9.4l-2.1 2.1-1.4-1.4L6.6 8 4.5 5.9l1.4-1.4L8 6.6l2.1-2.1 1.4 1.4L9.4 8l2.1 2.1z"></path>
-              </svg>
+                     value="{{ email_param|default:'' }}" >
           </div>
 
-
         <div class="bx--form-item">
-          <label for="has_filter"class="bx--label">{% trans "Field" %}</label>
+          <label for="has_filter"class="bx--visually-hidden">{% trans "Field" %}</label>
           <div class="bx--select">
               <select id="has_filter" name="has" class="bx--select-input" onChange="this.form.submit()">
-                  <option value="" class="bx--select-option">---</option>
+                  <option value="" class="bx--select-option">{% trans "Field" %}</option>
                   {% for property in form.instance_properties %}
                   <option value="{{property}}"
                           class="bx--select-option"
@@ -83,10 +72,10 @@
         </div>
 
         <div class="bx--form-item">
-            <label for="assignee_filter" class="bx--label">{% trans "Assignee" %}</label>
+            <label for="assignee_filter" class="bx--visually-hidden">{% trans "Assignee" %}</label>
             <div class="bx--select">
                 <select id="assignee_filter" name="assignee" class="bx--select-input" onChange="this.form.submit()">
-                    <option value="" class="bx--select-option">---</option>
+                    <option value="" class="bx--select-option">{% trans "Assignee" %}</option>
                     {% for user in form.investigation.manager_users %}
                         <option value="{{user.email}}"
                                 class="bx--select-option"
@@ -102,10 +91,10 @@
 
         {% if investigation.tags %}
           <div class="bx--form-item">
-              <label for="tag_filter" class="bx--label">{% trans "Tag" %}</label>
+              <label for="tag_filter" class="bx--visually-hidden">{% trans "Tag" %}</label>
               <div class="bx--select">
                   <select id="tag_filter" name="tag" class="bx--select-input" onchange="this.form.submit()">
-                      <option class="bx--select-option" value="">---</option>
+                      <option class="bx--select-option" value="">{% trans "Tag" %}</option>
                       {% for tag in investigation.tags %}
                       <option class="bx--select-option" value="{{tag.slug}}" {% if tag_param == tag.slug %} selected {% endif %}>{{tag.name}}</option>
                       {% endfor %}
@@ -169,8 +158,9 @@
                 <input type="submit" class="bx--btn bx--btn--primary" data-template="{% trans 'Apply to COUNT submission(s)' %}">
             </div>
         </div>
+        <h3>{% trans "Responses" %}</h3>
         <div class="bx--data-table-v2-container">
-            <table class="bx--data-table-v2 bx--data-table-v2--zebra">
+            <table class="bx--data-table-v2 cnr-data-table">
                 <thead>
                 <tr>
                     <th scope="col">
@@ -193,7 +183,6 @@
                     <td>
                         <a href="{% url 'response_details' investigation.slug form.slug response.id %}"
                         style="text-decoration: none">
-                            <i class="fa {% response_icon response.status %}"></i>
                             {% if response.json_email %}
                                 {{ response.json_email }}
                             {% else %}
@@ -206,7 +195,7 @@
                         {% endfor %}
                         </p>
                     </td>
-                    <td>{{ response.submission_date | localtime }}</td>
+                    <td>{{ response.submission_date | date:"SHORT_DATETIME_FORMAT" }}</td>
                     <td>{{ response.comments.last.text | default:'-' }}</td>
                     <td>
                     {{ response.assignees.all | join:', ' | default:'-' }}
@@ -224,43 +213,46 @@
         </div>
     </form>
       {% if is_paginated %}
-        <div class="responses-pagination">
-            <div class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}&{{query_params}}">{% trans "previous" %}</a>
-                {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}&{{query_params}}">{% trans "next" %}</a>
-                {% endif %}
+          <div class="bx--pagination cnr-pagination mt-4" data-pagination>
+              <div class="bx--pagination__left">
+                <span class="bx--pagination__text">
+                  <span data-displayed-item-range>{{ page_obj.start_index }}-{{ page_obj.end_index }}</span> of
+                  <span data-total-items>{{ page_obj.paginator.count }}</span> items</span>
+              </div>
+              <div class="bx--pagination__right bx--pagination--inline">
+                <span class="bx--pagination__text">
+                  <span data-displayed-page-number>{{ page_obj.number }} </span> of
+                  <span data-total-pages>{{ page_obj.paginator.num_pages }}</span> pages</span>
+                <a class="bx--pagination__button bx--pagination__button--backward"
+                   data-page-backward
+                   aria-label="Backward button"
+                   {% if page_obj.has_previous %}
+                    href="?page={{ page_obj.previous_page_number }}&{{query_params}}"
+                   {% else %}
+                    disabled
+                   {% endif %}>
+                  <svg class="bx--pagination__button-icon" width="7" height="12" viewBox="0 0 7 12">
+                    <path fill-rule="nonzero" d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"/>
+                  </svg>
+                </a>
+                <a class="bx--pagination__button bx--pagination__button--forward"
+                   aria-label="Forward button"
+                   href="?page={{ page_obj.next_page_number }}&{{query_params}}">
+                  <svg class="bx--pagination__button-icon" width="7" height="12" viewBox="0 0 7 12">
+                    <path fill-rule="nonzero" d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
-            <div class="total">
-                {% trans "Total results:" %} {{ paginator.count }}
-            </div>
-        </div>
     {% endif %}
-    <a href="{{ csv_url }}">
-      <i class="fa fa-download"></i>
+    <a href="{{ csv_url }}" class="bx--btn bx--btn--primary mt-4">
       {% trans "Download data as csv" %}
+        <i class="fa fa-download bx--btn__icon"></i>
       </a>
   </div>
 
 <script>
-const labels = [
-{% for entry in form.submissions_by_date %}
-            new Date({{ entry.date | date:"U" }} * 1000),
-{% endfor %}
-            ];
-const values  = [
-{% for entry in form.submissions_by_date %}
-            {{ entry.c }},
-{% endfor %}
-];
 window.addEventListener("load", function(event){
-    window.charts.makeChart(labels, values);
-
     var bulkActions = document.querySelector("#bulk-actions");
     bulkActions.classList.add("d-none");
 

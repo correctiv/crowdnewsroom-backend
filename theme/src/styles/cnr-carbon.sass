@@ -1,2 +1,34 @@
+//// Original Carbon for reference
+// Color Variables
+$brand-01: #3d70b2
+$brand-02: #5596e6
+$brand-03: #41d6c3
+$inverse-01: #ffffff
+$ui-01: #ffffff
+$ui-02: #f4f7fb
+$ui-03: #dfe3e6
+$ui-04: #8897a2
+$ui-05: #5a6872
+$text-01: #152934
+$text-02: #5a6872
+$text-03: #cdd1d4
+$field-01: #ebf0f7
+$support-01: #e0182d
+$support-02: #5aa700
+$support-03: #efc100
+$support-04: #5aaafa
+
+
+//// Our overwrites
 $css--font-face: false
+$brand-01: $blue
+$brand-02: darken($brand-01, 10%)
+$field-01: white
+$input-border: 1px solid $ui-03
+
+.bx--list-box
+  border: $input-border
+
 @import '~carbon-components/scss/globals/scss/styles.scss'
+@import 'cnr-components/cnr-data-table'
+@import 'cnr-components/cnr-pagination'

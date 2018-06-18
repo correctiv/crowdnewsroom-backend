@@ -7,7 +7,7 @@
 {% block headertitle %}{% trans "Forms for investigation" %}{% endblock %}
 
 {% block main %}
-<div class="forms-list">
+<div class="forms-list main-content-padded">
     <ul>
     {% for form in form_list %}
         <li><a href="{% url "form_responses" investigation.slug form.slug 'inbox' %}">{{ form }}</a></li>

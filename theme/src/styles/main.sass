@@ -9,22 +9,26 @@ $content-width: 800px
 @import 'forms_list'
 @import 'cnr-carbon'
 
+
 @font-face
-  font-family: 'Roboto Thin'
+  font-family: 'Source Sans Pro'
   font-style: normal
-  src: local('Roboto Thin'), local('Roboto-Thin'), url('/assets/fonts/roboto/Roboto-Thin-webfont.woff') format('woff')
+  src: local('Source Sans Pro Regular'), url('~source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff') format('woff')
 
 
 @font-face
-  font-family: 'Roboto'
+  font-family: 'Source Sans Pro Bold'
   font-style: normal
-  src: local('Roboto Regular'), local('Roboto-Regular'), url('/assets/fonts/roboto/Roboto-Regular-webfont.woff') format('woff')
+  src: local('Source Sans Pro Bold'), url('~source-sans-pro/WOFF/OTF/SourceSansPro-Bold.otf.woff') format('woff')
 
 
 body
-  font-family: 'Roboto', sans-serif
+  font-family: 'Source Sans Pro', sans-serif
   margin: 0
   background-color: #f5f5f5
+
+h1, h2, h3
+  font-family: 'Source Sans Pro Bold', sans-serif
 
 html
   box-sizing: border-box
@@ -32,6 +36,18 @@ html
 *, *:before, *:after
   box-sizing: inherit
 
+.cnr--header
+  padding: 4em 40px 3em 40px
+  background: white
+
+.main-content-padded
+  padding: 0 40px 40px 40px
+  background: white
+
+.content-block
+  padding: 40px
+  margin: 40px auto
+  background: white
 
 
 body
@@ -39,31 +55,13 @@ body
   justify-content: center
   flex-wrap: wrap
 
+  .breadcrumbs
+    margin-bottom: 2em
+
   header
     background-color: $blue
     width: 100%
-    display: flex
-    justify-content: center
-    flex-wrap: wrap
-    min-height: 300px
-    background-size: cover
-
-    .title
-      text-align: center
-      color: white
-      margin-top: 50px
-      max-width: $content-width
-      font-size: 20px
-      line-height: 28px
-      font-family: "Roboto Thin", sans-serif
-      margin-bottom: 200px
-
-      h2
-        font-size: 32px
-        font-family: "Roboto", sans-serif
-        font-weight: 700
-        margin-bottom: 1em
-
+    min-height: 400px
 
     nav
       width: 100%
@@ -121,10 +119,8 @@ body
 
   main
     margin-top: -200px
-    background-color: white
     width: $content-width
     max-width: $content-width
-    padding: 40px
 
     p
       font-size: 14px
@@ -145,20 +141,15 @@ body
     margin-top: 2em
     margin-bottom: 5em
     font-size: 14px
-    .wrapper
-      max-width: $content-width
-      margin: 0 auto
-      color: gray
-      text-align: center
-
-    .branding a
-      text-decoration: underline
+    color: gray
 
     a, a:visited
       color: gray
       text-decoration: none
 
     ul
-      max-width: 300px
+      max-width: $content-width
       margin: 1em auto 0
-      justify-content: space-around
+
+      li
+        margin-right: 2em

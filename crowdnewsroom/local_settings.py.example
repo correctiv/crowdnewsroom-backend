@@ -13,6 +13,17 @@ DATABASES = {
     }
 }
 
+# These two classes make it easier to test with tools like insomnia
+# or curl without having to worry about providing a cookie at all times
+# in the production version we do not offer them though and only let
+# people use the cookie/session based authentication
+_DEVELOPMENT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework.authentication.TokenAuthentication'
+]
+
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] += _DEVELOPMENT_AUTHENTICATION_CLASSES
+
 INSTALLED_APPS += ['corsheaders']
 
 MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']

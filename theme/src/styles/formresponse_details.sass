@@ -1,20 +1,29 @@
-.formresponse-details
-  .button-unstyled
-      background: none repeat scroll 0 0 transparent
-      border: none
-      border-spacing: 0
-      cursor: pointer
+.button-unstyled
+    background: none repeat scroll 0 0 transparent
+    border: none
+    border-spacing: 0
+    cursor: pointer
+    text-decoration: underline
+    font-weight: normal !important
 
-  .comment-delete-button
-    display: inline-block
+.comment-delete-button
+  display: inline-block
 
-  #tags-form, #assignees-form
-    label
-      cursor: pointer
-      font-weight: 400
+.cnr-fixed-width-list .bx--structured-list-td:first-child
+  width: 33%
 
-    .badge-light:hover
-      background-color: darken($light, 10)
+.edit-inline-button
+  float: right
 
-    .badge-primary:hover
-      background-color: darken($primary, 10)
+.formresponse-details--actions
+  display: flex
+  justify-content: space-between
+
+  & > div
+    width: 33%
+    padding: 10px
+
+.comments
+  .card, .card-header
+    border: none
+

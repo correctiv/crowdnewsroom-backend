@@ -6,8 +6,6 @@ if (module.hot) {
 
 import 'babel-polyfill'
 
-// style
-import "../styles/main.sass";
 import "expose-loader?charts!./charts.js"
 import "./charts.js"
 import "./closest-polyfill.js"
