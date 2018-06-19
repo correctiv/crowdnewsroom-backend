@@ -118,7 +118,7 @@ class FormResponseListBrowserTest(LiveServerTestCase):
         username_input.send_keys('admin@crowdnewsroom.org')
         password_input = self.selenium.find_element_by_name("password")
         password_input.send_keys('password')
-        self.selenium.find_element_by_xpath('//input[@value="Login"]').click()
+        self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
 
         url = "/forms/admin/investigations/{}/forms/{}/responses/inbox".format(
             self.form_instance.form.investigation.slug,
