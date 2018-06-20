@@ -73,13 +73,14 @@ class AssigneeField(serializers.PrimaryKeyRelatedField):
         return User.objects.filter(id__in=[user.id for user in investigation_users])
 
 
-class CompleteFormResponseSerializer(ModelSerializer):
+class FormResponseMetaSerializer(ModelSerializer):
+    """ contains all information about the response that is not the submission itself"""
     tags = TagField(many=True, required=False)
     assignees = AssigneeField(many=True, required=False)
 
     class Meta:
         model = FormResponse
-        fields = "__all__"
+        exclude = ("json",)
 
 
 def get_investigation(instance):
@@ -95,7 +96,7 @@ class CanEditInvestigation(permissions.BasePermission):
 
 class FormResponseDetail(generics.RetrieveUpdateAPIView):
     lookup_url_kwarg = "response_id"
-    serializer_class = CompleteFormResponseSerializer
+    serializer_class = FormResponseMetaSerializer
     queryset = FormResponse
     permission_classes = [CanEditInvestigation]
 
