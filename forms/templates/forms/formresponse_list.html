@@ -141,13 +141,13 @@
                 </div>
             </div>
             <div class="bx--form-item">
-                <label for="apply_action" class="bx--label">Mark as</label>
+                <label for="apply_action" class="bx--label">{% trans "Move to" %}</label>
                 <div class="bx--select">
                     <select id="apply_action" name="action" class="bx--select-input">
                         <option value="" class="bx--select-option">---</option>
-                        <option value="mark_submitted" class="bx--select-option">{% trans "Move to inbox" %}</option>
-                        <option value="mark_verified" class="bx--select-option">{% trans "Mark as verified" %}</option>
-                        <option value="mark_invalid" class="bx--select-option">{% trans "Move to trash" %}</option>
+                        <option value="mark_submitted" class="bx--select-option">{% trans "Inbox" %}</option>
+                        <option value="mark_verified" class="bx--select-option">{% trans "Verified" %}</option>
+                        <option value="mark_invalid" class="bx--select-option">{% trans "Trash" %}</option>
                     </select>
                     <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
                         <path d="M10 0L5 5 0 0z"></path>
