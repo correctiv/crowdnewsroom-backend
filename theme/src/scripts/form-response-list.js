@@ -8,7 +8,7 @@ var selectedResponsesCheckboxes = document.querySelectorAll("input[name='selecte
 var selectAllCheckbox = document.getElementById("selectAllResponsesCheckbox");
 
 var pagePicker = document.getElementById("page-picker");
-pagePicker.addEventListener("click", function(event){
+pagePicker.addEventListener("change", function(event){
     console.log(event);
     const currentSearch = queryString.parse(window.location.search);
     currentSearch.page = event.target.value;
