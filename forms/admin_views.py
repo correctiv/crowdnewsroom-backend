@@ -274,7 +274,7 @@ def form_response_batch_edit(request, *args, **kwargs):
 
     if box in ["inbox", "verified", "trash"]:
         return_bucket = box
-    
+
     # need to also filter for investigation to
     # make sure that we only edit responses that user is allowed to edit
     investigation = Investigation.objects.get(slug=kwargs["investigation_slug"])
@@ -284,18 +284,26 @@ def form_response_batch_edit(request, *args, **kwargs):
     # update tags for all selected form responses
     try:
         t_slug = request.POST.get("tag")
-        tag = Tag.objects.filter(investigation=investigation).get(slug=t_slug)
-        for form_response in form_responses:
-            form_response.tags.add(tag)
+        if t_slug == "clear_tags":
+            for form_response in form_responses:
+                form_response.tags.clear()
+        else:
+            tag = Tag.objects.filter(investigation=investigation).get(slug=t_slug)
+            for form_response in form_responses:
+                form_response.tags.add(tag)
     except ObjectDoesNotExist:
         pass
 
     try:
         email = request.POST.get("assignee_email")
-        user = User.objects.get(email=email)
-        if user.has_perm("manage_investigation", investigation):
+        if email == "clear_assignees":
             for form_response in form_responses:
-                form_response.assignees.add(user)
+                form_response.assignees.clear()
+        else:
+            user = User.objects.get(email=email)
+            if user.has_perm("manage_investigation", investigation):
+                for form_response in form_responses:
+                    form_response.assignees.add(user)
     except ObjectDoesNotExist:
         pass
 

@@ -87,21 +87,34 @@ class FormReponseBatchEditTest(TestCase):
         responses = self.responses[0]
         form = responses[0].form_instance.form
         investigation = responses[0].form_instance.form.investigation
-        
+
         TagFactory.create(name='Pasta', slug='pasta',
                           investigation=investigation)
-                          
+
         payload = {
             "selected_responses": [responses[3].id, responses[4].id],
             "tag": "pasta"
         }
-        
+
         self.client.post(make_url(form), data=payload)
 
         self.assertQuerysetEqual(responses[0].tags.all(), [])
         self.assertQuerysetEqual(responses[1].tags.all(), [])
         self.assertQuerysetEqual(responses[2].tags.all(), [])
         self.assertQuerysetEqual(responses[3].tags.all(), ['<Tag: Pasta>'])
+        self.assertQuerysetEqual(responses[4].tags.all(), ['<Tag: Pasta>'])
+
+        payload = {
+            "selected_responses": [responses[1].id, responses[3].id],
+            "tag": "clear_tags"
+        }
+
+        self.client.post(make_url(form), data=payload)
+
+        self.assertQuerysetEqual(responses[0].tags.all(), [])
+        self.assertQuerysetEqual(responses[1].tags.all(), [])
+        self.assertQuerysetEqual(responses[2].tags.all(), [])
+        self.assertQuerysetEqual(responses[3].tags.all(), [])
         self.assertQuerysetEqual(responses[4].tags.all(), ['<Tag: Pasta>'])
 
     def test_assign_multiple_assignee(self):
@@ -124,6 +137,19 @@ class FormReponseBatchEditTest(TestCase):
         self.assertQuerysetEqual(responses[2].assignees.all(), [])
         self.assertQuerysetEqual(responses[3].assignees.all(), [repr(user)])
         self.assertQuerysetEqual(responses[4].assignees.all(), [repr(user)])
+
+        payload = {
+            "selected_responses": [responses[1].id, responses[4].id],
+            "assignee_email": "clear_assignees"
+        }
+
+        self.client.post(make_url(form), data=payload)
+
+        self.assertQuerysetEqual(responses[0].assignees.all(), [])
+        self.assertQuerysetEqual(responses[1].assignees.all(), [])
+        self.assertQuerysetEqual(responses[2].assignees.all(), [])
+        self.assertQuerysetEqual(responses[3].assignees.all(), [repr(user)])
+        self.assertQuerysetEqual(responses[4].assignees.all(), [])
 
     def test_assign_multiple_assignee_fails_with_wrong_user(self):
         responses = self.responses[0]

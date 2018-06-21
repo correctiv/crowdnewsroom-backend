@@ -102,6 +102,18 @@ msgstr "Eingang"
 msgid "Verified"
 msgstr "Verifiziert"
 
+#: forms/models.py:251 forms/templates/forms/formresponse_list.html:126
+msgid "Clear tags"
+msgstr "Alle Markierungen entfernen"
+
+#: forms/models.py:251 forms/templates/forms/formresponse_list.html:134
+msgid "Apply assignees"
+msgstr "Apply assignees"
+
+#: forms/models.py:251 forms/templates/forms/formresponse_list.html:141
+msgid "Clear assignees"
+msgstr "Alle Assignees entfernen"
+
 #: forms/models.py:252
 msgid "Invalid"
 msgstr "Papierkorb"

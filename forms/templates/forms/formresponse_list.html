@@ -123,6 +123,7 @@
                         {% for tag in investigation.tags %}
                         <option value="{{tag.slug}}" class="bx--select-option">{{tag.name}}</option>
                         {% endfor %}
+                        <option value="clear_tags" class="bx--select-option">{% trans "Clear tags" %}</option>
                     </select>
                     <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
                         <path d="M10 0L5 5 0 0z"></path>
@@ -137,6 +138,7 @@
                         {% for user in investigation.manager_users %}
                             <option value="{{user.email}}">{{user.first_name}}</option>
                         {% endfor %}
+                        <option value="clear_assignees" class="bx--select-option">{% trans "Clear assignees" %}</option>
                     </select>
                     <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
                         <path d="M10 0L5 5 0 0z"></path>
