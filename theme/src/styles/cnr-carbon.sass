@@ -29,6 +29,12 @@ $input-border: 1px solid $ui-03
 .bx--list-box
   border: $input-border
 
+.bx--pagination--inline
+  .bx--select--inline .bx--select-input
+    border: 1px solid transparent
+  a.bx--pagination__button:not([href])
+    cursor: default
+
 @import '~carbon-components/scss/globals/scss/styles.scss'
 @import 'cnr-components/cnr-data-table'
 @import 'cnr-components/cnr-pagination'

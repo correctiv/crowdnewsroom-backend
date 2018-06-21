@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load forms_tags %}
 {% load tz %}
+{% load render_bundle from webpack_loader %}
 
 {% block title %}{% trans "Responses" %}{% endblock %}
 {% block headertitle %}
@@ -229,15 +230,34 @@
                    {% if page_obj.has_previous %}
                     href="?page={{ page_obj.previous_page_number }}&{{query_params}}"
                    {% else %}
-                    disabled
+                    aria-disabled="true"
                    {% endif %}>
                   <svg class="bx--pagination__button-icon" width="7" height="12" viewBox="0 0 7 12">
                     <path fill-rule="nonzero" d="M1.45 6.002L7 11.27l-.685.726L0 6.003 6.315 0 7 .726z"/>
                   </svg>
                 </a>
+              <label for="page-number-input" class="bx--visually-hidden">Page number input</label>
+                <div class="bx--select bx--select--inline">
+                  <label for="page-picker" class="bx--visually-hidden">Number of items per page</label>
+                  <select id="page-picker" class="bx--select-input" data-page-number-input>
+                    {% for page in page_obj.paginator.page_range %}
+                        <option class="bx--select-option"
+                                value="{{ page }}"
+                                {% if page_obj.number == page %} selected {% endif %}>
+                            {{ page }}</option>
+                    {% endfor %}
+                  </select>
+                  <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+                    <path d="M10 0L5 5 0 0z"></path>
+                  </svg>
+                </div>
                 <a class="bx--pagination__button bx--pagination__button--forward"
                    aria-label="Forward button"
-                   href="?page={{ page_obj.next_page_number }}&{{query_params}}">
+                   {% if page_obj.has_next  %}
+                    href="?page={{ page_obj.next_page_number }}&{{query_params}}"
+                   {% else %}
+                    aria-disabled="true"
+                   {% endif %}>
                   <svg class="bx--pagination__button-icon" width="7" height="12" viewBox="0 0 7 12">
                     <path fill-rule="nonzero" d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"/>
                   </svg>
@@ -251,58 +271,6 @@
       </a>
   </div>
 
-<script>
-window.addEventListener("load", function(event){
-    var bulkActions = document.querySelector("#bulk-actions");
-    bulkActions.classList.add("d-none");
-
-    var selectedResponsesCheckboxes = document.querySelectorAll("input[name='selected_responses']");
-    var selectAllCheckbox = document.getElementById("selectAllResponsesCheckbox");
-
-    function updateFilterVisibility(){
-        var selectedCount = document.querySelectorAll("input[name='selected_responses']:checked").length;
-        if (selectedCount > 0){
-            bulkActions.classList.remove("d-none");
-            var submitButton = bulkActions.querySelector("input[type='submit']");
-            submitButton.value = submitButton.dataset.template.replace("COUNT", selectedCount);
-        } else {
-            bulkActions.classList.add("d-none");
-        }
-    }
-
-    function updateSelectAllState(){
-        var values = [].slice.call(selectedResponsesCheckboxes);
-        var allChecked = values.every(function(checkbox) { return checkbox.checked; });
-        var noneChecked = values.every(function(checkbox) { return !checkbox.checked; });
-        // need to disable indeterminate for checked to be read
-        selectAllCheckbox.indeterminate = false;
-        if (allChecked) {
-            selectAllCheckbox.checked = true;
-        } else if (noneChecked) {
-            selectAllCheckbox.checked = false;
-        } else {
-            selectAllCheckbox.indeterminate = true;
-        }
-    }
-
-    selectedResponsesCheckboxes.forEach(function(input) {
-        input.onclick = function() {
-            updateFilterVisibility();
-            updateSelectAllState();
-        }
-    });
-
-
-    selectAllCheckbox.addEventListener("click", function(event){
-        selectedResponsesCheckboxes.forEach(function(input){
-            input.checked = event.target.checked;
-            updateFilterVisibility();
-        });
-    });
-
-
-    updateFilterVisibility();
-});
-</script>
+{% render_bundle "formResponseList" %}
 
 {% endblock %}

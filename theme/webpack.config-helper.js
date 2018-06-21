@@ -16,7 +16,8 @@ module.exports = options => {
         "./src/scripts/index"
       ],
       style: './src/styles/main.sass',
-      formResponseDetails: './src/scripts/form-response-details'
+      formResponseDetails: './src/scripts/form-response-details',
+      formResponseList: './src/scripts/form-response-list'
     },
     output: {
       publicPath: "http://127.0.0.1:1339/",
@@ -63,7 +64,8 @@ module.exports = options => {
     webpackConfig.entry = {
       main: "./src/scripts/index",
       style : './src/styles/main.sass',
-      formResponseDetails : './src/scripts/form-response-details'
+      formResponseDetails: './src/scripts/form-response-details',
+      formResponseList: './src/scripts/form-response-list',
     },
     webpackConfig.output.publicPath = "/static/js/";
 
