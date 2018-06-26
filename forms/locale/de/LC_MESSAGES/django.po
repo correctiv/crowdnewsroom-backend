@@ -3,32 +3,32 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-03 17:14+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2018-06-26 17:40+0200\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: forms/admin.py:16
 msgid "Personal info"
-msgstr ""
+msgstr "Persönliche Informationen"
 
 #: forms/admin.py:17
 msgid "Permissions"
-msgstr ""
+msgstr "Zugriffsrechte"
 
 #: forms/admin.py:19
 msgid "Important dates"
-msgstr ""
+msgstr "Wichtige Termine"
 
 #: forms/admin_views.py:61 forms/admin_views.py:80 forms/admin_views.py:109
 #: forms/admin_views.py:188
@@ -275,7 +275,8 @@ msgstr[1] ""
 #, python-format
 msgid ""
 "\n"
-"                                %(counter)s submission in the last 24 hours\n"
+"                                %(counter)s submission in the last 24 "
+"hours\n"
 "                                "
 msgid_plural ""
 "\n"
