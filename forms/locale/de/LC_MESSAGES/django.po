@@ -61,8 +61,6 @@ msgstr ""
 "Arbeit!"
 
 #: forms/forms.py:13
-#, fuzzy
-#| msgid "add comment"
 msgid "Add a comment"
 msgstr "Kommentar hinzufügen"
 
@@ -88,7 +86,7 @@ msgstr "Recherche bearbeiten"
 
 #: forms/models.py:92
 msgid "Owner"
-msgstr "Besitzer"
+msgstr "Manager"
 
 #: forms/models.py:93
 msgid "Admin"
@@ -163,15 +161,15 @@ msgstr "Antwortdetails"
 
 #: forms/templates/forms/formresponse_detail.html:16
 msgid "Manage Tags"
-msgstr "Markierungen bearbeiten"
+msgstr "Markierungen"
 
 #: forms/templates/forms/formresponse_detail.html:20
 msgid "Manage Ownership"
-msgstr "Manager bearbeiten"
+msgstr "Manager"
 
 #: forms/templates/forms/formresponse_detail.html:24
 msgid "Manage Bucket"
-msgstr "Status bearbeiten"
+msgstr "Status"
 
 #: forms/templates/forms/formresponse_detail.html:31
 msgid "View details"
@@ -281,7 +279,7 @@ msgstr "Manager hinzufügen"
 
 #: forms/templates/forms/formresponse_list.html:141
 msgid "Clear assignees"
-msgstr "Alle Assignees entfernen"
+msgstr "Alle Manager entfernen"
 
 #: forms/templates/forms/formresponse_list.html:149
 msgid "Move to"
@@ -301,7 +299,7 @@ msgstr "Eingangsdatum"
 
 #: forms/templates/forms/formresponse_list.html:186
 msgid "Ownership"
-msgstr "Besitzer"
+msgstr "Manager"
 
 #: forms/templates/forms/formresponse_list.html:202
 msgid "No Email Provided"
