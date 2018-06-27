@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-03 17:14+0200\n"
+"POT-Creation-Date: 2018-06-27 12:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,96 +30,115 @@ msgstr ""
 msgid "Important dates"
 msgstr ""
 
-#: forms/admin_views.py:61 forms/admin_views.py:80 forms/admin_views.py:109
-#: forms/admin_views.py:188
+#: forms/admin_views.py:67 forms/admin_views.py:86 forms/admin_views.py:115
+#: forms/admin_views.py:215
 msgid "Investigations"
 msgstr ""
 
-#: forms/models.py:25 forms/models.py:175
+#: forms/admin_views.py:141
+msgid "No one contributed to your investigation yet. Time to advertise!"
+msgstr ""
+
+#: forms/admin_views.py:147
+msgid ""
+"There are no results using your current filters. Maybe try something else?"
+msgstr ""
+
+#: forms/admin_views.py:150
+msgid ""
+"There are no results in this bucket yet. Start moving some from the inbox."
+msgstr ""
+
+#: forms/admin_views.py:153
+msgid "Looks like you verified or deleted all contributions. Good work!"
+msgstr ""
+
+#: forms/forms.py:13
+msgid "Add a comment"
+msgstr ""
+
+#: forms/models.py:26 forms/models.py:189
 msgid "Draft"
 msgstr ""
 
-#: forms/models.py:26 forms/models.py:177
+#: forms/models.py:27 forms/models.py:191
 msgid "Published"
 msgstr ""
 
-#: forms/models.py:27 forms/models.py:179
+#: forms/models.py:28 forms/models.py:193
 msgid "Archived"
 msgstr ""
 
-#: forms/models.py:54
+#: forms/models.py:55
 msgid "View investigation"
 msgstr ""
 
-#: forms/models.py:55
+#: forms/models.py:56
 msgid "Manage investigation"
 msgstr ""
 
-#: forms/models.py:85
+#: forms/models.py:92
 msgid "Owner"
 msgstr ""
 
-#: forms/models.py:86
+#: forms/models.py:93
 msgid "Admin"
 msgstr ""
 
-#: forms/models.py:87
+#: forms/models.py:94
 msgid "Editor"
 msgstr ""
 
-#: forms/models.py:88
-msgid "Auditor"
-msgstr ""
-
-#: forms/models.py:89
+#: forms/models.py:95
 msgid "Viewer"
 msgstr ""
 
-#: forms/models.py:149
+#: forms/models.py:160
 msgid "email address"
 msgstr ""
 
-#: forms/models.py:176
+#: forms/models.py:190
 msgid "Unlisted"
 msgstr ""
 
-#: forms/models.py:178
+#: forms/models.py:192
 msgid "Closed"
 msgstr ""
 
-#: forms/models.py:222 forms/models.py:223
+#: forms/models.py:237 forms/models.py:238
 msgid "Thank you for participating in a crowdnewsroom investigation!"
 msgstr ""
 
-#: forms/models.py:250
+#: forms/models.py:265
 msgid "Submitted"
 msgstr "Inbox"
 
-#: forms/models.py:251 forms/templates/forms/formresponse_list.html:30
+#: forms/models.py:266 forms/templates/forms/formresponse_list.html:26
+#: forms/templates/forms/formresponse_list.html:157
 msgid "Verified"
 msgstr ""
 
-#: forms/models.py:252
+#: forms/models.py:267
 msgid "Invalid"
 msgstr "Trash"
 
-#: forms/models.py:264
+#: forms/models.py:280
 msgid "Edit response"
 msgstr ""
 
-#: forms/models.py:316
+#: forms/models.py:343
 msgid "Yes"
 msgstr ""
 
-#: forms/models.py:316
+#: forms/models.py:343
 msgid "No"
 msgstr ""
 
-#: forms/models.py:333
+#: forms/models.py:360
 msgid "<File>"
 msgstr ""
 
-#: forms/models.py:381
+#: forms/models.py:401
 msgid "Thank you for your submission!"
 msgstr ""
 
@@ -127,24 +146,66 @@ msgstr ""
 msgid "Forms for investigation"
 msgstr ""
 
-#: forms/templates/forms/formresponse_detail.html:5
 #: forms/templates/forms/formresponse_detail.html:6
+#: forms/templates/forms/formresponse_detail.html:7
 msgid "Submission Details"
 msgstr ""
 
-#: forms/templates/forms/formresponse_detail.html:72
-msgid "Submit Tags"
+#: forms/templates/forms/formresponse_detail.html:16
+msgid "Manage Tags"
 msgstr ""
 
-#: forms/templates/forms/formresponse_detail.html:102
+#: forms/templates/forms/formresponse_detail.html:20
+msgid "Manage Ownership"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:24
+msgid "Manage Bucket"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:31
+msgid "View details"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:36
+msgid "Question"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:37
+msgid "Answer"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:71
+#: forms/templates/forms/formresponse_list.html:185
+msgid "Comments"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:79
+msgid "edit"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:81
+msgid "delete"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:86
+msgid "Delete comment"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:106
+msgid "edit comment"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:120
 msgid "add comment"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:6
+#: forms/templates/forms/formresponse_list.html:7
+#: forms/templates/forms/formresponse_list.html:174
 msgid "Responses"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:8
+#: forms/templates/forms/formresponse_list.html:9
 #, python-format
 msgid ""
 "\n"
@@ -152,75 +213,88 @@ msgid ""
 "    "
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:23
+#: forms/templates/forms/formresponse_list.html:17
+msgid "Switch bucket"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:21
+#: forms/templates/forms/formresponse_list.html:154
 msgid "Inbox"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:37
+#: forms/templates/forms/formresponse_list.html:31
+#: forms/templates/forms/formresponse_list.html:160
 msgid "Trash"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:46
-msgid "Search by E-Mail"
+#: forms/templates/forms/formresponse_list.html:39
+msgid "Filter"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:51
-msgid "Only show responses that have"
+#: forms/templates/forms/formresponse_list.html:41
+msgid "clear all filters"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:64
-msgid "Show responses tagged"
+#: forms/templates/forms/formresponse_list.html:52
+msgid "Search by email"
 msgstr ""
 
+#: forms/templates/forms/formresponse_list.html:58
+#: forms/templates/forms/formresponse_list.html:61
+msgid "Field"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:76
 #: forms/templates/forms/formresponse_list.html:79
-msgid "Move to inbox"
+msgid "Assignee"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:80
-msgid "Mark as verified"
+#: forms/templates/forms/formresponse_list.html:95
+#: forms/templates/forms/formresponse_list.html:98
+msgid "Tag"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:81
-msgid "Move to trash"
-msgstr ""
-
-#: forms/templates/forms/formresponse_list.html:84
-msgid "Apply to COUNT submission(s)"
-msgstr ""
-
-#: forms/templates/forms/formresponse_list.html:89
-msgid "Email"
-msgstr ""
-
-#: forms/templates/forms/formresponse_list.html:90
-msgid "Submission Date"
-msgstr ""
-
-#: forms/templates/forms/formresponse_list.html:91
-msgid "Comments"
-msgstr ""
-
-#: forms/templates/forms/formresponse_list.html:92
-msgid "Tags"
-msgstr ""
-
-#: forms/templates/forms/formresponse_list.html:106
-msgid "No Email Provided"
+#: forms/templates/forms/formresponse_list.html:119
+msgid "Apply tag"
 msgstr ""
 
 #: forms/templates/forms/formresponse_list.html:126
-msgid "previous"
+msgid "Clear tags"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:132
-msgid "next"
+#: forms/templates/forms/formresponse_list.html:134
+msgid "Apply assignee"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:136
-msgid "Total results:"
+#: forms/templates/forms/formresponse_list.html:141
+msgid "Clear assignees"
 msgstr ""
 
-#: forms/templates/forms/formresponse_list.html:142
+#: forms/templates/forms/formresponse_list.html:149
+msgid "Move to"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:169
+msgid "Apply to COUNT submission(s)"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:183
+msgid "Email"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:184
+msgid "Submission Date"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:186
+msgid "Ownership"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:202
+msgid "No Email Provided"
+msgstr ""
+
+#: forms/templates/forms/formresponse_list.html:282
 msgid "Download data as csv"
 msgstr ""
 
@@ -289,4 +363,18 @@ msgstr ""
 
 #: forms/templates/forms/user_settings.html:24
 msgid "set language"
+msgstr ""
+
+#: forms/templates/registration/login.html:4
+#: forms/templates/registration/login.html:5
+#: forms/templates/registration/login.html:41
+msgid "Login"
+msgstr ""
+
+#: forms/templates/registration/login.html:26
+msgid "E-mail address"
+msgstr ""
+
+#: forms/templates/registration/login.html:35
+msgid "Password"
 msgstr ""

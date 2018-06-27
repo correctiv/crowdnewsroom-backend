@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-27 11:13+0200\n"
+"POT-Creation-Date: 2018-06-27 12:25+0200\n"
 "PO-Revision-Date: 2018-06-26 17:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -34,10 +34,6 @@ msgstr "Einstellungen"
 #: theme/templates/base.html:39 theme/templates/includes/nav-primary.html:13
 msgid "Logout"
 msgstr "Abmelden"
-
-#: theme/templates/base.html:58
-msgid "Language"
-msgstr ""
 
 #: theme/templates/includes/footer.html:7
 msgid "Imprint"
@@ -73,16 +69,10 @@ msgstr "nächste"
 msgid "last"
 msgstr "letzte"
 
-#: theme/templates/registration/login.html:9
-msgid "Welcome"
-msgstr "Willkommen"
+#~ msgid "Welcome"
+#~ msgstr "Willkommen"
 
-#: theme/templates/registration/login.html:11
-msgid "Your username and password didn't match. Please try again."
-msgstr ""
-"Ihr Benutzername und Passwort passen nicht zusammen. Versuchen Sie es bitte "
-"erneut."
-
-#: theme/templates/registration/login.html:19
-msgid "Please login to see this page."
-msgstr ""
+#~ msgid "Your username and password didn't match. Please try again."
+#~ msgstr ""
+#~ "Ihr Benutzername und Passwort passen nicht zusammen. Versuchen Sie es "
+#~ "bitte erneut."
