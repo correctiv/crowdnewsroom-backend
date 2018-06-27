@@ -13,7 +13,7 @@ render(<BucketPicker responseId={id} />, bucketElement);
 
 const assigneeElement = document.getElementById("assignee-picker");
 render(<MultiSelectPicker responseId={id}
-                          label="Add or delete ownership"
+                          label={`${gettext("Add or delete ownership")}`}
                           property="assignees"
                           investigationSlug={investigationSlug}
                           itemToString={item => `${item.first_name} ${item.last_name}`}
@@ -21,7 +21,7 @@ render(<MultiSelectPicker responseId={id}
 
 const tagsElement = document.getElementById("tag-picker");
 render(<MultiSelectPicker responseId={id}
-                          label="Add or delete tag"
+                          label={`${gettext("Add or delete tag")}`}
                           property="tags"
                           investigationSlug={investigationSlug}
                           itemToString={item => item.name}
