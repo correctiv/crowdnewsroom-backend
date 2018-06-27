@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import { DropdownV2, InlineNotification } from "carbon-components-react";
 import {authorizedFetch, authorizedPUT} from "./api";
 
+const INBOX_LABEL = gettext('Inbox');
+const VERIFIED_LABEL = gettext('Verified');
+const TRASH_LABEL = gettext('Trash');
+
 export default class BucketPicker extends Component {
   constructor(props){
     super(props);
@@ -44,9 +48,10 @@ export default class BucketPicker extends Component {
       return <div>Loading</div>
     }
 
-    const items = [{id: "S", text: gettext("Inbox")},
-                   {id: "V", text: gettext("Verified")},
-                   {id: "I", text: gettext("Trash")}];
+    const items = [{id: "S", text: INBOX_LABEL},
+                   {id: "V", text: VERIFIED_LABEL},
+                   {id: "I", text: TRASH_LABEL}];
+
 
     const currentItem = items.find(item => item.id === this.state.currentState);
 
@@ -59,9 +64,9 @@ export default class BucketPicker extends Component {
         onChange={this.updateSelection}
         />
       {this.state.updated && <InlineNotification
-        title="Status updated"
+        title={gettext("Status updated")}
         subtitle=""
-        iconDescription="close this notification"
+        iconDescription={gettext("close this notification")}
         kind="success"
       /> }
     </div>

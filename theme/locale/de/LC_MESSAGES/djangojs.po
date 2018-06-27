@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-27 12:26+0200\n"
-"PO-Revision-Date: 2018-06-27 12:25+0200\n"
+"POT-Creation-Date: 2018-06-27 13:13+0200\n"
+"PO-Revision-Date: 2018-06-27 13:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,6 +18,26 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.8\n"
 
+#: theme/src/scripts/bucketPicker.js:5
+msgid "Inbox"
+msgstr "Eingang"
+
+#: theme/src/scripts/bucketPicker.js:6
+msgid "Verified"
+msgstr "Verifiziert"
+
+#: theme/src/scripts/bucketPicker.js:7
+msgid "Trash"
+msgstr "Papierkorb"
+
+#: theme/src/scripts/bucketPicker.js:67
+msgid "Status updated"
+msgstr "Status aktualisiert"
+
+#: theme/src/scripts/bucketPicker.js:69
+msgid "close this notification"
+msgstr "Diese Benachrichtigung schließen"
+
 #: theme/src/scripts/form-response-details.js:16
 msgid "Add or delete ownership"
 msgstr "Manager ändern"
@@ -25,15 +45,3 @@ msgstr "Manager ändern"
 #: theme/src/scripts/form-response-details.js:24
 msgid "Add or delete tag"
 msgstr "Markierung ändern"
-
-#: theme/src/scripts/bucketPicker.js:47
-msgid "Inbox"
-msgstr "Eingang"
-
-#: theme/src/scripts/bucketPicker.js:48
-msgid "Verified"
-msgstr "Verifiziert"
-
-#: theme/src/scripts/bucketPicker.js:49
-msgid "Trash"
-msgstr "Papierkorb"
