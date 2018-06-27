@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-03 17:14+0200\n"
-"PO-Revision-Date: 2018-06-26 17:40+0200\n"
+"POT-Creation-Date: 2018-06-27 11:13+0200\n"
+"PO-Revision-Date: 2018-06-27 11:22+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.8\n"
 
 #: forms/admin.py:16
 msgid "Personal info"
@@ -30,111 +30,125 @@ msgstr "Zugriffsrechte"
 msgid "Important dates"
 msgstr "Wichtige Termine"
 
-#: forms/admin_views.py:61 forms/admin_views.py:80 forms/admin_views.py:109
-#: forms/admin_views.py:188
+#: forms/admin_views.py:67 forms/admin_views.py:86 forms/admin_views.py:115
+#: forms/admin_views.py:215
 msgid "Investigations"
 msgstr "Recherchen"
 
-#: forms/models.py:25 forms/models.py:175
+#: forms/admin_views.py:141
+msgid "No one contributed to your investigation yet. Time to advertise!"
+msgstr ""
+"Es gibt noch keine Antworten für diese Recherche. Zeit sie zu bewerben!"
+
+#: forms/admin_views.py:147
+msgid ""
+"There are no results using your current filters. Maybe try something else?"
+msgstr ""
+"Mit den aktuellen Filtereinstellungen gibt es keine Antworten. Sie können "
+"einen anderen Filter probieren."
+
+#: forms/admin_views.py:150
+msgid ""
+"There are no results in this bucket yet. Start moving some from the inbox."
+msgstr ""
+"In der aktuellen Ansicht gibt es keine Antworten. Starten Sie, indem Sie "
+"Antworten aus dem Eingang bewegen."
+
+#: forms/admin_views.py:153
+msgid "Looks like you verified or deleted all contributions. Good work!"
+msgstr ""
+"Sie haben alle Antworten gelöscht oder also verifiziert markiert. Gute "
+"Arbeit!"
+
+#: forms/forms.py:13
+#, fuzzy
+#| msgid "add comment"
+msgid "Add a comment"
+msgstr "Kommentar hinzufügen"
+
+#: forms/models.py:26 forms/models.py:189
 msgid "Draft"
 msgstr "Entwurf"
 
-#: forms/models.py:26 forms/models.py:177
+#: forms/models.py:27 forms/models.py:191
 msgid "Published"
 msgstr "Veröffentlicht"
 
-#: forms/models.py:27 forms/models.py:179
+#: forms/models.py:28 forms/models.py:193
 msgid "Archived"
 msgstr "Archiviert"
 
-#: forms/models.py:54
+#: forms/models.py:55
 msgid "View investigation"
 msgstr "Recherche ansehen"
 
-#: forms/models.py:55
+#: forms/models.py:56
 msgid "Manage investigation"
 msgstr "Recherche bearbeiten"
 
-#: forms/models.py:85
+#: forms/models.py:92
 msgid "Owner"
 msgstr "Besitzer"
 
-#: forms/models.py:86
+#: forms/models.py:93
 msgid "Admin"
 msgstr "Administrator"
 
-#: forms/models.py:87
+#: forms/models.py:94
 msgid "Editor"
 msgstr "Redakteur"
 
-#: forms/models.py:88
-msgid "Auditor"
-msgstr "Auditor"
-
-#: forms/models.py:89
+#: forms/models.py:95
 msgid "Viewer"
 msgstr "Leser"
 
-#: forms/models.py:149
+#: forms/models.py:160
 msgid "email address"
 msgstr "E-Mail-Adresse"
 
-#: forms/models.py:176
+#: forms/models.py:190
 msgid "Unlisted"
 msgstr "Ungelistet"
 
-#: forms/models.py:178
+#: forms/models.py:192
 msgid "Closed"
 msgstr "Beendet"
 
-#: forms/models.py:222 forms/models.py:223
+#: forms/models.py:237 forms/models.py:238
 msgid "Thank you for participating in a crowdnewsroom investigation!"
 msgstr ""
 "Vielen Dank, dass Sie an dieser Crowdnewsroom-Recherche teilgenommen haben!"
 
-#: forms/models.py:250
+#: forms/models.py:265
 msgid "Submitted"
 msgstr "Eingang"
 
-#: forms/models.py:251 forms/templates/forms/formresponse_list.html:30
-#: forms/templates/forms/formresponse_list.html:23
-#: forms/templates/forms/formresponse_list.html:80
+#: forms/models.py:266 forms/templates/forms/formresponse_list.html:26
+#: forms/templates/forms/formresponse_list.html:157
 msgid "Verified"
 msgstr "Verifiziert"
 
-#: forms/models.py:251 forms/templates/forms/formresponse_list.html:126
-msgid "Clear tags"
-msgstr "Alle Markierungen entfernen"
-
-#: forms/models.py:251 forms/templates/forms/formresponse_list.html:134
-msgid "Apply assignees"
-msgstr "Apply assignees"
-
-#: forms/models.py:251 forms/templates/forms/formresponse_list.html:141
-msgid "Clear assignees"
-msgstr "Alle Assignees entfernen"
-
-#: forms/models.py:252
+#: forms/models.py:267
 msgid "Invalid"
 msgstr "Papierkorb"
 
-#: forms/models.py:264
+#: forms/models.py:280
 msgid "Edit response"
 msgstr "Antwort bearbeiten"
 
-#: forms/models.py:316
+#: forms/models.py:343
 msgid "Yes"
 msgstr "Ja"
 
-#: forms/models.py:316
+#: forms/models.py:343
 msgid "No"
 msgstr "Nein"
 
-#: forms/models.py:333
+#: forms/models.py:360
 msgid "<File>"
 msgstr "<Datei>"
 
-#: forms/models.py:381
+#: forms/models.py:401
 msgid "Thank you for your submission!"
 msgstr "Vielen Dank für Ihre Teilnahme!"
 
@@ -142,24 +156,66 @@ msgstr "Vielen Dank für Ihre Teilnahme!"
 msgid "Forms for investigation"
 msgstr "Formulare für diese Recherche"
 
-#: forms/templates/forms/formresponse_detail.html:5
 #: forms/templates/forms/formresponse_detail.html:6
+#: forms/templates/forms/formresponse_detail.html:7
 msgid "Submission Details"
 msgstr "Antwortdetails"
 
-#: forms/templates/forms/formresponse_detail.html:72
-msgid "Submit Tags"
-msgstr "Markierungen übernehmen"
+#: forms/templates/forms/formresponse_detail.html:16
+msgid "Manage Tags"
+msgstr "Markierungen bearbeiten"
 
-#: forms/templates/forms/formresponse_detail.html:102
+#: forms/templates/forms/formresponse_detail.html:20
+msgid "Manage Ownership"
+msgstr "Manager bearbeiten"
+
+#: forms/templates/forms/formresponse_detail.html:24
+msgid "Manage Bucket"
+msgstr "Status bearbeiten"
+
+#: forms/templates/forms/formresponse_detail.html:31
+msgid "View details"
+msgstr "Details ansehen"
+
+#: forms/templates/forms/formresponse_detail.html:36
+msgid "Question"
+msgstr "Frage"
+
+#: forms/templates/forms/formresponse_detail.html:37
+msgid "Answer"
+msgstr "Antwort"
+
+#: forms/templates/forms/formresponse_detail.html:71
+#: forms/templates/forms/formresponse_list.html:185
+msgid "Comments"
+msgstr "Kommentare"
+
+#: forms/templates/forms/formresponse_detail.html:79
+msgid "edit"
+msgstr "bearbeiten"
+
+#: forms/templates/forms/formresponse_detail.html:81
+msgid "delete"
+msgstr "löschen"
+
+#: forms/templates/forms/formresponse_detail.html:86
+msgid "Delete comment"
+msgstr "Kommentar löschen"
+
+#: forms/templates/forms/formresponse_detail.html:106
+msgid "edit comment"
+msgstr "Kommentar bearbeiten"
+
+#: forms/templates/forms/formresponse_detail.html:120
 msgid "add comment"
 msgstr "Kommentar hinzufügen"
 
-#: forms/templates/forms/formresponse_list.html:6
+#: forms/templates/forms/formresponse_list.html:7
+#: forms/templates/forms/formresponse_list.html:174
 msgid "Responses"
 msgstr "Antworten"
 
-#: forms/templates/forms/formresponse_list.html:8
+#: forms/templates/forms/formresponse_list.html:9
 #, python-format
 msgid ""
 "\n"
@@ -170,71 +226,90 @@ msgstr ""
 "       Antworten für %(name)s\n"
 "    "
 
-#: forms/templates/forms/formresponse_list.html:23
-#: forms/templates/forms/formresponse_list.html:79
+#: forms/templates/forms/formresponse_list.html:17
+msgid "Switch bucket"
+msgstr "Status ändern"
+
+#: forms/templates/forms/formresponse_list.html:21
+#: forms/templates/forms/formresponse_list.html:154
 msgid "Inbox"
 msgstr "Eingang"
 
-#: forms/templates/forms/formresponse_list.html:37
-#: forms/templates/forms/formresponse_list.html:81
+#: forms/templates/forms/formresponse_list.html:31
+#: forms/templates/forms/formresponse_list.html:160
 msgid "Trash"
 msgstr "Papierkorb"
 
-#: forms/templates/forms/formresponse_list.html:46
-msgid "Search by E-Mail"
+#: forms/templates/forms/formresponse_list.html:39
+msgid "Filter"
+msgstr "Filter"
+
+#: forms/templates/forms/formresponse_list.html:41
+msgid "clear all filters"
+msgstr "alle Filter löschen"
+
+#: forms/templates/forms/formresponse_list.html:52
+msgid "Search by email"
 msgstr "Nach E-Mail-Adresse suchen"
 
-#: forms/templates/forms/formresponse_list.html:51
-msgid "Only show responses that have"
-msgstr "Zeige nur Antworten mit"
+#: forms/templates/forms/formresponse_list.html:58
+#: forms/templates/forms/formresponse_list.html:61
+msgid "Field"
+msgstr "Feld"
 
-#: forms/templates/forms/formresponse_list.html:64
-msgid "Show responses tagged"
-msgstr "Zeige Antworten mit Markierung"
+#: forms/templates/forms/formresponse_list.html:76
+#: forms/templates/forms/formresponse_list.html:79
+msgid "Assignee"
+msgstr "Manager"
 
-#: forms/templates/forms/formresponse_list.html:84
+#: forms/templates/forms/formresponse_list.html:95
+#: forms/templates/forms/formresponse_list.html:98
+msgid "Tag"
+msgstr "Markierung"
+
+#: forms/templates/forms/formresponse_list.html:119
+msgid "Apply tag"
+msgstr "Markierung hinzufügen"
+
+#: forms/templates/forms/formresponse_list.html:126
+msgid "Clear tags"
+msgstr "Alle Markierungen entfernen"
+
+#: forms/templates/forms/formresponse_list.html:134
+msgid "Apply assignee"
+msgstr "Manager hinzufügen"
+
+#: forms/templates/forms/formresponse_list.html:141
+msgid "Clear assignees"
+msgstr "Alle Assignees entfernen"
+
+#: forms/templates/forms/formresponse_list.html:149
+msgid "Move to"
+msgstr "Verschieben nach"
+
+#: forms/templates/forms/formresponse_list.html:169
 msgid "Apply to COUNT submission(s)"
 msgstr "Auf COUNT Antwort(en) anwenden"
 
-#: forms/templates/forms/formresponse_list.html:89
+#: forms/templates/forms/formresponse_list.html:183
 msgid "Email"
 msgstr "E-Mail"
 
-#: forms/templates/forms/formresponse_list.html:90
+#: forms/templates/forms/formresponse_list.html:184
 msgid "Submission Date"
 msgstr "Eingangsdatum"
 
-#: forms/templates/forms/formresponse_list.html:91
-msgid "Comments"
-msgstr "Kommentare"
+#: forms/templates/forms/formresponse_list.html:186
+msgid "Ownership"
+msgstr "Besitzer"
 
-#: forms/templates/forms/formresponse_list.html:92
-msgid "Tags"
-msgstr "Markierungen"
-
-#: forms/templates/forms/formresponse_list.html:106
+#: forms/templates/forms/formresponse_list.html:202
 msgid "No Email Provided"
 msgstr "Keine E-Mail angegeben"
 
-#: forms/templates/forms/formresponse_list.html:126
-msgid "previous"
-msgstr "vorherige"
-
-#: forms/templates/forms/formresponse_list.html:132
-msgid "next"
-msgstr "nächste"
-
-#: forms/templates/forms/formresponse_list.html:136
-msgid "Total results:"
-msgstr "Ergebnisse insgesamt:"
-
-#: forms/templates/forms/formresponse_list.html:142
+#: forms/templates/forms/formresponse_list.html:282
 msgid "Download data as csv"
 msgstr "Als CSV herunterladen"
-
-#: forms/templates/forms/formresponse_list.html:144
-msgid "Move to"
-msgstr "Verschieben nach"
 
 #: forms/templates/forms/investigation_list.html:7
 msgid "Your Investigations"
@@ -326,11 +401,43 @@ msgstr "Sprache"
 msgid "set language"
 msgstr "Sprache setzen"
 
+#: forms/templates/registration/login.html:4
+#: forms/templates/registration/login.html:5
+#: forms/templates/registration/login.html:41
+msgid "Login"
+msgstr "Anmelden"
+
+#: forms/templates/registration/login.html:26
+msgid "E-mail address"
+msgstr "E-Mail-Adresse"
+
+#: forms/templates/registration/login.html:35
+msgid "Password"
+msgstr "Passwort"
+
+#~ msgid "Auditor"
+#~ msgstr "Auditor"
+
+#~ msgid "Submit Tags"
+#~ msgstr "Markierungen übernehmen"
+
+#~ msgid "Only show responses that have"
+#~ msgstr "Zeige nur Antworten mit"
+
+#~ msgid "Show responses tagged"
+#~ msgstr "Zeige Antworten mit Markierung"
+
+#~ msgid "previous"
+#~ msgstr "vorherige"
+
+#~ msgid "next"
+#~ msgstr "nächste"
+
+#~ msgid "Total results:"
+#~ msgstr "Ergebnisse insgesamt:"
+
 #~ msgid "Validate Submission"
 #~ msgstr "Antworten validieren"
 
 #~ msgid "Content of Response"
 #~ msgstr "Inhalt der Antwort"
-
-#~ msgid "submit comment"
-#~ msgstr "Kommentar abschicken"
