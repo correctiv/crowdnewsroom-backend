@@ -25,3 +25,14 @@ msgstr "Besitzer hinzufügen oder entfernen"
 #: theme/src/scripts/form-response-details.js:24
 msgid "Add or delete tag"
 msgstr "Markierung hinzufügen oder entfernen"
+#: theme/src/scripts/bucketPicker.js:47
+msgid "Inbox"
+msgstr "Eingang"
+
+#: theme/src/scripts/bucketPicker.js:48
+msgid "Verified"
+msgstr "Verifiziert"
+
+#: theme/src/scripts/bucketPicker.js:49
+msgid "Trash"
+msgstr "Papierkorb"

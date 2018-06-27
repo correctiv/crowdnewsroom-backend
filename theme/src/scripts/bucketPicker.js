@@ -44,7 +44,9 @@ export default class BucketPicker extends Component {
       return <div>Loading</div>
     }
 
-    const items = [{id: "S", text: "Inbox"}, {id: "V", text: "Verified"}, {id: "I", text: "Trash"}];
+    const items = [{id: "S", text: gettext("Inbox")},
+                   {id: "V", text: gettext("Verified")},
+                   {id: "I", text: gettext("Trash")}];
 
     const currentItem = items.find(item => item.id === this.state.currentState);
 
