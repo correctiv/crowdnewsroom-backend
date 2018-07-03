@@ -164,7 +164,7 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         context['form'] = self.form
         context['page_sizes'] = [10, 25, 100, 250]
 
-        allowed_params = ['has', 'tag', 'email', 'assignee']
+        allowed_params = ['has', 'tag', 'email', 'assignee', 'paginate_by']
 
         context['query_params'] = '&'.join(['{}={}'.format(k, v)
                                             for k, v
