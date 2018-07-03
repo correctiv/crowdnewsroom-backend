@@ -152,12 +152,19 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         else:
             return _("Looks like you verified or deleted all contributions. Good work!")
 
+    def get_paginate_by(self, queryset):
+        try:
+            return int(self.request.GET.get("paginate_by"))
+        except (ValueError, TypeError):
+            return self.paginate_by
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['investigation'] = self.investigation
         context['form'] = self.form
+        context['page_sizes'] = [10, 25, 100, 250]
 
-        allowed_params = ['has', 'tag', 'email', 'assignee']
+        allowed_params = ['has', 'tag', 'email', 'assignee', 'paginate_by']
 
         context['query_params'] = '&'.join(['{}={}'.format(k, v)
                                             for k, v
