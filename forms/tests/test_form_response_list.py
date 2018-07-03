@@ -91,6 +91,25 @@ class FormReponseListViewTest(TestCase):
             "/forms/admin/investigations/{}/forms/{}/responses/inbox?email=edward".format(form.investigation.slug, form.slug))
         self.assertEqual(len(response.context_data["formresponse_list"]), 2)
 
+    def test_paginate_by_size(self, *args):
+        form = self.form_instance.form
+        for _ in range(20):
+            FormResponseFactory.create(status="S", form_instance=self.form_instance)
+
+        response = self.client.get("/forms/admin/investigations/{}/forms/{}/responses/inbox?paginate_by=5".format(form.investigation.slug, form.slug))
+        self.assertEquals(len(response.context_data["formresponse_list"]), 5)
+        self.assertEquals(response.context_data["page_obj"].paginator.per_page, 5)
+
+    def test_paginate_by_invalid_data(self, *args):
+        form = self.form_instance.form
+        for _ in range(30):
+            FormResponseFactory.create(status="S", form_instance=self.form_instance)
+
+        DEFAULT_PAGE_SIZE = 25
+        response = self.client.get("/forms/admin/investigations/{}/forms/{}/responses/inbox?paginate_by=FOOBAR".format(form.investigation.slug, form.slug))
+        self.assertEquals(len(response.context_data["formresponse_list"]), DEFAULT_PAGE_SIZE)
+        self.assertEquals(response.context_data["page_obj"].paginator.per_page, DEFAULT_PAGE_SIZE)
+
 
 @tag("browsertest")
 @patch('webpack_loader.loader.WebpackLoader.get_bundle')

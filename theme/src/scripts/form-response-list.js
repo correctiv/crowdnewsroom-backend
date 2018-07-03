@@ -9,10 +9,17 @@ var selectAllCheckbox = document.getElementById("selectAllResponsesCheckbox");
 var pagePicker = document.getElementById("page-picker");
 if (pagePicker) {
     pagePicker.addEventListener("change", function (event) {
-        console.log(event);
         const currentSearch = queryString.parse(window.location.search);
         currentSearch.page = event.target.value;
-        console.log(currentSearch);
+        window.location.search = queryString.stringify(currentSearch)
+    });
+}
+
+const pageSizePicker = document.getElementById("page-size-picker");
+if (pageSizePicker) {
+    pageSizePicker.addEventListener("change", function (event) {
+        const currentSearch = queryString.parse(window.location.search);
+        currentSearch.paginate_by = event.target.value;
         window.location.search = queryString.stringify(currentSearch)
     });
 }

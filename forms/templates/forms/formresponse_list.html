@@ -229,7 +229,19 @@
       {% if is_paginated %}
           <div class="bx--pagination cnr-pagination mt-4" data-pagination>
               <div class="bx--pagination__left">
+                <div class="bx--select bx--select--inline">
+                  <label for="page-size-picker" class="bx--visually-hidden">{% trans "Number of items per page" %}</label>
+                  <select id="page-size-picker" class="bx--select-input" data-items-per-page>
+                    {% for size in page_sizes %}
+                        <option class="bx--select-option" value="{{ size }}" {%  if page_obj.paginator.per_page == size  %}selected{% endif %}>{{ size }}</option>
+                    {% endfor %}
+                  </select>
+                  <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5">
+                    <path d="M0 0l5 4.998L10 0z" fill-rule="evenodd"/>
+                  </svg>
+                </div>
                 <span class="bx--pagination__text">
+                  <span>|&nbsp;</span>
                   <span data-displayed-item-range>{{ page_obj.start_index }}-{{ page_obj.end_index }}</span> {% trans "of" %}
                   <span data-total-items>{{ page_obj.paginator.count }}</span> {% trans "items" %}</span>
               </div>
