@@ -3,6 +3,13 @@
 from django.db import migrations
 
 
+def update_permissions(*args):
+    from forms.models import UserGroup
+
+    for user_group in UserGroup.objects.all():
+        user_group.assign_permissions()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -14,4 +21,5 @@ class Migration(migrations.Migration):
             name='investigation',
             options={'permissions': (('view_investigation', 'View investigation'), ('manage_investigation', 'Manage investigation'), ('master_investigation', 'Delete investigation and manage owners'))},
         ),
+        migrations.RunPython(update_permissions, migrations.RunPython.noop)
     ]
