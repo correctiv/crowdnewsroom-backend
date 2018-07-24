@@ -459,3 +459,13 @@ def add_user_to_investigation(sender, instance, created, *args, **kwargs):
     if invitation.accepted:
         invitation.investigation.add_user(invitation.user, "V")
 
+
+class FormInstanceTemplate(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    form_json = JSONField()
+    ui_schema_json = JSONField(default={})
+    priority_fields = JSONField(default=[])
+    email_template = models.TextField(default=_("Thank you for participating in a crowdnewsroom investigation!"))
+    email_template_html = models.TextField(default=_("Thank you for participating in a crowdnewsroom investigation!"));
+    redirect_url_template = models.TextField(default="https://forms.crowdnewsroom.org")

@@ -4,7 +4,7 @@ from django_json_widget.widgets import JSONEditorWidget
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import User, Investigation, Form, FormResponse, FormInstance, Partner, Tag, Comment
+from .models import User, Investigation, Form, FormResponse, FormInstance, Partner, Tag, Comment, FormInstanceTemplate
 
 
 @admin.register(User)
@@ -46,6 +46,11 @@ class InvestigationAdmin(admin.ModelAdmin):
         TagInline,
     ]
 
+class FormInstanceTemplateAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        fields.JSONField: {'widget': JSONEditorWidget}
+    }
+
 
 admin.site.register(FormInstance, FormInstanceAdmin)
 admin.site.register(Investigation, InvestigationAdmin)
@@ -54,3 +59,4 @@ admin.site.register(Partner)
 admin.site.register(Form)
 admin.site.register(Tag)
 admin.site.register(Comment)
+admin.site.register(FormInstanceTemplate, FormInstanceTemplateAdmin)

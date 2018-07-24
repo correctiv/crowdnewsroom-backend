@@ -14,7 +14,8 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
 from .fields import Base64ImageField
-from .models import FormResponse, FormInstance, Investigation, Tag, User, UserGroup, Invitation, INVESTIGATION_ROLES
+from .models import FormResponse, FormInstance, Investigation, Tag, User, UserGroup, Invitation, INVESTIGATION_ROLES, \
+    FormInstanceTemplate
 
 
 class InvestigationSerializer(ModelSerializer):
@@ -382,3 +383,27 @@ class InvestigationCreate(generics.CreateAPIView):
         new_investigation = Investigation.objects.get(id=response.data.get('id'))
         new_investigation.add_user(request.user, "O")
         return response
+
+
+class FormInstanceListTemplateSerializer(ModelSerializer):
+    class Meta:
+        model = FormInstanceTemplate
+        fields = ("id", "name", "description")
+
+
+class FormInstanceTemplateList(generics.ListAPIView):
+    queryset = FormInstanceTemplate.objects.all()
+    serializer_class = FormInstanceListTemplateSerializer
+    permission_classes = (IsAuthenticated, )
+
+
+class FormInstanceDetailsTemplateSerializer(ModelSerializer):
+    class Meta:
+        model = FormInstanceTemplate
+        fields = "__all__"
+
+
+class FormInstanceTemplateDetails(generics.RetrieveAPIView):
+    queryset = FormInstanceTemplate.objects.all()
+    serializer_class = FormInstanceDetailsTemplateSerializer
+    permission_classes = (IsAuthenticated, )
