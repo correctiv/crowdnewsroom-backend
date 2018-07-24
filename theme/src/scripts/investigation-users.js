@@ -10,7 +10,7 @@ import {
   DataTableSkeleton
 } from "carbon-components-react";
 import {authorizedDELETE, authorizedFetch, authorizedPOST} from "./api";
-import {assign, snakeCase, find, endsWith} from "lodash";
+import {assign, snakeCase, find, endsWith, keyBy} from "lodash";
 
 
 const {
@@ -46,7 +46,9 @@ const getAvailableRoles = (user) => {
 function RoleDropdown({selectedRole, user, updateCallback, availableRoles}) {
   const initialRole = availableRoles.find(role => role.id === selectedRole);
 
-  if (endsWith(selectedRole, "_readonly") || !initialRole){
+  // we might not have found an initial role because the user that is logged
+  // in is and admin but they are seeing an owner whose role the cannot change
+  if (user.is_requester || !initialRole){
     const roleKey = selectedRole.substr(0,1);
     const names = {
       "A": "Admin",
@@ -58,7 +60,7 @@ function RoleDropdown({selectedRole, user, updateCallback, availableRoles}) {
   if (initialRole) {
     return <DropdownV2
       label={"role"}
-      onChange={(event) => updateCallback(user, event.selectedItem.id)}
+      onChange={(event) => updateCallback(user.id, event.selectedItem.id)}
       itemToString={item => item.text}
       initialSelectedItem={initialRole}
       items={availableRoles}
@@ -67,33 +69,23 @@ function RoleDropdown({selectedRole, user, updateCallback, availableRoles}) {
   return <div>Wat?</div>
 }
 
-function Row({row, updateCallback, getSelectionProps, availableRoles}){
-  return <TableRow>
-    <TableSelectRow {...getSelectionProps({ row })} />
-    {row.cells.map(cell => <Cell cell={cell}
-                                 row={row}
-                                 changeUserCallback={updateCallback}
-                                 availableRoles={availableRoles}/> )}
-  </TableRow>
-}
-
-function Cell({cell, row, changeUserCallback, availableRoles}){
-  if (cell.info.header === "role") {
-    if (cell.value) {
-      return <TableCell className={`user-${snakeCase(row.id)}`}>
-        <RoleDropdown selectedRole={cell.value}
-                      user={row.id}
-                      updateCallback={changeUserCallback}
-                      availableRoles={availableRoles} />
-      </TableCell>
-    }
-    return <TableCell className={`user-${snakeCase(row.id)}`}><i>Invitation Pending</i></TableCell>;
+function ManageRoleCell({row, changeUserCallback, availableRoles}){
+  const isInvitation = !row.role;
+  if (isInvitation){
+    return <TableCell><i>Invitation Pending</i></TableCell>;
   }
-  return <TableCell key={cell.id}>{cell.value}</TableCell>
+  return <TableCell>
+    <RoleDropdown selectedRole={row.role}
+                user={row}
+                updateCallback={changeUserCallback}
+                availableRoles={availableRoles} />
+  </TableCell>
 }
 
-const renderTableWithUpdate = (updateCallback, removeUsers, availableRoles) => {
-  return ({ rows, headers, getHeaderProps, getBatchActionProps, getSelectionProps, selectedRows, onInputChange }) => (
+const renderTableWithUpdate = (updateCallback, removeUsers, availableRoles, originalRows) => {
+  const keyedRows = keyBy(originalRows, "email");
+
+  return ({ rows, headers, getHeaderProps, getBatchActionProps, getSelectionProps, selectedRows, onInputChange, getRowProps }) => (
     <TableContainer>
       <TableToolbar>
         <TableBatchActions {...getBatchActionProps()}>
@@ -114,15 +106,18 @@ const renderTableWithUpdate = (updateCallback, removeUsers, availableRoles) => {
                 {header.header}
               </TableHeader>
             ))}
+            <TableHeader>
+              Rolle
+            </TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => <Row data-id={row.id}
-                                key={row.id}
-                                row={row}
-                                updateCallback={updateCallback}
-                                availableRoles={availableRoles}
-                                getSelectionProps={getSelectionProps}/>)}
+          {rows.map(row => <TableRow key={row.id} {...getRowProps({row, id:row.id})}>
+              <TableSelectRow {...getSelectionProps({ row })} />
+              {row.cells.map(cell => <TableCell key={cell.id}>{cell.value}</TableCell>)}
+              <ManageRoleCell row={keyedRows[row.id]} availableRoles={availableRoles} changeUserCallback={updateCallback}/>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>);
@@ -207,13 +202,12 @@ class App extends Component {
             this.setState({emailError: json.email[0]})
           }
           else {
-            const td = document.querySelector(`.user-${snakeCase(email)}`);
-            const tr = td.parentElement;
+            const tr = document.getElementById(email);
             tr.classList.add("shake");
             setTimeout(() => tr.classList.remove("shake"), 800)
           }
         });
-      }
+      };
 
       authorizedPOST(`/forms/investigations/${this.state.slug}/invitations`, {body: JSON.stringify({email})})
         .then(this.setState({emailError: null}))
@@ -234,8 +228,7 @@ class App extends Component {
       })
     }
 
-    updateUserRole(email, role){
-      const userID = find(this.state.users, {email}).id;
+    updateUserRole(userID, role){
       const payload = {id: userID};
       authorizedPOST(`/forms/investigations/${this.state.slug}/groups/${role}/users`, {body: JSON.stringify(payload)})
         .then(this.loadUsers)
@@ -262,19 +255,14 @@ class App extends Component {
       }
 
       const rows = combinedUsers.map(user => {
-        const userCopy = assign({}, user, {id: user.email})
-        if (userCopy.email === this.state.currentUser.email){
-          userCopy.role = `${userCopy.role}_readonly`;
-        }
-        return userCopy;
+        return assign({}, user, {id: user.email})
       });
 
       const availableRoles = getAvailableRoles(this.state.currentUser);
 
       const headers = [{key: "first_name", header: "Vorname"},
                        {key: "last_name", header: "Nachname"},
-                       {key: "email", header: "E-Mail"},
-                       {key: "role", header: "Rolle"}];
+                       {key: "email", header: "E-Mail"}];
         return <div className="investigation-users">
           <div className="investigation-users--section">
             Invite members of your team to help contribute to your investigation by assigning them specific permissions. Each collaborator will be able to access your project through their own Crowdnewsroom account. As the creator, you remain ultimately responsible for your project and for your team's interactions with contributors. Pick collaborators that you trust and that will do a good job working with your community. Have questions about how this works? Visit our FAQ.
@@ -290,7 +278,7 @@ class App extends Component {
             <DataTable
                 rows={rows}
                 headers={headers}
-                render={renderTableWithUpdate(this.updateUserRole, this.removeUsers, availableRoles)}/>
+                render={renderTableWithUpdate(this.updateUserRole, this.removeUsers, availableRoles, combinedUsers)}/>
             <div>
               <dl className="roles-list">
                 <dt className="roles-list--dt">Admin</dt>
