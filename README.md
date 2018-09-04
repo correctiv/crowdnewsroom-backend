@@ -73,6 +73,28 @@ During development, you need to have Webpack running in a separate terminal. Web
 cd ./theme && yarn run dev
 ```
 
+### Marry Django with Reactjs
+* to the django template add: 
+```
+{% render_bundle "interviewer" %}
+```
+* in the React component:
+render the element to the `<div>` with the corresponding id in the template
+* in the webpack.config.js file in theme/ add the corresponding js file as an entry:
+```
+entry: {
+    main: "./src/scripts/index",
+    style: "./src/styles/main.sass",
+    formResponseDetails: "./src/scripts/form-response-details",
+    formResponseList: "./src/scripts/form-response-list",
+      invitationList: "./src/scripts/invitation-list",
+      investigationManagement: "./src/scripts/investigation-management",
+    interviewer: "./src/scripts/interviewer",
+},
+```
+* restart yarn
+
+
 ## Run the Django server
 ```bash
 python manage.py runserver
