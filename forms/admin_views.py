@@ -292,10 +292,12 @@ def form_response_batch_edit(request, *args, **kwargs):
         if tag_id == "clear_tags":
             for form_response in form_responses:
                 form_response.tags.clear()
-        else:
+        elif tag_id:
             tag = Tag.objects.filter(investigation=investigation).get(id=tag_id)
             for form_response in form_responses:
                 form_response.tags.add(tag)
+        else:
+            pass
     except ObjectDoesNotExist:
         pass
 
