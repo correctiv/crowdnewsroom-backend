@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-09 13:43+0000\n"
+"POT-Creation-Date: 2018-10-15 13:02+0000\n"
 "PO-Revision-Date: 2018-08-09 15:13+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -51,7 +51,11 @@ msgstr "Formular erfolgreich aktualisiert."
 
 #: theme/src/scripts/form-details.jsx:106
 #: theme/src/scripts/investigation-details.jsx:209
-msgid "The slug can only contain lowercase letters and hyphens (-)"
+#, fuzzy
+#| msgid "The slug can only contain lowercase letters and hyphens (-)"
+msgid ""
+"The slug can only contain lowercase letters, numbers and hyphens (-) and "
+"should start with a letter"
 msgstr ""
 "Der URL-Name darf nur aus Kleinbuchstaben und Bindestrichen (-) bestehen."
 
@@ -76,7 +80,7 @@ msgstr "Wählen und weiter"
 msgid "Basics"
 msgstr "Grundlagen"
 
-#: theme/src/scripts/form-management.jsx:26
+#: theme/src/scripts/form-management.jsx:28
 msgid "Interviewer"
 msgstr "Fragebogen"
 
@@ -108,47 +112,47 @@ msgstr "CORRECTIV für Anpassungen kontaktieren"
 msgid "Edit in expert mode"
 msgstr "Im Expertenmodus bearbeiten"
 
-#: theme/src/scripts/forminstance-details.jsx:164
+#: theme/src/scripts/forminstance-details.jsx:165
 msgid "Interviewer steps and settings"
 msgstr "Fragebogen Schritte und Einstellungen"
 
-#: theme/src/scripts/forminstance-details.jsx:168
+#: theme/src/scripts/forminstance-details.jsx:169
 msgid "Form JSON"
 msgstr "Fragebogen JSON"
 
-#: theme/src/scripts/forminstance-details.jsx:175
+#: theme/src/scripts/forminstance-details.jsx:176
 msgid "UI-Schema"
 msgstr "UI-Schema"
 
-#: theme/src/scripts/forminstance-details.jsx:182
+#: theme/src/scripts/forminstance-details.jsx:183
 msgid "Fields to be shown on top for editors"
 msgstr "Felder, die für die Redakteure oben angezeigt werden"
 
-#: theme/src/scripts/forminstance-details.jsx:187
+#: theme/src/scripts/forminstance-details.jsx:188
 msgid "Email confirmation messages"
 msgstr "E-Mail-Bestätigunstext"
 
-#: theme/src/scripts/forminstance-details.jsx:190
+#: theme/src/scripts/forminstance-details.jsx:191
 msgid "Email Template"
 msgstr "E-Mail Vorlage"
 
-#: theme/src/scripts/forminstance-details.jsx:197
+#: theme/src/scripts/forminstance-details.jsx:198
 msgid "HTML Email Template"
 msgstr "HTML E-Mail Vorlage"
 
-#: theme/src/scripts/forminstance-details.jsx:203
+#: theme/src/scripts/forminstance-details.jsx:204
 msgid "URL to redirect after submission"
 msgstr "Weiterleitungs-URL"
 
-#: theme/src/scripts/forminstance-details.jsx:206
+#: theme/src/scripts/forminstance-details.jsx:207
 msgid "Redirect URL Template"
 msgstr "Weiterleitungs-URL-Vorlage"
 
-#: theme/src/scripts/forminstance-details.jsx:212
+#: theme/src/scripts/forminstance-details.jsx:213
 msgid "Cancel"
 msgstr ""
 
-#: theme/src/scripts/forminstance-details.jsx:213
+#: theme/src/scripts/forminstance-details.jsx:214
 #: theme/src/scripts/investigation-details.jsx:283
 msgid "Save"
 msgstr "Speichern"

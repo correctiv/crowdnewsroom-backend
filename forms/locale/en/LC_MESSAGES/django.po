@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-09 15:57+0200\n"
+"POT-Creation-Date: 2018-10-15 15:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,8 +31,8 @@ msgid "Important dates"
 msgstr ""
 
 #: forms/admin_views.py:68 forms/admin_views.py:90 forms/admin_views.py:121
-#: forms/admin_views.py:221 forms/admin_views.py:450 forms/admin_views.py:463
-#: forms/admin_views.py:482
+#: forms/admin_views.py:221 forms/admin_views.py:452 forms/admin_views.py:465
+#: forms/admin_views.py:484
 msgid "Investigations"
 msgstr ""
 
@@ -54,11 +54,11 @@ msgstr ""
 msgid "Looks like you verified or deleted all contributions. Good work!"
 msgstr ""
 
-#: forms/admin_views.py:464
+#: forms/admin_views.py:466
 msgid "New Investigation"
 msgstr ""
 
-#: forms/admin_views.py:475
+#: forms/admin_views.py:477
 msgid "New Form"
 msgstr ""
 
@@ -66,97 +66,97 @@ msgstr ""
 msgid "Add a comment"
 msgstr ""
 
-#: forms/models.py:32 forms/models.py:217
+#: forms/models.py:33 forms/models.py:220
 msgid "Draft"
 msgstr ""
 
-#: forms/models.py:33 forms/models.py:219
+#: forms/models.py:34 forms/models.py:222
 msgid "Published"
 msgstr ""
 
-#: forms/models.py:34 forms/models.py:221
+#: forms/models.py:35 forms/models.py:224
 msgid "Archived"
 msgstr ""
 
-#: forms/models.py:62
+#: forms/models.py:64
 msgid "View investigation"
 msgstr ""
 
-#: forms/models.py:63
+#: forms/models.py:65
 msgid "Manage investigation"
 msgstr ""
 
-#: forms/models.py:64
+#: forms/models.py:66
 msgid "Delete investigation and manage owners"
 msgstr ""
 
-#: forms/models.py:112
+#: forms/models.py:115
 msgid "Owner"
 msgstr ""
 
-#: forms/models.py:113
+#: forms/models.py:116
 msgid "Admin"
 msgstr ""
 
-#: forms/models.py:114
+#: forms/models.py:117
 msgid "Editor"
 msgstr ""
 
-#: forms/models.py:115
+#: forms/models.py:118
 msgid "Viewer"
 msgstr ""
 
-#: forms/models.py:189
+#: forms/models.py:192
 msgid "email address"
 msgstr ""
 
-#: forms/models.py:218
+#: forms/models.py:221
 msgid "Unlisted"
 msgstr ""
 
-#: forms/models.py:220
+#: forms/models.py:223
 msgid "Closed"
 msgstr ""
 
-#: forms/models.py:265 forms/models.py:266 forms/models.py:482
-#: forms/models.py:483
+#: forms/models.py:269 forms/models.py:270 forms/models.py:486
+#: forms/models.py:487
 msgid "Thank you for participating in a crowdnewsroom investigation!"
 msgstr ""
 
-#: forms/models.py:293
+#: forms/models.py:297
 msgid "Submitted"
 msgstr "Inbox"
 
-#: forms/models.py:294 forms/templates/forms/formresponse_list.html:27
+#: forms/models.py:298 forms/templates/forms/formresponse_list.html:27
 #: forms/templates/forms/formresponse_list.html:165
 msgid "Verified"
 msgstr ""
 
-#: forms/models.py:295
+#: forms/models.py:299
 msgid "Invalid"
 msgstr "Trash"
 
-#: forms/models.py:308
+#: forms/models.py:312
 msgid "Edit response"
 msgstr ""
 
-#: forms/models.py:371
+#: forms/models.py:375
 msgid "Yes"
 msgstr ""
 
-#: forms/models.py:371
+#: forms/models.py:375
 msgid "No"
 msgstr ""
 
-#: forms/models.py:388
+#: forms/models.py:392
 msgid "<File>"
 msgstr ""
 
-#: forms/models.py:429
+#: forms/models.py:433
 msgid "Thank you for your submission!"
 msgstr ""
 
-#: forms/models.py:458
+#: forms/models.py:462
 msgid "You have been invited to join the {} investigation"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgid "Add a new interviewer"
 msgstr ""
 
 #: forms/templates/forms/form_list.html:27
-#: forms/templates/forms/investigation_list.html:34
+#: forms/templates/forms/investigation_list.html:28
 msgid "Settings"
 msgstr ""
 
@@ -372,15 +372,11 @@ msgstr ""
 msgid "Your Investigations"
 msgstr ""
 
-#: forms/templates/forms/investigation_list.html:16
-msgid "Create a new investigation"
-msgstr ""
-
-#: forms/templates/forms/investigation_list.html:37
+#: forms/templates/forms/investigation_list.html:31
 msgid "Interviewers"
 msgstr ""
 
-#: forms/templates/forms/investigation_list.html:44
+#: forms/templates/forms/investigation_list.html:38
 #, python-format
 msgid ""
 "\n"
@@ -393,7 +389,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: forms/templates/forms/investigation_list.html:51
+#: forms/templates/forms/investigation_list.html:45
 #, python-format
 msgid ""
 "\n"
@@ -406,7 +402,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: forms/templates/forms/investigation_list.html:58
+#: forms/templates/forms/investigation_list.html:52
 #, python-format
 msgid ""
 "\n"
@@ -419,7 +415,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: forms/templates/forms/investigation_list.html:74
+#: forms/templates/forms/investigation_list.html:68
 msgid "Leave investigation"
 msgstr ""
 
@@ -468,10 +464,12 @@ msgstr ""
 #: forms/templates/registration/login.html:4
 #: forms/templates/registration/login.html:5
 #: forms/templates/registration/login.html:41
+#: forms/templates/registration/password_reset_complete.html:10
 msgid "Login"
 msgstr ""
 
 #: forms/templates/registration/login.html:26
+#: forms/templates/registration/password_reset_form.html:26
 msgid "E-mail address"
 msgstr ""
 
@@ -481,6 +479,81 @@ msgstr ""
 
 #: forms/templates/registration/login.html:45
 msgid "Lost your password?"
+msgstr ""
+
+#: forms/templates/registration/password_reset_complete.html:4
+#: forms/templates/registration/password_reset_complete.html:5
+#: forms/templates/registration/password_reset_done.html:4
+#: forms/templates/registration/password_reset_done.html:5
+msgid "Password Reset Done"
+msgstr ""
+
+#: forms/templates/registration/password_reset_complete.html:9
+msgid "Your password reset is complete."
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:6
+#: forms/templates/registration/password_reset_confirm.html:13
+msgid "Welcome"
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:8
+#: forms/templates/registration/password_reset_confirm.html:15
+msgid "New Password"
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:24
+msgid "Please enter and confirm your password."
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:26
+msgid "Please enter and confirm your new password."
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:48
+msgid "New password"
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:57
+msgid "New password confirmation"
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:69
+#: forms/templates/registration/password_reset_form.html:37
+#, fuzzy
+#| msgid "Submitted"
+msgid "Submit"
+msgstr "Inbox"
+
+#: forms/templates/registration/password_reset_confirm.html:75
+msgid "Your password can't be too similar to your other personal information."
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:76
+msgid "Your password must contain at least 8 characters."
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:77
+msgid "Your password can't be a commonly used password."
+msgstr ""
+
+#: forms/templates/registration/password_reset_confirm.html:78
+msgid "Your password can't be entirely numeric."
+msgstr ""
+
+#: forms/templates/registration/password_reset_done.html:9
+msgid ""
+"Check your email inbox. We've emailed you instructions for setting your "
+"password. You should receive the email shortly!"
+msgstr ""
+
+#: forms/templates/registration/password_reset_form.html:4
+#: forms/templates/registration/password_reset_form.html:5
+msgid "Password Reset"
+msgstr ""
+
+#: forms/templates/registration/password_reset_form.html:41
+msgid "Instructions to change your password will be sent to you."
 msgstr ""
 
 #: forms/templates/registration/set_initial_password_email.html:2
