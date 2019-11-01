@@ -9,7 +9,7 @@ django-webpack-loader==0.6.0
 djangorestframework==3.9.0
 factory-boy==2.10.0
 jsonschema==2.6.0
-Pillow==5.2.0
+Pillow==6.2.0
 psycopg2==2.7.3.2
 pytz==2017.3
 selenium==3.11.0
