@@ -48,6 +48,8 @@ def create_form_csv(form, investigation_slug, build_absolute_uri, io_object, fil
         try:
             row = {}
             for field in form_response.rendered_fields():
+                if field['type'] == 'link':
+                    field['value'] = build_absolute_uri(field['value'])
                 try:
                     if field['label'] != None and field['label'] != '':
                         row[field["label"]] = field["value"]
