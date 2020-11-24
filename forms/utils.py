@@ -48,22 +48,10 @@ def create_form_csv(form, investigation_slug, build_absolute_uri, io_object, fil
         try:
             row = {}
             for field in form_response.rendered_fields():
-                if field['type'] == "link":
-                    row[field["json_name"]] = build_absolute_uri(
-                        field["value"])
-                else:
-                    try:
-                        if field['label'] != None and field['label'] != '':
-                            row[field["label"]] = field["value"]
-                        else:
-                            try:
-                                if field['title'] != None and field['title'] != '':
-                                    row[field["title"]] = field["value"]
-                                else:
-                                    row[field["json_name"]] = field["value"]
-                            except:
-                                row[field["json_name"]] = field["value"]
-                    except:
+                try:
+                    if field['label'] != None and field['label'] != '':
+                        row[field["label"]] = field["value"]
+                    else:
                         try:
                             if field['title'] != None and field['title'] != '':
                                 row[field["title"]] = field["value"]
@@ -71,6 +59,14 @@ def create_form_csv(form, investigation_slug, build_absolute_uri, io_object, fil
                                 row[field["json_name"]] = field["value"]
                         except:
                             row[field["json_name"]] = field["value"]
+                except:
+                    try:
+                        if field['title'] != None and field['title'] != '':
+                            row[field["title"]] = field["value"]
+                        else:
+                            row[field["json_name"]] = field["value"]
+                    except:
+                        row[field["json_name"]] = field["value"]
 
             path = reverse("response_details", kwargs={"investigation_slug": investigation_slug,
                                                         "form_slug": form.slug,
