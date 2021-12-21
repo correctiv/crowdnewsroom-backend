@@ -85,10 +85,19 @@ class FormInstanceSerializer(ModelSerializer):
 
         latest_form_instance = FormInstance.get_latest_for_form(form.slug)
         next_version = 1 if not latest_form_instance else latest_form_instance.version + 1
-
         form_instance = FormInstance(**validated_data)
         form_instance.form = form
         form_instance.version = next_version
+
+        if not 'email_template' in validated_data:
+            form_instance.email_template = latest_form_instance.email_template
+
+        if not 'email_template_html' in validated_data:
+            form_instance.email_template_html = latest_form_instance.email_template_html
+
+        if not 'redirect_url_template' in validated_data:
+            form_instance.redirect_url_template = latest_form_instance.redirect_url_template
+
         form_instance.save()
 
         return form_instance
