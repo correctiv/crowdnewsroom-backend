@@ -29,6 +29,7 @@ def _get_filter_params(kwargs, get_params):
     has_filter = get_params.get("has")
     tag_filter = get_params.get("tag")
     email_filter = get_params.get("email")
+    answer_filter = get_params.get("answer")
     assignee_filter = get_params.get("assignee")
     mapping = {
         "inbox": "S",
@@ -49,6 +50,9 @@ def _get_filter_params(kwargs, get_params):
 
     if assignee_filter:
         filter_params["assignees__email"] = assignee_filter
+
+    if answer_filter:
+        filter_params["json__icontains"] = answer_filter
 
     filter_params["status"] = mapping.get(bucket, "S")
     return filter_params
@@ -172,7 +176,7 @@ class FormResponseListView(InvestigationAuthMixin, BreadCrumbMixin, ListView):
         context['investigation'] = self.investigation
         context['form'] = self.form
 
-        allowed_params = ['has', 'tag', 'email', 'assignee']
+        allowed_params = ['has', 'tag', 'email', 'assignee', 'answer']
 
         context['query_params'] = '&'.join(['{}={}'.format(k, v)
                                             for k, v
