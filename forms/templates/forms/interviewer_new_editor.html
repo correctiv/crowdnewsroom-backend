@@ -42,15 +42,10 @@
                                     <h1 contenteditable
                                         @blur="ceEdit($event, activeSlide.schema, 'title')" @keydown.enter="cePressEnter($event, activeSlide.schema, 'title')"
                                         v-bind:key="activeSlide.schema.slug">
-                                      ${ activeSlide.schema.title }
+                                        ${ activeSlide.schema.title }
                                     </h1>
                                     <a class="button secondary small" href="#" v-on:click="fillTitle()" v-if="!hasTitle">Add a title</a>
-                                    <p class="lead" contenteditable
-                                    @blur="ceEdit($event, activeSlide.schema, 'description')" @keydown.enter="cePressEnter($event, activeSlide.schema, 'description')"
-                                    v-bind:key="activeSlide.schema.description"
-                                    >
-                                      ${ activeSlide.schema.description }
-                                    </p>
+                                    <ckeditor class="lead" type="inline" v-model="activeSlide.schema.description"></ckeditor>
                                     <a class="button secondary small" href="#" v-on:click="fillDescription()" v-if="!hasDescription">Add a description</a>
                                   </div>
                                 </div>
@@ -578,6 +573,7 @@
     <script src="/static/js/neweditor/vendor/jquery.js"></script>
     <script src="/static/js/neweditor/vendor/foundation.js"></script>
     <script src="/static/js/neweditor/vendor/vue.js"></script>
+    <script src="/static/js/neweditor/vendor/ckeditor-vue.js"></script>
     <script src="/static/js/neweditor/vendor/sortable.min.js"></script>
     <script src="/static/js/neweditor/vendor/vuedraggable.umd.min.js"></script>
     <script src="/static/js/neweditor/vendor/axios.js"></script>

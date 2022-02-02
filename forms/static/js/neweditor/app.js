@@ -1,7 +1,6 @@
 $(document).foundation();
 
 // Vue.http.options.emulateJSON = true;
-
 var defaultNewSlide = {
   schema: {
     title: "New slide",
@@ -36,6 +35,8 @@ var loadingSlide = {
   }]
 };
 
+
+
 var locationSafariHelp = `
 You may need to allow location access on your system settings before you can turn them on for Safari. To do this:
 
@@ -60,8 +61,13 @@ var vm = new Vue({
     postUrl: null,
     doneUrl: null,
   },
+  components: {
+    // Use the <ckeditor> component in this view.
+    ckeditor: CKEditor.component
+  },
   mounted: function() {
     this.getFormData();
+    var current_this = this
   },
   computed: {
     isFirstSlide: function() {
@@ -128,8 +134,6 @@ var vm = new Vue({
       return fields;
     }
   },
-
-
   methods: {
     getFormData : function () {
       // form_slug is given in the HTML template, and set in a <script> tag there
@@ -183,8 +187,7 @@ var vm = new Vue({
           }
         });
     },
-
-    removeSlide: function(ev, idx) {
+    removeSlide: function(ev, idx) {$
       ev.preventDefault();
       if (idx === 0) {
         this.activeSlide = this.slides[1];
@@ -214,9 +217,6 @@ var vm = new Vue({
       this.selectSlide(newSlide);
       this.cleanup();
     },
-
-
-
     correctFinalSlide: function() {
       for (var idx in this.slides) {
         var slide = this.slides[idx];
@@ -622,6 +622,16 @@ var vm = new Vue({
       this.ceEdit(ev, target, property);
       ev.target.blur();
     },
+    ckeSave: function() {
+      // press enter in ContentEditable element = save
+      // var value = ev.target.innerText.replace(/\n/g, ' ');
+      var value = $('.description').html()
+      console.log('Y')
+      target = this.activeSlide.schema
+
+      this.$set(target, 'description', value);
+      this.ckeInlineEditor()
+    },
     ceButtonEdit: function(ev, choice) {
       choice.label = ev.target.innerText;
     },
@@ -630,8 +640,6 @@ var vm = new Vue({
       choice.label = ev.target.innerText.replace(/\n/g, ' ');
       ev.target.blur();
     },
-
-
     buttonClicked: function(ev) {
       // this deals with the Space key firing the onClick event
       // we want it to add an actual space
