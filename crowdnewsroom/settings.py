@@ -115,7 +115,15 @@ LANGUAGE_CODE = 'de'
 LANGUAGES = [
     ('de', _('German')),
     ('en', _('English')),
+    ('da', _('Danish')),
+    ('id', _('Indonesian')),
     ('it', _('Italian')),
+    ('pt', _('Portuguese')),
+    ('ru', _('Russian')),
+    ('sr', _('Serbian')),
+    ('so', _('Somali')),
+    ('es', _('Spanish')),
+    ('tr', _('Turkish')),
 ]
 
 TIME_ZONE = 'UTC'
