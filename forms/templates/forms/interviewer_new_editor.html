@@ -399,7 +399,6 @@
                                         <option value="">Select one...</option>
                                         <option v-for="option in field.enum" value="option">${ option }</option>
                                       </select>
-
                                       <!-- Field options -->
                                       <div class="field-options grid-x grid-margin-x" v-show="field.slug == editingField">
                                         <h5 class="small-12 cell">Edit field</h5>
@@ -448,7 +447,6 @@
                                             <input :name="field.enumNames[1]" type="text" v-model="field.enumNames[1]" v-on:change="updateBooleanField($event, field.slug, 1)">
                                           </p>
                                         </div>
-
                                         <p class="small-12 medium-9 medium-offset-3 cell">
                                           <input type="checkbox" :checked="'required' in activeSlide.schema && activeSlide.schema.required.indexOf(field.slug) > -1" :name="field.slug + '-required'" v-on:change="setRequiredField($event)"><label :for="field.slug + '-required'">Required field?</label>
                                         </p>
@@ -458,6 +456,56 @@
                                       </div><!-- /.field-options -->
 
                                     </div><!-- /.slide-content -->
+                                    
+                                    <!-- Yes/No Redirect (button) -->
+                                    <div class="slide-content small-10 medium-8 cell" v-if="getFieldType(field) == 'answer'">
+                                      <label class="control-label" :for="field.slug"> 
+                                        ${ field.slug in uischema[activeSlide.schema.slug] && 'ui:question' in uischema[activeSlide.schema.slug][field.slug] ? uischema[activeSlide.schema.slug][field.slug]['ui:question'] : field.title }<span v-if="'required' in activeSlide.schema && activeSlide.schema.required.indexOf(field.slug) > -1">*</span>
+                                      </label>
+                                      <div class="yes-no-buttons">
+                                        <div class="buttons" v-for="option in field.items.enum">
+                                          <button class="button expanded" disabled :name="option" type="button">${ option.name }</button>
+                                        </div>
+                                      </div>
+                                      <div class="field-options grid-x grid-margin-x" v-show="field.slug == editingField">
+                                        <h5 class="small-12 cell">Edit field</h5>
+                                        <p class="small-12 medium-3 cell text-right">
+                                            <label class="middle" :for="field.slug + 'label'">Label</label>
+                                        </p>
+                                        <p class="small-12 medium-9 cell">
+                                            <input type="text" :name="field.slug + 'label'" v-model="field.title">
+                                            <span class="help-text" id="nameHelpText">The label to be shown next to this field and in the CSV.</span>
+                                        </p>
+                                        <p class="small-12 medium-3 cell text-right">
+                                            <label class="middle" :for="field.slug + 'question'">Question</label>
+                                        </p>
+                                        <p class="small-12 medium-9 cell">
+                                          <input type="text" :name="field.slug + 'question'" 
+                                                 :value="field.slug in uischema[activeSlide.schema.slug] && 'ui:question' in uischema[activeSlide.schema.slug][field.slug] ? uischema[activeSlide.schema.slug][field.slug]['ui:question'] : '' "
+                                                 v-on:change="setQuestion($event)">
+                                            <span class="help-text" id="nameHelpText">The question text to show in the conversational UI. If left blank, the label will be used as a question. Has no effect on simple forms. </span>
+                                        </p>
+                                        <p class="small-12 medium-3 cell text-right">
+                                          <label class="middle">Answers</label>
+                                        </p>
+                                        <div class="small-12 medium-9 cell">
+                                          <div v-for="(option, idx) in field.items.enum">
+                                            <div class="multiple-fields">
+                                              <input :name="'slide-title-' + field.items.enum[idx]['id']" type="text" v-model="field.items.enum[idx]['name']">
+                                              <select v-on:change="setRule(idx, $event)" :name="field.slug" v-model="field.items.enum[idx]['next_slide']">
+                                                <option value="">Select one...</option>
+                                                <option v-for="slide in slides" :value="slide.schema.slug">${ slide.schema.title }</option>
+                                              </select>
+                                              <i class="fi-x remove-field-option" v-on:click="removeAnswerOption(field, idx)"></i>
+                                            </div>
+                                          </div>
+                                          <p><a href="#" class="button hollow small" v-on:click="addAnswerOption(field)"><i class="fi-plus"></i> Add option</a></p>
+                                          <p class="small-12 cell text-right">
+                                            <a class="button secondary" href="#" v-on:click="editingField = null" v-show="editingField == field.slug">Done</a>
+                                          </p><!-- save slide-->
+                                        </div>
+                                      </div>
+                                    </div>
 
                                     <div class="field-actions small-1 medium-2 cell">
                                         <ul class="menu simple">
@@ -546,6 +594,10 @@
                                     <img src="/static/img/field-icons/location.png" alt="Location">
                                     <span>Location</span>
                                 </a></li>
+                                <li class="cell"><a class="button hollow" href="#" v-on:click="addAnswerField()" draggable="false" ondragstart="return false;">
+                                  <img src="/static/img/field-icons/yes-no.png" alt="Answer field">
+                                  <span>Answer</span>
+                              </a></li>
                             </ul>
                         </div>
                     </div><!-- /#slide-editor-menu -->

@@ -493,7 +493,8 @@ p.oneline {
 }
 
 .slide-field-edit .field-options input[type="text"],
-.slide-field-edit .field-options textarea {
+.slide-field-edit .field-options textarea,
+.slide-field-edit .field-options select {
     color: inherit;
     font-size: 85%;
     line-height: 1;
@@ -513,7 +514,8 @@ p.oneline {
     align-items: baseline;
 }
 
-.slide-field-edit .field-options .multiple-fields input {
+.slide-field-edit .field-options .multiple-fields input,
+.slide-field-edit .field-options .multiple-fields select {
     margin-right: 0.5rem;
 }
 

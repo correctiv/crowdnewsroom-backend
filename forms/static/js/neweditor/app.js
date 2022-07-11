@@ -15,10 +15,7 @@ var defaultNewSlide = {
     },
     nextButtonLabel: "This is the 'Next' button, click me to edit the text",
   },
-  rules: [{
-    event: "",
-    conditions: {}
-  }]
+  rules: []
 };
 
 var loadingSlide = {
@@ -29,10 +26,7 @@ var loadingSlide = {
     properties: {},
     //nextButtonLabel: "This is the 'Next' button, click me to edit the text",
   },
-  rules: [{
-    event: "",
-    conditions: {}
-  }]
+  rules: []
 };
 
 
@@ -146,6 +140,7 @@ var vm = new Vue({
           axios.get(vm.postUrl)
             .then(function (response) {
               formjson = response.data.results[0].form_json;
+
               vm.$set(vm.$data, 'slides', response.data.results[0].form_json);
 
               if (response.data.results[0].ui_schema_json) {
@@ -162,6 +157,7 @@ var vm = new Vue({
 
               vm.activeSlide = vm.slides[0];
               vm.$set(vm.$data, 'activeFieldKeys', Object.keys(vm.activeSlide.schema.properties));
+
               vm.cleanup();
             })
             .catch(function (error) {
@@ -174,6 +170,7 @@ var vm = new Vue({
       this.editingField = null;
       vm.cleanup();  // make sure everything is correct -.-
       var formData = new FormData(document.getElementById('editor-hidden-form'));
+      
       axios.post(this.postUrl, formData)
         .then(function (response) {
           if (response.status === 201) {
@@ -239,10 +236,14 @@ var vm = new Vue({
         }
         var nextSlide = this.slides[parseInt(idx) + 1];
         if (nextSlide) {
-          slide.rules = [{
-            event: nextSlide.schema.slug,
-            conditions: {}
-          }];
+          // if no rules exists
+          var exists = slide.rules.filter(item => item.event === nextSlide.schema.slug).length > 0;
+          if(!exists) {
+            slide.rules.push({
+              event: nextSlide.schema.slug,
+              conditions: {}
+            });
+          }
         }
       }
     },
@@ -392,6 +393,7 @@ var vm = new Vue({
     addField: function(slug, data, uischema) {
       // TODO: check if slug exists, change if it does
       slug = this.activeSlide.schema.slug + '-' + slug + '-' + (Math.floor(Math.random() * 900) + 100);
+
       this.$set(this.activeSlide.schema.properties, slug, data);
       this.uischema[this.activeSlide.schema.slug]['ui:order'].push(slug);
       // this.activeSlide.schema.ordering.push(slug);
@@ -446,7 +448,6 @@ var vm = new Vue({
       this.addField("yes-no", {
         type: "boolean",
         title: "Here's a question, do you agree?",
-        // enum: ["yes", "no"],
         enumNames: ["Yes", "No"],
       }, {"ui:widget": "buttonWidget"});
     },
@@ -464,7 +465,6 @@ var vm = new Vue({
         title: "Image upload",
       }, {'ui:widget': 'imageUpload'});
     },
-
     addCheckboxField: function() {
       this.addField("checkbox", {
         type: "array",
@@ -504,6 +504,37 @@ var vm = new Vue({
         title: "Your signature",
       }, {'ui:widget': 'signatureWidget'});
     },
+    addAnswerField: function(slug) {
+      this.addField("yes-no", {
+        type: "string",
+        title: "Here's a question, do you agree?",
+        items: {
+          type: "string",
+          enum: [
+            {"id":"0", "name": "Option 1", "next_slide": ""}, 
+            {"id":"1", "name": "Option 2", "next_slide": ""},
+            {"id":"2", "name": "Option 3", "next_slide": ""}
+          ]
+        },
+        uniqueItems: true,
+        slides: {}
+      }, {"ui:widget": "answerWidget"});
+
+      // define rules at top
+      slug = this.activeSlide.schema.slug + '-yes-no-' + (Math.floor(Math.random() * 900) + 100);
+
+      rule = {
+        "event": "",
+        "conditions": {
+          [slug]: {
+            "equal":""
+          }
+        }
+      }
+      this.slides[this.slides.indexOf(this.activeSlide)]['rules'].push(rule);
+      this.slides[this.slides.indexOf(this.activeSlide)]['rules'].push(rule);
+      this.slides[this.slides.indexOf(this.activeSlide)]['rules'].push(rule);
+    },
     addLocationField: function() {
       this.addField("location", {
         type: "string",
@@ -530,7 +561,18 @@ var vm = new Vue({
         field.enum.push('New option');
       }
     },
-
+    removeAnswerOption: function(field, idx) {
+      if ('items' in field) {
+        field.items.enum.splice(idx, 1);
+        this.slides[this.slides.indexOf(this.activeSlide)]['rules'].splice(idx+1, 1);
+      } else {
+        field.enum.splice(idx, 1);
+      }
+    },
+    addAnswerOption: function(field) {
+      var id = field.items.enum.length + 1;
+      field.items.enum.push({"id":id.toString(), "name": "Option " + id, "next_slide": ""});
+    },
     fillTitle: function() {
       this.$set(this.activeSlide.schema, 'title', "Click me to edit this title");
       // console.log(this.activeSlide.schema.title);
@@ -539,7 +581,6 @@ var vm = new Vue({
       this.$set(this.activeSlide.schema, 'description', "Click me to edit this description");
       // console.log(this.activeSlide.schema.description);
     },
-
     setRequiredField: function(ev) {
       // we already know the field being edited, so we just need to check the event state
       var slug = ev.target.name.replace('-required', '');
@@ -567,16 +608,23 @@ var vm = new Vue({
       if (!(slug in this.uischema[slideSlug])) {
         this.$set(this.uischema[slideSlug], slug, {});
       }
-      
+
       this.$set(this.uischema[slideSlug][slug], 'ui:question', val);
       this.$set(this.uischema[slideSlug][slug], 'ui:title', val);
+    },
+    setRule: function(idx,ev) {
+      this.$set(this.slides[this.slides.indexOf(this.activeSlide)].rules[idx], 'event', ev.target.value);
+      var condition = {
+        [ev.target.name]: { "equal": ev.target.value}
+      }
+      this.$set(this.slides[this.slides.indexOf(this.activeSlide)].rules[idx], 'conditions', condition);
     },
     setPattern: function(ev) {
       var slideSlug = this.activeSlide.schema.slug;
       var slug = ev.target.name.replace('pattern', '').replace('field_type', '');
       // create the 'ui:widget' property for this field in uischema if needed
 
-      if (!(slug in this.uischema[slideSlug])) {
+      if (!(slug in this.uischema[slidlug])) {
         this.$set(this.uischema[slideSlug], slug, {});
       }
       this.$set(this.uischema[slideSlug][slug], 'ui:widget', 'patternTypeTextInputWidget');
@@ -587,13 +635,14 @@ var vm = new Vue({
       if (field.type == 'boolean') { return 'boolean'; }
       if (field.type == 'integer' || field.type == 'number') { return 'number'; }
       if (field.type == 'array') { return 'checkboxes'; }
-
+      if (field.type == 'button') { return 'button'; }
       if (field.type == 'string') {
         if (field.format == 'email') { return 'email'; }
         if (field.format == 'date') { return 'date'; }
         if (this.getFieldWidget(field.slug) == 'textarea') { return 'longtext'; }
         if (this.getFieldWidget(field.slug) == 'signatureWidget') { return 'signature'; }
         if (this.getFieldWidget(field.slug) == 'locationWidget') { return 'location'; }
+        if (this.getFieldWidget(field.slug) == 'answerWidget') { return 'answer'; }
         if (this.getFieldWidget(field.slug) == 'radio') { return 'radio'; }
         if (this.getFieldWidget(field.slug) == 'patternTypeTextInputWidget') { return 'text'; }
         if (field.format == 'data-url') {
@@ -603,16 +652,14 @@ var vm = new Vue({
         if (field.enum && !this.getFieldWidget(field.slug)) { return 'dropdown'; }
         return 'text';
       }
-      console.log('Unrecognized field');
-      console.log(field);
       return '';
     },
 
     ceEdit: function(ev, target, property) {
       // edit ContentEditable element
       var value = ev.target.innerText.replace(/\n/g, ' ');
-      // console.log(value);
       this.$set(target, property, value);
+      console.log('YYYY');
       // console.log(this.activeSlide.schema.nextButtonLabel);
     },
     cePressEnter: function(ev, target, property) {
@@ -626,7 +673,6 @@ var vm = new Vue({
       // press enter in ContentEditable element = save
       // var value = ev.target.innerText.replace(/\n/g, ' ');
       var value = $('.description').html()
-      console.log('Y')
       target = this.activeSlide.schema
 
       this.$set(target, 'description', value);
