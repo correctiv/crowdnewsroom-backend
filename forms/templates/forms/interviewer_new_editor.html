@@ -18,11 +18,16 @@
   </head>
   <body>
         <div id="editor" class="grid-y medium-grid-frame">
-
             <section id="slide-editor" class="cell medium-auto medium-cell-block-container">
                 <div class="grid-x grid-padding-x">
                     <div id="slide-nav" class="cell medium-2 medium-cell-block-y">
                         <ul>
+                            <li class="slide-list-item grid-x">
+                              <div class="slide-options text-center cell small-3 medium-2"></div>
+                              <div class="cell small-9 medium-10">
+                                <a href="#" class="button small" v-on:click="toggleDetailTags(showAllDetailTags)">${ showAllDetailTags ? 'Hide' : 'Show' } all linked slides</a>
+                              </div>
+                            </li>
                             <draggable v-model="slides" handle=".slide-list-handle" @update="cleanup()">
                             <li class="slide-list-item grid-x" v-for="(slide, slideIdx) in slides"
                                 v-bind:class="{ active: slide == activeSlide }">
@@ -30,12 +35,31 @@
                                     <li><span class="slide-list-handle" aria-hidden="true"><i class="fi-list"></i> <em class="show-for-sr">move</em></span></li>
                                     <li><a href="#" aria-hidden="true" v-if="slides.length > 1" v-on:click="removeSlide($event, slideIdx)"><i class="fi-trash"></i> <em class="show-for-sr">delete</em></a></li>
                                 </ul>
-                                <a class="slide-thumbnail cell small-9 medium-10" href="#" v-on:click="selectSlide(slide)" draggable="false" ondragstart="return false;"><strong>${slide.schema.title}</strong></a>
+                                <div class="cell small-9 medium-10">
+                                  <a class="slide-thumbnail" href="#" v-on:click="selectSlide(slide)" draggable="false" ondragstart="return false;"><strong>${slide.schema.slide_title}</strong></a>
+                                  <div class="next-slides-wrapper" v-if="getNextSlides(slide)">
+                                    <details>  
+                                      <summary>linked slides</summary> 
+                                      <ul class="next-slides">
+                                        <li v-for="slide in getNextSlides(slide)">
+                                          <p class="next-slide-thumbnail" v-on:click="selectSlide(slide)"><i class="fi-eye"></i> ${ slide?.schema.slide_title }</p>
+                                        </li>
+                                      </ul>
+                                    </details>
+                                  </div>
+                              </div>
                             </li>
                             </draggable>
                         </ul>
                     </div><!-- /#slide-nav-->
                     <main id="slide-builder" class="cell medium-7 medium-cell-block-y" v-if="activeSlide">
+                            <div class="internal-title slide grid-container">
+                              <p contenteditable
+                                @blur="ceEdit($event, activeSlide.schema, 'slide_title')" @keydown.enter="cePressEnter($event, activeSlide.schema, 'slide_title')"
+                                v-bind:key="activeSlide.schema.slug">
+                                ${ activeSlide.schema.slide_title }
+                              </p>
+                            </div>
                             <div class="slide grid-container">
                                 <div class="slide-field slide-title grid-x grid-padding-x">
                                   <div class="slide-content small-10 small-offset-1 medium-8 medium-offset-2 text-center cell">
@@ -494,12 +518,24 @@
                                               <input :name="'slide-title-' + field.items.enum[idx]['id']" type="text" v-model="field.items.enum[idx]['name']">
                                               <select v-on:change="setRule(idx, $event)" :name="field.slug" v-model="field.items.enum[idx]['next_slide']">
                                                 <option value="">Select one...</option>
-                                                <option v-for="slide in slides" :value="slide.schema.slug">${ slide.schema.title }</option>
+                                                <option v-for="slide in slides" :value="slide.schema.slug" v-if="slide != activeSlide">${ slide?.schema.slide_title }</option>
                                               </select>
                                               <i class="fi-x remove-field-option" v-on:click="removeAnswerOption(field, idx)"></i>
                                             </div>
                                           </div>
-                                          <p><a href="#" class="button hollow small" v-on:click="addAnswerOption(field)"><i class="fi-plus"></i> Add option</a></p>
+                                          <div class="multiple-fields">
+                                            <p><a href="#" class="button hollow small" v-on:click="addAnswerOption(field)"><i class="fi-plus"></i> Add option</a></p>
+                                            <p class="show-modal"><a href="#" class="button small" v-on:click="new_slide_internal_title = 'Slide ' + (slides.length + 1); showModal = !showModal"><i class="fi-plus"></i> Generate a new slide</a></p>
+                                          </div>
+                                          <div class="modal" v-show="showModal == true">
+                                            <button class="close-button" v-on:click="showModal = !showModal" aria-label="Close modal" type="button">
+                                              <span aria-hidden="true">×</span>
+                                            </button>
+                                            <p><strong>Internal slide title</strong></p>
+                                            <p><input type="text" v-model="new_slide_internal_title"></p>
+                                            <p><a href="#" class="button small" v-on:click="addSlideWithoutSelecting($event)">Submit</a></p>
+                                          </div>
+                                          <div class="modal-overlay" v-show="showModal == true"></div>
                                           <p class="small-12 cell text-right">
                                             <a class="button secondary" href="#" v-on:click="editingField = null" v-show="editingField == field.slug">Done</a>
                                           </p><!-- save slide-->
@@ -516,18 +552,72 @@
                                         </ul>
                                     </div>
                                 </draggable>
-
                                 </div><!-- /.slide-field -->
-                                <div class="slide-navigation grid-x grid-padding-x">
-                                    <p class="small-10 small-offset-1 medium-8 medium-offset-2 cell text-right">
-                                        <a class="button hollow" href="#"
-                                           contenteditable @blur="ceEdit($event, activeSlide.schema, 'nextButtonLabel')" @keydown.enter="cePressEnter($event, activeSlide.schema, 'nextButtonLabel')"
-                                                                 >${ activeSlide.schema.nextButtonLabel }</a>
-
-                                    </p>
+                                <div class="slide-field grid-x grid-padding-x"
+                                  v-bind:class="{'slide-field-edit': editingNextButton}">
+                                  <div class="drag-slide small-1 medium-2 cell"></div>
+                                  <div class="slide-content small-10 medium-8 cell">
+                                    <div class="text-right">
+                                      <div class="button hollow" v-bind:class="{'disabled': activeSlide.schema.hideNextButton}">${ activeSlide.schema.nextButtonLabel }</div>
+                                    </div>
+                                    <div class="field-options grid-x grid-margin-x" v-show="editingNextButton">
+                                      <h5 class="small-12 cell">Edit next button</h5>
+                                      <p class="small-12 medium-3 cell text-right">
+                                          <label for="next-button-label" class="middle">Text</label>
+                                      </p>
+                                      <p class="small-12 medium-9 cell">
+                                          <input id="next-button-label" type="text" v-model="activeSlide.schema.nextButtonLabel">
+                                          <span class="help-text" id="nameHelpText">The text shown on next button.</span>
+                                      </p>
+                                      <p class="small-12 medium-3 cell text-right">
+                                        <label class="middle" for="next-slide-field">Next Slide</label>
+                                      </p>
+                                      <div class="small-12 medium-9 cell">
+                                        <select id="next-slide-field" v-on:change="setNextOwnStep($event)" v-model="activeSlide.schema.nextOwnStep">
+                                          <option v-for="slide in slides" :value="slide.schema.slug" v-if="slide !== activeSlide">${ slide.schema.slide_title }</option>
+                                        </select>
+                                        <span class="help-text" id="nameHelpText">Sets the next slide after clicking on next button.</span>
+                                        <div class="text-right">
+                                          <p class="show-modal"><a href="#" class="button small" v-on:click="showModal = !showModal"><i class="fi-plus"></i> Generate a new slide</a></p>
+                                        </div>
+                                          <div class="modal" v-show="showModal == true">
+                                          <button class="close-button" v-on:click="new_slide_internal_title = 'My Internal slide title'; showModal = !showModal" aria-label="Close modal" type="button">
+                                            <span aria-hidden="true">×</span>
+                                          </button>
+                                          <p><strong>Internal slide title</strong></p>
+                                          <p><input type="text" v-model="new_slide_internal_title"></p>
+                                          <p><a href="#" class="button small" v-on:click="addSlideWithoutSelecting($event)">Submit</a></p>
+                                        </div>
+                                        <div class="modal-overlay" v-show="showModal == true"></div>
+                                      </div>
+                                      <p class="small-12 medium-9 medium-offset-3 cell">
+                                        <input type="checkbox" :checked="activeSlide.schema.hideNextButton" name="hide-next-button" id="hide-next-button" v-on:change="setHideNextButton(!activeSlide.schema.hideNextButton)">
+                                        <label for="hide-next-button">Hide next Button?</label>
+                                      </p>
+                                      <p class="small-12 cell text-right">
+                                        <a class="button secondary" href="#" v-on:click="editingNextButton = false" v-show="editingNextButton">Done</a>
+                                      </p><!-- save slide-->
+                                    </div>
+                                  </div>
+                                  <div class="field-actions small-1 medium-2 cell">
+                                    <ul class="menu simple">
+                                        <li><i class="fi-pencil" v-on:click="editingNextButton = !editingNextButton" v-show="!editingNextButton"></i></li><!-- edit slide-->
+                                    </ul>
                                 </div>
-                      </div><!-- /.slide -->
+
+                                </div>
+
+                        
+                                
+                          </div><!-- /.slide -->
+                      
                     </main><!-- /#slide-builder -->
+
+
+
+                    
+
+
                     <div id="slide-editor-menu" class="cell medium-3 medium-cell-block-y">
                         <div class="grid-container">
                             <!--

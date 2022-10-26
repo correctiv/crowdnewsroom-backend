@@ -5,8 +5,10 @@ from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError
-from django.http import Http404, HttpResponse
+from django.http import (Http404, HttpResponse, HttpResponseRedirect)
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
@@ -58,6 +60,7 @@ class InvestigationDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class FormInstanceSerializer(ModelSerializer):
+    form_status = serializers.CharField(source='form.status', required=False)
     class Meta:
         model = FormInstance
         fields = (
@@ -66,6 +69,7 @@ class FormInstanceSerializer(ModelSerializer):
             "ui_schema_json",
             "version",
             "form",
+            "form_status",
             "priority_fields",
             "email_template",
             "email_template_html",
@@ -74,7 +78,7 @@ class FormInstanceSerializer(ModelSerializer):
             "language_choices",
             "redirect_url_template"
         )
-        read_only_fields = ("form", "version")
+        read_only_fields = ("form", "version",)
 
     def create(self, validated_data, *args, **kwargs):
         view = self.context.get("view")
@@ -567,6 +571,68 @@ class FormCreate(generics.CreateAPIView):
     permission_classes = (
         IsAuthenticated, InvestigationObjectManagePermissions)
 
+
+class FormDuplicate(generics.CreateAPIView):
+    permission_classes = (
+        IsAuthenticated, InvestigationObjectManagePermissions)
+
+    def create(self, request, *args, **kwargs):
+        investigation_slug = self.kwargs.get(
+            "investigation_slug")
+        form_slug = self.kwargs.get(
+            "form_slug")
+        
+        investigation = get_object_or_404(
+            Investigation, slug=investigation_slug)
+
+        form = get_object_or_404(
+            Form, slug=form_slug, investigation=investigation)
+
+        form_instance = FormInstance.objects.filter(
+            form = form).last()
+
+        # copy form
+        form.pk = None
+
+        hash = str(uuid.uuid4())[:8]
+        form.slug = form.slug + '-' + hash
+        form.save()
+
+        # copy form instance and set new form
+        form_instance.pk = None
+        form_instance.form = form
+        form_instance.version = 1
+        form_instance.save()
+
+        return HttpResponseRedirect(reverse("form_list", kwargs={"investigation_slug": kwargs["investigation_slug"]}))
+
+
+class FormChangeStatus(generics.CreateAPIView):
+    permission_classes = (
+        IsAuthenticated, InvestigationObjectManagePermissions)
+
+    def create(self, request, *args, **kwargs):
+        investigation_slug = self.kwargs.get(
+            "investigation_slug")
+
+        form_slug = self.kwargs.get(
+            "form_slug")
+
+        investigation = get_object_or_404(
+            Investigation, slug=investigation_slug)
+
+        form = get_object_or_404(
+            Form, slug=form_slug, investigation=investigation)
+
+        # change form status
+        if form.status == 'P':
+            form.status = 'A'
+        elif form.status == 'A':
+            form.status = 'P'
+
+        form.save()
+
+        return HttpResponseRedirect(reverse("form_list", kwargs={"investigation_slug": kwargs["investigation_slug"]}))
 
 class FormDetails(generics.RetrieveUpdateAPIView):
     serializer_class = FormSerializer
