@@ -17,13 +17,15 @@
     {% endif %}
     <div class="bx--structured-list">
         <div class="bx--structured-list-tbody">
-
             {% for form in form_list %}
                 <div class="bx--structured-list-row">
                     <div class="bx--structured-list-td">
                         <div class="cnr--list-header">
-                            <h3 class="cnr--list-header__title">
+                            <h3 class="cnr--list-header__title{% if form.status == 'A' %} cnr--list-header__title_offline{% endif %}">
                                 <a href="{% url 'form_responses' investigation.slug form.slug 'inbox' %}">{{ form }}</a>
+                                {% if form.status == 'A' %}
+                                <span>({% trans "Archived" %})</span>
+                                {% endif %}
                             </h3>
                             <div class="cnr--list-header__actions">
                                 {% if user_can_admin_investigation %}
@@ -32,6 +34,31 @@
                                 {% endif %}
                                 <a class="bx--btn bx--btn--primary"
                                    href="{% url 'form_responses' investigation.slug form.slug 'inbox' %}">{% trans "Responses" %}</a>
+                                {% if user_can_admin_investigation or request.user.is_superuser %}
+                                <div class="bx--btn bx--btn--secondary cnr--forms-list-menu" data-overflow-menu tabindex="0">
+                                    <span>...</span>
+                                    <ul class="bx--overflow-menu-options bx--overflow-forms-list-menu-options bx--overflow-menu--flip" tabindex="-1">
+                                        <li class="bx--overflow-menu-options__option">
+                                            <form action="{% url 'interviewers_duplicate' investigation_slug=investigation.slug form_slug=form.slug %}" method="POST">
+                                                {% csrf_token %}
+                                                <button class="bx--overflow-menu-options__btn">{% trans "Duplicate" %}</button>
+                                            </form>
+                                        </li>
+                                        {% if form.status == 'A' or form.status == 'P' %}
+                                        <li class="bx--overflow-menu-options__option">
+                                            <form action="{% url 'interviewers_change_status' investigation_slug=investigation.slug form_slug=form.slug %}" method="POST">
+                                                {% csrf_token %}
+                                                {% if form.status == 'A' %}
+                                                <button class="bx--overflow-menu-options__btn">{% trans "Publish" %}</button>
+                                                {% else %}
+                                                <button class="bx--overflow-menu-options__btn">{% trans "Archive" %}</button>
+                                                {% endif %}
+                                            </form>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
