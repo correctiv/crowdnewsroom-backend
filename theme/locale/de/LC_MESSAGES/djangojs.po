@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-09 13:43+0000\n"
+"POT-Creation-Date: 2022-10-24 13:15+0000\n"
 "PO-Revision-Date: 2018-08-09 15:13+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,128 +30,171 @@ msgstr "Verifiziert"
 msgid "Trash"
 msgstr "Papierkorb"
 
-#: theme/src/scripts/bucketPicker.jsx:67
+#: theme/src/scripts/bucketPicker.jsx:75
 msgid "Status updated"
 msgstr "Status aktualisiert"
 
-#: theme/src/scripts/bucketPicker.jsx:69
+#: theme/src/scripts/bucketPicker.jsx:77
 msgid "close this notification"
 msgstr "Diese Benachrichtigung schließen"
 
-#: theme/src/scripts/form-details.jsx:66
+#: theme/src/scripts/form-details.jsx:69
 #: theme/src/scripts/investigation-details.jsx:151
 msgid "Something went wrong. Please check the form fields for details."
 msgstr ""
 "Da ist etwas schief gelaufen. Weitere Informationen finden Sie in den "
 "Formularfeldern."
 
-#: theme/src/scripts/form-details.jsx:73
+#: theme/src/scripts/form-details.jsx:77
 msgid "Successfully updated form."
 msgstr "Formular erfolgreich aktualisiert."
 
-#: theme/src/scripts/form-details.jsx:106
-#: theme/src/scripts/investigation-details.jsx:209
-msgid "The slug can only contain lowercase letters and hyphens (-)"
+#: theme/src/scripts/form-details.jsx:115
+#: theme/src/scripts/investigation-details.jsx:207
+#, fuzzy
+#| msgid "The slug can only contain lowercase letters and hyphens (-)"
+msgid ""
+"The slug can only contain lowercase letters, numbers and hyphens (-) and "
+"should start with a letter"
 msgstr ""
 "Der URL-Name darf nur aus Kleinbuchstaben und Bindestrichen (-) bestehen."
 
-#: theme/src/scripts/form-details.jsx:110
+#: theme/src/scripts/form-details.jsx:120
 msgid "New Interviewer"
 msgstr "Neuer Fragebogen"
 
-#: theme/src/scripts/form-details.jsx:113
+#: theme/src/scripts/form-details.jsx:123
 msgid "Interviewer title"
 msgstr "Name des Fragebogens"
 
-#: theme/src/scripts/form-details.jsx:121
-#: theme/src/scripts/investigation-details.jsx:226
+#: theme/src/scripts/form-details.jsx:131
+#: theme/src/scripts/investigation-details.jsx:224
 msgid "URL of the form"
 msgstr "Formular-URL"
 
-#: theme/src/scripts/form-details.jsx:129
+#: theme/src/scripts/form-details.jsx:140
 msgid "Choose and continue"
 msgstr "Wählen und weiter"
 
-#: theme/src/scripts/form-management.jsx:25
+#: theme/src/scripts/form-management.jsx:32
 msgid "Basics"
 msgstr "Grundlagen"
 
-#: theme/src/scripts/form-management.jsx:26
+#: theme/src/scripts/form-management.jsx:36
 msgid "Interviewer"
 msgstr "Fragebogen"
 
-#: theme/src/scripts/form-response-details.jsx:16
+#: theme/src/scripts/form-management.jsx:41
+msgid "Settings"
+msgstr ""
+
+#: theme/src/scripts/form-response-details.jsx:24
 msgid "Add or delete ownership"
 msgstr "Manager ändern"
 
-#: theme/src/scripts/form-response-details.jsx:24
+#: theme/src/scripts/form-response-details.jsx:36
 msgid "Add or delete tag"
 msgstr "Markierung ändern"
 
-#: theme/src/scripts/forminstance-details.jsx:87
-msgid "You can check below how your form is looking and behaving now."
-msgstr "Sie können unten überprüfen, wie ihr Fragebogen zur Zeit aussieht."
+#: theme/src/scripts/forminstance-details.jsx:128
+#, fuzzy
+#| msgid "New Interviewer"
+msgid "Open in Interview Editor"
+msgstr "Neuer Fragebogen"
 
-#: theme/src/scripts/forminstance-details.jsx:93
+#: theme/src/scripts/forminstance-details.jsx:129
 msgid ""
-"If you would like to tweak it, you can either contact CORRECTIV to make "
-"changes for you or you can enable expert mode."
+"You can edit the questions and other details in our interactive editor. If "
+"you run into problems, contact Correctiv for help with customising your "
+"interviewer."
 msgstr ""
-"Wenn Sie ihn gerne bearbeiten würden, kontaktieren Sie entweder CORRECTIV "
-"oder wechseln Sie in den Expertenmodus."
 
-#: theme/src/scripts/forminstance-details.jsx:98
-msgid "Contact CORRECTIV for customization"
-msgstr "CORRECTIV für Anpassungen kontaktieren"
-
-#: theme/src/scripts/forminstance-details.jsx:102
+#: theme/src/scripts/forminstance-details.jsx:131
 msgid "Edit in expert mode"
 msgstr "Im Expertenmodus bearbeiten"
 
-#: theme/src/scripts/forminstance-details.jsx:164
+#: theme/src/scripts/forminstance-details.jsx:132
+msgid ""
+"As this is a complex form, it can only be edited in the Expert mode editor. "
+"If you run into problems, contact Correctiv for help with customising your "
+"interviewer."
+msgstr ""
+
+#: theme/src/scripts/forminstance-details.jsx:144
+#, fuzzy
+#| msgid "Interviewer"
+msgid "Your Interviewer"
+msgstr "Fragebogen"
+
+#: theme/src/scripts/forminstance-details.jsx:147
+msgid "See your interviewer in action"
+msgstr ""
+
+#: theme/src/scripts/forminstance-details.jsx:155
+msgid "You can check below how your form is looking and behaving now."
+msgstr "Sie können unten überprüfen, wie ihr Fragebogen zur Zeit aussieht."
+
+#: theme/src/scripts/forminstance-details.jsx:179
+msgid "Contact CORRECTIV for customization"
+msgstr "CORRECTIV für Anpassungen kontaktieren"
+
+#: theme/src/scripts/forminstance-details.jsx:243
 msgid "Interviewer steps and settings"
 msgstr "Fragebogen Schritte und Einstellungen"
 
-#: theme/src/scripts/forminstance-details.jsx:168
+#: theme/src/scripts/forminstance-details.jsx:247
 msgid "Form JSON"
 msgstr "Fragebogen JSON"
 
-#: theme/src/scripts/forminstance-details.jsx:175
+#: theme/src/scripts/forminstance-details.jsx:254
 msgid "UI-Schema"
 msgstr "UI-Schema"
 
-#: theme/src/scripts/forminstance-details.jsx:182
+#: theme/src/scripts/forminstance-details.jsx:261
 msgid "Fields to be shown on top for editors"
 msgstr "Felder, die für die Redakteure oben angezeigt werden"
 
-#: theme/src/scripts/forminstance-details.jsx:187
-msgid "Email confirmation messages"
-msgstr "E-Mail-Bestätigunstext"
-
-#: theme/src/scripts/forminstance-details.jsx:190
-msgid "Email Template"
-msgstr "E-Mail Vorlage"
-
-#: theme/src/scripts/forminstance-details.jsx:197
-msgid "HTML Email Template"
-msgstr "HTML E-Mail Vorlage"
-
-#: theme/src/scripts/forminstance-details.jsx:203
-msgid "URL to redirect after submission"
-msgstr "Weiterleitungs-URL"
-
-#: theme/src/scripts/forminstance-details.jsx:206
-msgid "Redirect URL Template"
-msgstr "Weiterleitungs-URL-Vorlage"
-
-#: theme/src/scripts/forminstance-details.jsx:212
+#: theme/src/scripts/forminstance-details.jsx:267
 msgid "Cancel"
 msgstr ""
 
-#: theme/src/scripts/forminstance-details.jsx:213
-#: theme/src/scripts/investigation-details.jsx:283
+#: theme/src/scripts/forminstance-details.jsx:269
+#: theme/src/scripts/forminstance-settings.jsx:79
+#: theme/src/scripts/investigation-details.jsx:281
 msgid "Save"
 msgstr "Speichern"
+
+#: theme/src/scripts/forminstance-settings.jsx:41
+msgid "Email confirmation messages"
+msgstr "E-Mail-Bestätigunstext"
+
+#: theme/src/scripts/forminstance-settings.jsx:44
+msgid "Email Template"
+msgstr "E-Mail Vorlage"
+
+#: theme/src/scripts/forminstance-settings.jsx:51
+msgid "HTML Email Template"
+msgstr "HTML E-Mail Vorlage"
+
+#: theme/src/scripts/forminstance-settings.jsx:57
+msgid "URL to redirect after submission"
+msgstr "Weiterleitungs-URL"
+
+#: theme/src/scripts/forminstance-settings.jsx:60
+msgid "Redirect URL Template"
+msgstr "Weiterleitungs-URL-Vorlage"
+
+#: theme/src/scripts/forminstance-settings.jsx:66
+msgid "Internationalization"
+msgstr ""
+
+#: theme/src/scripts/forminstance-settings.jsx:69
+msgid "Language"
+msgstr ""
+
+#: theme/src/scripts/forminstance-settings.jsx:146
+msgid "Please create an interviewer first."
+msgstr ""
 
 #: theme/src/scripts/investigation-details.jsx:44
 msgid "Pick color"
@@ -161,40 +204,40 @@ msgstr "Farbe auswählen"
 msgid "Successfully updated investigation."
 msgstr "Recherche erfolgreich aktualisiert."
 
-#: theme/src/scripts/investigation-details.jsx:215
+#: theme/src/scripts/investigation-details.jsx:213
 msgid "Name of your Investigation"
 msgstr "Name der Recherche"
 
-#: theme/src/scripts/investigation-details.jsx:218
-#: theme/src/scripts/investigation-tags.jsx:127
+#: theme/src/scripts/investigation-details.jsx:216
+#: theme/src/scripts/investigation-tags.jsx:125
 msgid "Name"
 msgstr "Name"
 
-#: theme/src/scripts/investigation-details.jsx:235
+#: theme/src/scripts/investigation-details.jsx:233
 msgid "Description"
 msgstr "Beschreibung"
 
-#: theme/src/scripts/investigation-details.jsx:238
+#: theme/src/scripts/investigation-details.jsx:236
 msgid "Short Description"
 msgstr "Kurzbeschreibung"
 
-#: theme/src/scripts/investigation-details.jsx:244
+#: theme/src/scripts/investigation-details.jsx:242
 msgid "Data Privacy URL"
 msgstr "Datenschutz-URL"
 
-#: theme/src/scripts/investigation-details.jsx:252
+#: theme/src/scripts/investigation-details.jsx:250
 msgid "Visual Design"
 msgstr "Aussehen"
 
-#: theme/src/scripts/investigation-details.jsx:262
+#: theme/src/scripts/investigation-details.jsx:260
 msgid "Logo"
 msgstr "Logo"
 
-#: theme/src/scripts/investigation-details.jsx:263
+#: theme/src/scripts/investigation-details.jsx:261
 msgid "Choose file"
 msgstr "Datei auswählen"
 
-#: theme/src/scripts/investigation-details.jsx:278
+#: theme/src/scripts/investigation-details.jsx:276
 msgid "Brand Color"
 msgstr "Farbe"
 
@@ -210,60 +253,60 @@ msgstr "Nutzer"
 msgid "Tags"
 msgstr "Markierungen"
 
-#: theme/src/scripts/investigation-tags.jsx:51
+#: theme/src/scripts/investigation-tags.jsx:53
 msgid "save"
 msgstr "speichern"
 
-#: theme/src/scripts/investigation-tags.jsx:58
+#: theme/src/scripts/investigation-tags.jsx:60
 msgid "edit"
 msgstr "bearbeiten"
 
-#: theme/src/scripts/investigation-tags.jsx:65
+#: theme/src/scripts/investigation-tags.jsx:68
 msgid "delete"
 msgstr "löschen"
 
-#: theme/src/scripts/investigation-tags.jsx:131
+#: theme/src/scripts/investigation-tags.jsx:129
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: theme/src/scripts/investigation-users.jsx:33
-#: theme/src/scripts/investigation-users.jsx:294
+#: theme/src/scripts/investigation-users.jsx:31
+#: theme/src/scripts/investigation-users.jsx:374
 msgid "Admin"
 msgstr "Administrator"
 
-#: theme/src/scripts/investigation-users.jsx:34
-#: theme/src/scripts/investigation-users.jsx:297
+#: theme/src/scripts/investigation-users.jsx:32
+#: theme/src/scripts/investigation-users.jsx:381
 msgid "Editor"
 msgstr "Redakteur"
 
-#: theme/src/scripts/investigation-users.jsx:35
-#: theme/src/scripts/investigation-users.jsx:300
+#: theme/src/scripts/investigation-users.jsx:33
+#: theme/src/scripts/investigation-users.jsx:388
 msgid "Viewer"
 msgstr "Betrachter"
 
-#: theme/src/scripts/investigation-users.jsx:161
+#: theme/src/scripts/investigation-users.jsx:192
 msgid "Invite"
 msgstr "Einladen"
 
-#: theme/src/scripts/investigation-users.jsx:165
+#: theme/src/scripts/investigation-users.jsx:197
 msgid "Enter the email of the collaborator you would like to invite."
 msgstr ""
 "Geben Sie die E-Mail-Adresse des Team-Mitglieds ein, das Sie einladen "
 "möchten."
 
-#: theme/src/scripts/investigation-users.jsx:265
+#: theme/src/scripts/investigation-users.jsx:326
 msgid "First name"
 msgstr "Vorname"
 
-#: theme/src/scripts/investigation-users.jsx:266
+#: theme/src/scripts/investigation-users.jsx:327
 msgid "Last Name"
 msgstr "Nachname"
 
-#: theme/src/scripts/investigation-users.jsx:267
+#: theme/src/scripts/investigation-users.jsx:328
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: theme/src/scripts/investigation-users.jsx:270
+#: theme/src/scripts/investigation-users.jsx:334
 msgid ""
 "Invite members of your team to help contribute to your investigation by "
 "assigning them specific permissions."
@@ -271,7 +314,7 @@ msgstr ""
 "Laden Sie Team-Mitglieder zu Ihrer Recherche ein. Sie können jedem Nutzer "
 "spezifische Rechte zuweisen."
 
-#: theme/src/scripts/investigation-users.jsx:271
+#: theme/src/scripts/investigation-users.jsx:337
 msgid ""
 "Each collaborator will be able to access your project through their own "
 "Crowdnewsroom account."
@@ -279,7 +322,7 @@ msgstr ""
 "Jedes Team-Mitglied wird mit seinem Account auf ihre Recherche zugreifen "
 "können."
 
-#: theme/src/scripts/investigation-users.jsx:272
+#: theme/src/scripts/investigation-users.jsx:340
 msgid ""
 "As the creator, you remain ultimately responsible for your project and for "
 "your team's interactions with contributors."
@@ -287,7 +330,7 @@ msgstr ""
 "Als Besitzer bleiben Sie ultimativ für Ihre Recherche und die Interaktion "
 "Ihres Teams mit den Teilnehmenden verantwortlich."
 
-#: theme/src/scripts/investigation-users.jsx:273
+#: theme/src/scripts/investigation-users.jsx:343
 msgid ""
 "Pick collaborators that you trust and that will do a good job working with "
 "your community."
@@ -295,35 +338,42 @@ msgstr ""
 "Wählen Sie Mitglieder aus, denen Sie vertrauen und die gut mit Ihrer "
 "Community arbeiten werden."
 
-#: theme/src/scripts/investigation-users.jsx:274
+#: theme/src/scripts/investigation-users.jsx:345
 msgid "Have questions about how this works? Visit our FAQ."
 msgstr "Haben Sie weitere Fragen? Besuchen sie unser FAQ."
 
-#: theme/src/scripts/investigation-users.jsx:278
+#: theme/src/scripts/investigation-users.jsx:349
 msgid "Invite a new Collaborator"
 msgstr "Team-Mitglieder einladen"
 
-#: theme/src/scripts/investigation-users.jsx:283
+#: theme/src/scripts/investigation-users.jsx:357
 msgid "Manage the collaborators"
 msgstr "Team-Mitglieder bearbeiten"
 
-#: theme/src/scripts/investigation-users.jsx:295
+#: theme/src/scripts/investigation-users.jsx:377
 msgid ""
 "An admin can manage the investigation settings page and the collaborators"
 msgstr "Ein Admin kann eine Recherche und die Team-Mitglieder bearbeiten"
 
-#: theme/src/scripts/investigation-users.jsx:298
+#: theme/src/scripts/investigation-users.jsx:384
 msgid ""
 "The editor can see everything about the data collected via this investigation"
 msgstr ""
 "Ein Redakteur kann die in der Recherche gesammelten Informationen sehen"
 
-#: theme/src/scripts/investigation-users.jsx:301
+#: theme/src/scripts/investigation-users.jsx:391
 msgid ""
 "A viewer can see the data collected via this investigation but is not able "
 "to modify; to sort it or to download it"
 msgstr ""
 "Ein Betrachter kann die Daten aus einer Recherche sehen aber nicht bearbeiten"
+
+#~ msgid ""
+#~ "If you would like to tweak it, you can either contact CORRECTIV to make "
+#~ "changes for you or you can enable expert mode."
+#~ msgstr ""
+#~ "Wenn Sie ihn gerne bearbeiten würden, kontaktieren Sie entweder CORRECTIV "
+#~ "oder wechseln Sie in den Expertenmodus."
 
 #~ msgid "Submit"
 #~ msgstr "Absenden"

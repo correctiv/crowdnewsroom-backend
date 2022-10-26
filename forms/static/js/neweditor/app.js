@@ -3,6 +3,7 @@ $(document).foundation();
 // Vue.http.options.emulateJSON = true;
 var defaultNewSlide = {
   schema: {
+    slide_title: "Slide ",
     title: "New slide",
     description: "I'm a new slide, fill me!",
     slug: "new-slide",
@@ -13,9 +14,13 @@ var defaultNewSlide = {
         title: "New field"
       },
     },
-    nextButtonLabel: "This is the 'Next' button, click me to edit the text",
+    nextButtonLabel: "Next",
+    hideNextButton: false,
+    nextOwnStep: "",
+    editingNextButton: false,
+    showAllDetailTags: false,
   },
-  rules: []
+  rules: [],
 };
 
 var loadingSlide = {
@@ -54,6 +59,10 @@ var vm = new Vue({
     formId: null,
     postUrl: null,
     doneUrl: null,
+    showModal: false,
+    new_slide_internal_title: 'Slide',
+    editingNextButton: false,
+    showAllDetailTags: false,
   },
   components: {
     // Use the <ckeditor> component in this view.
@@ -61,7 +70,7 @@ var vm = new Vue({
   },
   mounted: function() {
     this.getFormData();
-    var current_this = this
+    var current_this = this;
   },
   computed: {
     isFirstSlide: function() {
@@ -186,6 +195,7 @@ var vm = new Vue({
     },
     removeSlide: function(ev, idx) {$
       ev.preventDefault();
+      var deleteSlide = this.slides[idx].schema.slug 
       if (idx === 0) {
         this.activeSlide = this.slides[1];
       } else {
@@ -197,17 +207,53 @@ var vm = new Vue({
         delete this.uischema['ui:order'][slug];
       }
       this.slides.splice(idx, 1);
+      this.correctNextSlides(deleteSlide);
       this.cleanup();
     },
-    addSlide: function(ev) {
+    addSlideWithoutSelecting(ev) {
       ev.preventDefault();
       // make a deep copy of the default new slide
       var newSlide = JSON.parse(JSON.stringify( defaultNewSlide ));
       var slideSlug = 'slide-' + (Math.floor(Math.random() * 900) + 100);
       newSlide.schema.slug = slideSlug;
+      newSlide.schema.slide_title = defaultNewSlide.schema.slide_title + (this.slides.length + 1).toString()
       for (var prop in newSlide.schema.properties) {
         newSlide.schema.properties[newSlide.schema.slug + '-' + prop] = newSlide.schema.properties[prop];
         delete newSlide.schema.properties[prop];
+      }
+      try {
+        if(!this.slides.slice(-1)[0].schema.nextOwnStep && !this.activeSlide.schema.hideNextButton) {
+          this.$set(this.slides.slice(-1)[0].schema, 'nextOwnStep', newSlide.schema.slug);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      this.slides.push(newSlide);
+      this.$set(this.uischema, slideSlug, {'ui:order': Object.keys(newSlide.schema.properties)});
+      this.cleanup();
+      this.showModal = false;
+      this.new_slide_internal_title = 'Slide ' + (this.slides.length + 1);
+    },
+    addSlide: function(ev, ) {
+      ev.preventDefault();
+      // make a deep copy of the default new slide
+      // set new slide title, count all slides
+      
+      var newSlide = JSON.parse(JSON.stringify( defaultNewSlide ));
+
+      var slideSlug = 'slide-' + (Math.floor(Math.random() * 900) + 100);
+      newSlide.schema.slug = slideSlug;
+      newSlide.schema.slide_title = defaultNewSlide.schema.slide_title + (this.slides.length + 1).toString()
+      for (var prop in newSlide.schema.properties) {
+        newSlide.schema.properties[newSlide.schema.slug + '-' + prop] = newSlide.schema.properties[prop];
+        delete newSlide.schema.properties[prop];
+      }
+      try {
+        if(!this.slides.slice(-1)[0].schema.nextOwnStep && !this.activeSlide.schema.hideNextButton) {
+          this.$set(this.slides.slice(-1)[0].schema, 'nextOwnStep', newSlide.schema.slug);
+        }
+      } catch (error) {
+        console.error(error);
       }
       this.slides.push(newSlide);
       this.$set(this.uischema, slideSlug, {'ui:order': Object.keys(newSlide.schema.properties)});
@@ -277,6 +323,20 @@ var vm = new Vue({
       this.correctFinalSlide();
       this.correctConditions();
       this.correctMissingProperties();
+    },
+    correctNextSlides: function(deletedSlide) {
+      for (var id in this.slides) {
+        var slide = this.slides[id];
+        if (slide.schema.nextOwnStep == deletedSlide) {
+          try {
+            this.$set(this.slides[id].schema, 'nextOwnStep', this.slides[id + 1].schema.slug);
+            this.$set(this.slides[id].schema, 'nextStep', this.slides[id + 1].schema.slug);
+          } catch (error) {
+            this.$set(this.slides[id].schema, 'nextOwnStep', this.slides[this.slides.length - 1].schema.slug);
+            this.$set(this.slides[id].schema, 'nextStep', this.slides[this.slides.length - 1].schema.slug);
+          }
+        }
+      }
     },
     removeField: function(ev, fieldName) {
       ev.preventDefault();
@@ -357,8 +417,48 @@ var vm = new Vue({
 
       this.$set(this.$data, 'uischema', new_o);
     },
-
+    getNextSlides: function(sidebarSlide) {
+      // check if next slide is choosen
+      var nextStepSlug = sidebarSlide.schema.nextOwnStep;
+      if(nextStepSlug && !sidebarSlide.schema.hideNextButton) {
+        try {
+          var result = this.slides.find(function( slide ) {
+            if (slide.schema.slug === nextStepSlug) {
+              return slide.schema.slide_title;
+            }
+          });
+          return [result];
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        // if no next slide was choosen, check for answer widget
+        for (var widget in sidebarSlide.schema.properties) {
+          widget_obj = sidebarSlide.schema.properties[widget];
+          try {
+            // if answer widget get the new slide attributs and pushed to nextslidesarray
+            if (widget_obj.items.enum) {
+              var nextSlidesArray = [];
+              for (var nextSlides in widget_obj.items.enum) {
+                var result = this.slides.find(function( slide ) {
+                  if (slide.schema.slug === widget_obj.items.enum[nextSlides].next_slide) {
+                    return slide.schema.slide_title;
+                  }
+                });
+                if (result) {
+                  nextSlidesArray.push(result);
+                }
+              }
+              return nextSlidesArray;
+            }
+          } catch (error) {
+            
+          }
+        }
+      }
+    },
     selectSlide: function(slide) {
+      this.$set(this.$data, 'editingNextButton', false);
       this.$set(this.$data, 'activeSlide', slide);
     },
     selectSlideByTitle: function(slideTitle) {
@@ -375,7 +475,13 @@ var vm = new Vue({
       var slide = this.slides[this.slides.indexOf(this.activeSlide) + 1];
       this.$set(this.$data, 'activeSlide', slide);
     },
-
+    toggleDetailTags: function(showAllDetailTags) {
+      const allDetails = document.querySelectorAll("details");
+      this.$set(this.$data, 'showAllDetailTags', !showAllDetailTags);
+      allDetails.forEach((details) => {
+        details.open = !showAllDetailTags
+      })
+    },
     getFieldWidget: function(fieldName) {
       // if a specific widget is specified in the UI Schema, return its name
       if (!(this.activeSlide.schema.slug in this.uischema)) {
@@ -581,6 +687,13 @@ var vm = new Vue({
       this.$set(this.activeSlide.schema, 'description', "Click me to edit this description");
       // console.log(this.activeSlide.schema.description);
     },
+    setHideNextButton: function(val) {
+      this.$set(this.activeSlide.schema, 'hideNextButton', val);
+      // console.log(this.activeSlide.schema.description);
+    },
+    setNextOwnStep: function(val) {
+      this.$set(this.activeSlide.schema, 'nextStep', val.target.value);
+    },
     setRequiredField: function(ev) {
       // we already know the field being edited, so we just need to check the event state
       var slug = ev.target.name.replace('-required', '');
@@ -617,6 +730,7 @@ var vm = new Vue({
       var condition = {
         [ev.target.name]: { "equal": ev.target.value}
       }
+      console.log(condition);
       this.$set(this.slides[this.slides.indexOf(this.activeSlide)].rules[idx], 'conditions', condition);
     },
     setPattern: function(ev) {
@@ -659,7 +773,6 @@ var vm = new Vue({
       // edit ContentEditable element
       var value = ev.target.innerText.replace(/\n/g, ' ');
       this.$set(target, property, value);
-      console.log('YYYY');
       // console.log(this.activeSlide.schema.nextButtonLabel);
     },
     cePressEnter: function(ev, target, property) {
