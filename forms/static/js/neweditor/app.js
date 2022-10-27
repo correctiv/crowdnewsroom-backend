@@ -322,7 +322,16 @@ var vm = new Vue({
     cleanup: function() {
       this.correctFinalSlide();
       this.correctConditions();
+      this.setInternalSlideTitles();
       this.correctMissingProperties();
+    },
+    setInternalSlideTitles: function() {
+      for (var id in this.slides) {
+        console.log(this.slides[id].schema.slide_title);
+        if (this.slides[id].schema.slide_title === '' || this.slides[id].schema.slide_title === 'undefined') {
+          this.$set(this.slides[id].schema, 'slide_title', 'Internal slide title');
+        }
+      }
     },
     correctNextSlides: function(deletedSlide) {
       for (var id in this.slides) {
