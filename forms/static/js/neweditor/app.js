@@ -328,7 +328,7 @@ var vm = new Vue({
     setInternalSlideTitles: function() {
       for (var id in this.slides) {
         console.log(this.slides[id].schema.slide_title);
-        if (this.slides[id].schema.slide_title === '' || this.slides[id].schema.slide_title === 'undefined') {
+        if (this.slides[id].schema.slide_title === '' || this.slides[id].schema.slide_title === undefined) {
           this.$set(this.slides[id].schema, 'slide_title', 'Internal slide title');
         }
       }
