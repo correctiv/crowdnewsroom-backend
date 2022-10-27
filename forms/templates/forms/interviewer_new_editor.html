@@ -54,12 +54,10 @@
                     </div><!-- /#slide-nav-->
                     <main id="slide-builder" class="cell medium-7 medium-cell-block-y" v-if="activeSlide">
                             <div class="internal-title slide grid-container">
-                              test
-                              ${ activeSlide?.schema.slide_title !== '' ? activeSlide?.schema.slide_title : 'Internal slide title' }
                               <p contenteditable
                                 @blur="ceEdit($event, activeSlide.schema, 'slide_title')" @keydown.enter="cePressEnter($event, activeSlide.schema, 'slide_title')"
                                 v-bind:key="activeSlide.schema.slug">
-                                ${ activeSlide.schema.slide_title !== '' ? activeSlide.schema.slide_title : 'Internal slide title' }
+                                ${ activeSlide.schema.slide_title }
                               </p>
                             </div>
                             <div class="slide grid-container">
