@@ -36,7 +36,7 @@
                                     <li><a href="#" aria-hidden="true" v-if="slides.length > 1" v-on:click="removeSlide($event, slideIdx)"><i class="fi-trash"></i> <em class="show-for-sr">delete</em></a></li>
                                 </ul>
                                 <div class="cell small-9 medium-10">
-                                  <a class="slide-thumbnail" href="#" v-on:click="selectSlide(slide)" draggable="false" ondragstart="return false;"><strong>${slide.schema.slide_title}</strong></a>
+                                  <a class="slide-thumbnail" href="#" v-on:click="selectSlide(slide)" draggable="false" ondragstart="return false;"><strong>${ activeSlide.schema.slide_title ? activeSlide.schema.slide_title : 'Internal slide title' }</strong></a>
                                   <div class="next-slides-wrapper" v-if="getNextSlides(slide)">
                                     <details>  
                                       <summary>linked slides</summary> 
@@ -57,7 +57,7 @@
                               <p contenteditable
                                 @blur="ceEdit($event, activeSlide.schema, 'slide_title')" @keydown.enter="cePressEnter($event, activeSlide.schema, 'slide_title')"
                                 v-bind:key="activeSlide.schema.slug">
-                                ${ activeSlide.schema.slide_title }
+                                ${ activeSlide.schema.slide_title ? activeSlide.schema.slide_title : 'Internal slide title' }
                               </p>
                             </div>
                             <div class="slide grid-container">
