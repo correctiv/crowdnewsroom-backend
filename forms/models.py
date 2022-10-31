@@ -374,6 +374,7 @@ class FormResponse(models.Model):
                                    key=self._priority_order)
 
         for name, props in sorted_properties:
+            
             title = props.get("question") or flat_ui_schema.get(name, {}).get("ui:question", name)
             if not title or name == title:
                 title = props.get("title") or flat_ui_schema.get(name, {}).get("ui:title", name)
@@ -381,6 +382,7 @@ class FormResponse(models.Model):
                 title = name
             row = {"title": title, "label":props.get("title"), "json_name": name,
                    "data_type": props.get("type")}
+
             if (flat_ui_schema.get(name, dict()).get("ui:widget") ==
                     "signatureWidget" or props.get("format") == "data-url"):
                 if form_data.get(name):
@@ -411,9 +413,16 @@ class FormResponse(models.Model):
             elif props.get("type") == "boolean":
                 row["type"] = "text"
                 row["value"] = _("Yes") if form_data.get(name) else _("No")
+            elif 'yes-no' in props.get("slug"):
+                row["type"] = "yes-no"
+                row["value"] = form_data.get(name, "")
+                for prop in props['items']['enum']:
+                    if prop['next_slide'] == row["value"]:
+                        row["value"] = prop['name']
             else:
                 row["type"] = "text"
                 row["value"] = form_data.get(name, "")
+
             yield row
 
     @property
