@@ -64,6 +64,9 @@
                       <button class="cnr--inline-edit__button">edit</button>
                     {% endif %}
                   {% endif %}
+                  {% if entry.type == "yes-no" %}
+                  {{ entry.value }}
+                  {% endif %}
                   {% if entry.type == "link" %}
                     <a href="{{entry.value}}" target="_blank">Download</a>
                   {% endif %}
