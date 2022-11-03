@@ -74,7 +74,7 @@
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
     "jsoneditor-react": "^0.1.9",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "noty": "^3.2.0-beta",
     "optimize-css-assets-webpack-plugin": "^4.0.3",
     "prettier": "^1.15.2",
