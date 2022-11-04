@@ -94,6 +94,35 @@ python manage.py test --exclude-tag browsertest
 
 For CORRECTIV deployment, there is currently no frontend build task on the server. So when working on the `/theme/` js & css, build it with `yarn build` and check in the bundles.
 
+## Create and Run Docker image
+
+### Build Docker image
+
+`docker build --no-cache -t crowdnewsroom .` to build the image.
+
+The image contains the following tasks:
+
+- install dependencies for python
+- install dependencies for frontend
+- run frontend build
+- install python web server uwsgi
+
+The default command when starting a container from the build image also generates the languages and messages.
+The static files are moved to the public folder, and the public folder is exposed as a volume.
+Port 8000 is the exposed Port of the web application.
+
+Start the container with `docker run --rm -it -p 8000:8000 -e DJANGO_ALLOWED_HOSTS="*" -e DJANGO_SECRET_KEY=some_secret` for example.
+
+To have a full running crowdnewsroom, the following steps are required:
+
+- build the image as explained above
+- start a local postgres server (if you have not already one setup) with `docker run --name crowdnewsroom-db -e POSTGRES_PASSWORD=crowdnewsroom -e POSTGRES_USER=crowdnewsroom -e POSTGRES_DB=crowdnewsroom postgres`
+- migrate database with `docker run --rm -it -e DJANGO_ALLOWED_HOSTS="*" -e DJANGO_SECRET_KEY=some_secret --link crowdnewsroom-db -e DATABASE_URL=postgres://crowdnewsroom:crowdnewsroom@crowdnewsroom-db:5432/crowdnewsroom crowdnewsroom python manage.py migrate`
+- seed database with `docker run --rm -it -e DJANGO_ALLOWED_HOSTS="*" -e DJANGO_SECRET_KEY=some_secret --link crowdnewsroom-db -e DATABASE_URL=postgres://crowdnewsroom:crowdnewsroom@crowdnewsroom-db:5432/crowdnewsroom crowdnewsroom python manage.py seed_data`
+- create superuser with `docker run --rm -it -e DJANGO_ALLOWED_HOSTS="*" -e DJANGO_SECRET_KEY=some_secret --link crowdnewsroom-db -e DATABASE_URL=postgres://crowdnewsroom:crowdnewsroom@crowdnewsroom-db:5432/crowdnewsroom crowdnewsroom python manage.py createsuperuser`
+- run web application with ` docker run --rm -it -p 8000:8000 -e DJANGO_ALLOWED_HOSTS="*" -e DJANGO_SECRET_KEY=some_secret --link crowdnewsroom-db -e DATABASE_URL=postgres://crowdnewsroom:crowdnewsroom@crowdnewsroom-db:5432/crowdnewsroom crowdnewsroom`
+- open http://0.0.0.0:8000 in your browser
+
 ## About
 This project uses [BrowserStack](https://www.browserstack.com/) for cross-browser testing and [Crowdin](https://crowdin.com) for translations. Cheers to these tools to support non-profit and Open Source initiatives.
 

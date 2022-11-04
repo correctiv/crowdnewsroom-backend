@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-31 10:42+0000\n"
+"POT-Creation-Date: 2022-10-24 15:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,218 +18,235 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:17
+#: forms/admin.py:17
 msgid "Personal info"
 msgstr ""
 
-#: admin.py:18
+#: forms/admin.py:18
 msgid "Permissions"
 msgstr ""
 
-#: admin.py:20
+#: forms/admin.py:20
 msgid "Important dates"
 msgstr ""
 
-#: admin_views.py:74 admin_views.py:96 admin_views.py:130 admin_views.py:234
-#: admin_views.py:474 admin_views.py:487 admin_views.py:507
+#: forms/admin_views.py:74 forms/admin_views.py:96 forms/admin_views.py:130
+#: forms/admin_views.py:234 forms/admin_views.py:474 forms/admin_views.py:487
+#: forms/admin_views.py:507
 msgid "Investigations"
 msgstr ""
 
-#: admin_views.py:158
+#: forms/admin_views.py:158
 msgid "No one contributed to your investigation yet. Time to advertise!"
 msgstr ""
 
-#: admin_views.py:166
+#: forms/admin_views.py:166
 msgid ""
 "There are no results using your current filters. Maybe try something else?"
 msgstr ""
 
-#: admin_views.py:169
+#: forms/admin_views.py:169
 msgid ""
 "There are no results in this bucket yet. Start moving some from the inbox."
 msgstr ""
 
-#: admin_views.py:172
+#: forms/admin_views.py:172
 msgid "Looks like you verified or deleted all contributions. Good work!"
 msgstr ""
 
-#: admin_views.py:488
+#: forms/admin_views.py:488
 msgid "New Investigation"
 msgstr ""
 
-#: admin_views.py:500
+#: forms/admin_views.py:500
 msgid "New Form"
 msgstr ""
 
-#: forms.py:13
+#: forms/forms.py:13
 msgid "Add a comment"
 msgstr ""
 
-#: models.py:30 models.py:232
+#: forms/models.py:30 forms/models.py:232
 msgid "Draft"
 msgstr ""
 
-#: models.py:31 models.py:234
+#: forms/models.py:31 forms/models.py:234
 msgid "Published"
 msgstr ""
 
-#: models.py:32 models.py:236
+#: forms/models.py:32 forms/models.py:236
+#: forms/templates/forms/form_list.html:27
 msgid "Archived"
 msgstr ""
 
-#: models.py:62
+#: forms/models.py:62
 msgid "Manage investigation"
 msgstr ""
 
-#: models.py:63
+#: forms/models.py:63
 msgid "Admin investigation"
 msgstr ""
 
-#: models.py:64
+#: forms/models.py:64
 msgid "Delete investigation and manage owners"
 msgstr ""
 
-#: models.py:125
+#: forms/models.py:125
 msgid "Owner"
 msgstr ""
 
-#: models.py:126
+#: forms/models.py:126
 msgid "Admin"
 msgstr ""
 
-#: models.py:127
+#: forms/models.py:127
 msgid "Editor"
 msgstr ""
 
-#: models.py:128
+#: forms/models.py:128
 msgid "Viewer"
 msgstr ""
 
-#: models.py:204
+#: forms/models.py:204
 msgid "email address"
 msgstr ""
 
-#: models.py:233
+#: forms/models.py:233
 msgid "Unlisted"
 msgstr ""
 
-#: models.py:235
+#: forms/models.py:235
 msgid "Closed"
 msgstr ""
 
-#: models.py:284 models.py:286 models.py:535 models.py:537
+#: forms/models.py:284 forms/models.py:286 forms/models.py:535
+#: forms/models.py:537
 msgid "Thank you for participating in a crowdnewsroom investigation!"
 msgstr ""
 
-#: models.py:327
+#: forms/models.py:327
 msgid "Submitted"
 msgstr "Inbox"
 
-#: models.py:328 templates/forms/formresponse_list.html:27
-#: templates/forms/formresponse_list.html:178
+#: forms/models.py:328 forms/templates/forms/formresponse_list.html:27
+#: forms/templates/forms/formresponse_list.html:178
 msgid "Verified"
 msgstr ""
 
-#: models.py:329
+#: forms/models.py:329
 msgid "Invalid"
 msgstr "Trash"
 
-#: models.py:342
+#: forms/models.py:342
 msgid "Edit response"
 msgstr ""
 
-#: models.py:413
+#: forms/models.py:413
 msgid "Yes"
 msgstr ""
 
-#: models.py:413
+#: forms/models.py:413
 msgid "No"
 msgstr ""
 
-#: models.py:430
+#: forms/models.py:430
 msgid "<File>"
 msgstr ""
 
-#: models.py:485
+#: forms/models.py:485
 msgid "Thank you for your submission!"
 msgstr ""
 
-#: models.py:512
+#: forms/models.py:512
 msgid "You have been invited to join the {} investigation"
 msgstr ""
 
-#: templates/forms/form_list.html:6
+#: forms/templates/forms/form_list.html:6
 msgid "Forms for investigation"
 msgstr ""
 
-#: templates/forms/form_list.html:14
+#: forms/templates/forms/form_list.html:14
 msgid "Add a new interviewer"
 msgstr ""
 
-#: templates/forms/form_list.html:31 templates/forms/investigation_list.html:27
+#: forms/templates/forms/form_list.html:33
+#: forms/templates/forms/investigation_list.html:27
 msgid "Settings"
 msgstr ""
 
-#: templates/forms/form_list.html:34 templates/forms/formresponse_list.html:8
-#: templates/forms/formresponse_list.html:195
+#: forms/templates/forms/form_list.html:36
+#: forms/templates/forms/formresponse_list.html:8
+#: forms/templates/forms/formresponse_list.html:195
 msgid "Responses"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:7
-#: templates/forms/formresponse_detail.html:8
+#: forms/templates/forms/form_list.html:44
+msgid "Duplicate"
+msgstr ""
+
+#: forms/templates/forms/form_list.html:52
+msgid "Publish"
+msgstr ""
+
+#: forms/templates/forms/form_list.html:54
+msgid "Archive"
+msgstr ""
+
+#: forms/templates/forms/formresponse_detail.html:7
+#: forms/templates/forms/formresponse_detail.html:8
 msgid "Submission Details"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:20
+#: forms/templates/forms/formresponse_detail.html:20
 msgid "Manage Tags"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:24
+#: forms/templates/forms/formresponse_detail.html:24
 msgid "Manage Ownership"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:28
+#: forms/templates/forms/formresponse_detail.html:28
 msgid "Manage Bucket"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:36
+#: forms/templates/forms/formresponse_detail.html:36
 msgid "View details"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:41
+#: forms/templates/forms/formresponse_detail.html:41
 msgid "Question"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:42
+#: forms/templates/forms/formresponse_detail.html:42
 msgid "Answer"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:80
-#: templates/forms/formresponse_list.html:209
+#: forms/templates/forms/formresponse_detail.html:80
+#: forms/templates/forms/formresponse_list.html:209
 msgid "Comments"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:90
+#: forms/templates/forms/formresponse_detail.html:90
 msgid "edit"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:92
+#: forms/templates/forms/formresponse_detail.html:92
 msgid "delete"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:97
+#: forms/templates/forms/formresponse_detail.html:97
 msgid "Delete comment"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:121
+#: forms/templates/forms/formresponse_detail.html:121
 msgid "edit comment"
 msgstr ""
 
-#: templates/forms/formresponse_detail.html:139
+#: forms/templates/forms/formresponse_detail.html:139
 msgid "add comment"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:10
+#: forms/templates/forms/formresponse_list.html:10
 #, python-format
 msgid ""
 "\n"
@@ -237,146 +254,146 @@ msgid ""
 "    "
 msgstr ""
 
-#: templates/forms/formresponse_list.html:18
+#: forms/templates/forms/formresponse_list.html:18
 msgid "Switch bucket"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:22
-#: templates/forms/formresponse_list.html:175
+#: forms/templates/forms/formresponse_list.html:22
+#: forms/templates/forms/formresponse_list.html:175
 msgid "Inbox"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:32
-#: templates/forms/formresponse_list.html:181
+#: forms/templates/forms/formresponse_list.html:32
+#: forms/templates/forms/formresponse_list.html:181
 msgid "Trash"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:40
+#: forms/templates/forms/formresponse_list.html:40
 msgid "Filter"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:42
+#: forms/templates/forms/formresponse_list.html:42
 msgid "clear all filters"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:54
+#: forms/templates/forms/formresponse_list.html:54
 msgid "Search by email"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:60
-#: templates/forms/formresponse_list.html:63
+#: forms/templates/forms/formresponse_list.html:60
+#: forms/templates/forms/formresponse_list.html:63
 msgid "Field"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:77
-#: templates/forms/formresponse_list.html:80
+#: forms/templates/forms/formresponse_list.html:77
+#: forms/templates/forms/formresponse_list.html:80
 msgid "Assignee"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:95
-#: templates/forms/formresponse_list.html:98
+#: forms/templates/forms/formresponse_list.html:95
+#: forms/templates/forms/formresponse_list.html:98
 msgid "Tag"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:124
+#: forms/templates/forms/formresponse_list.html:124
 msgid "Search by answer"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:140
+#: forms/templates/forms/formresponse_list.html:140
 msgid "Apply tag"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:147
+#: forms/templates/forms/formresponse_list.html:147
 msgid "Clear tags"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:155
+#: forms/templates/forms/formresponse_list.html:155
 msgid "Apply assignee"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:162
+#: forms/templates/forms/formresponse_list.html:162
 msgid "Clear assignees"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:170
+#: forms/templates/forms/formresponse_list.html:170
 msgid "Move to"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:190
+#: forms/templates/forms/formresponse_list.html:190
 msgid "Apply to COUNT submission(s)"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:207
+#: forms/templates/forms/formresponse_list.html:207
 msgid "Email"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:208
+#: forms/templates/forms/formresponse_list.html:208
 msgid "Submission Date"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:210
+#: forms/templates/forms/formresponse_list.html:210
 msgid "Ownership"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:228
+#: forms/templates/forms/formresponse_list.html:228
 msgid "No Email Provided"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:259
-#: templates/forms/formresponse_list.html:264
+#: forms/templates/forms/formresponse_list.html:259
+#: forms/templates/forms/formresponse_list.html:264
 msgid "of"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:260
+#: forms/templates/forms/formresponse_list.html:260
 msgid "items"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:265
+#: forms/templates/forms/formresponse_list.html:265
 msgid "pages"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:268
+#: forms/templates/forms/formresponse_list.html:268
 msgid "Backward button"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:278
+#: forms/templates/forms/formresponse_list.html:278
 msgid "Page number input"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:280
+#: forms/templates/forms/formresponse_list.html:280
 msgid "Number of items per page"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:294
+#: forms/templates/forms/formresponse_list.html:294
 msgid "Forward button"
 msgstr ""
 
-#: templates/forms/formresponse_list.html:309
+#: forms/templates/forms/formresponse_list.html:309
 msgid "Download data as csv"
 msgstr ""
 
-#: templates/forms/interviewer_new.html:5
+#: forms/templates/forms/interviewer_new.html:5
 msgid "Manage Interviewers"
 msgstr ""
 
-#: templates/forms/interviewer_new.html:6
+#: forms/templates/forms/interviewer_new.html:6
 msgid "Add and configure your interviewer"
 msgstr ""
 
-#: templates/forms/investigation_details.html:5
-#: templates/forms/investigation_details.html:6
+#: forms/templates/forms/investigation_details.html:5
+#: forms/templates/forms/investigation_details.html:6
 msgid "Manage Investigation"
 msgstr ""
 
-#: templates/forms/investigation_list.html:9
+#: forms/templates/forms/investigation_list.html:9
 msgid "Your Investigations"
 msgstr ""
 
-#: templates/forms/investigation_list.html:30
+#: forms/templates/forms/investigation_list.html:30
 msgid "Interviewers"
 msgstr ""
 
-#: templates/forms/investigation_list.html:37
+#: forms/templates/forms/investigation_list.html:37
 #, python-format
 msgid ""
 "\n"
@@ -389,7 +406,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/forms/investigation_list.html:44
+#: forms/templates/forms/investigation_list.html:44
 #, python-format
 msgid ""
 "\n"
@@ -402,7 +419,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/forms/investigation_list.html:51
+#: forms/templates/forms/investigation_list.html:51
 #, python-format
 msgid ""
 "\n"
@@ -415,189 +432,190 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/forms/investigation_list.html:67
+#: forms/templates/forms/investigation_list.html:67
 msgid "Leave investigation"
 msgstr ""
 
-#: templates/forms/investigation_users.html:6
+#: forms/templates/forms/investigation_users.html:6
 msgid "User Management"
 msgstr ""
 
-#: templates/forms/user_settings.html:7
+#: forms/templates/forms/user_settings.html:7
 msgid "Your Settings"
 msgstr ""
 
-#: templates/forms/user_settings.html:12
+#: forms/templates/forms/user_settings.html:12
 msgid "Language"
 msgstr ""
 
-#: templates/forms/user_settings.html:24
+#: forms/templates/forms/user_settings.html:24
 msgid "set language"
 msgstr ""
 
-#: templates/invitation_email.txt:3
+#: forms/templates/invitation_email.txt:3
 msgid "Dear CNR User,"
 msgstr ""
 
-#: templates/invitation_email.txt:5
+#: forms/templates/invitation_email.txt:5
 #, python-format
 msgid ""
 "\n"
 "you have been invited to join the %(name)s investigation.\n"
 msgstr ""
 
-#: templates/invitation_email.txt:9
+#: forms/templates/invitation_email.txt:9
 msgid ""
 "\n"
 "Log into the the crowndewsroom at https://admin.crowdnewsroom.org to join "
 "the investigation.\n"
 msgstr ""
 
-#: templates/invitation_email.txt:13
+#: forms/templates/invitation_email.txt:13
 msgid "Have a nice day."
 msgstr ""
 
-#: templates/invitation_email.txt:15
+#: forms/templates/invitation_email.txt:15
 msgid "The Crowndewsroom team"
 msgstr ""
 
-#: templates/registration/login.html:4 templates/registration/login.html:5
-#: templates/registration/login.html:41
-#: templates/registration/password_reset_complete.html:10
+#: forms/templates/registration/login.html:4
+#: forms/templates/registration/login.html:5
+#: forms/templates/registration/login.html:41
+#: forms/templates/registration/password_reset_complete.html:10
 msgid "Login"
 msgstr ""
 
-#: templates/registration/login.html:26
-#: templates/registration/password_reset_form.html:27
+#: forms/templates/registration/login.html:26
+#: forms/templates/registration/password_reset_form.html:27
 msgid "E-mail address"
 msgstr ""
 
-#: templates/registration/login.html:35
+#: forms/templates/registration/login.html:35
 msgid "Password"
 msgstr ""
 
-#: templates/registration/login.html:45
+#: forms/templates/registration/login.html:45
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/registration/password_change_done.html:9
+#: forms/templates/registration/password_change_done.html:9
 msgid "Your password was changed."
 msgstr ""
 
-#: templates/registration/password_change_form.html:16
-#: templates/registration/password_reset_confirm.html:13
+#: forms/templates/registration/password_change_form.html:16
+#: forms/templates/registration/password_reset_confirm.html:13
 msgid "Please enter and confirm your password."
 msgstr ""
 
-#: templates/registration/password_change_form.html:18
-#: templates/registration/password_reset_confirm.html:15
+#: forms/templates/registration/password_change_form.html:18
+#: forms/templates/registration/password_reset_confirm.html:15
 msgid "Please enter and confirm your new password."
 msgstr ""
 
-#: templates/registration/password_change_form.html:42
+#: forms/templates/registration/password_change_form.html:42
 msgid "Old password"
 msgstr ""
 
-#: templates/registration/password_change_form.html:51
-#: templates/registration/password_reset_confirm.html:36
+#: forms/templates/registration/password_change_form.html:51
+#: forms/templates/registration/password_reset_confirm.html:36
 msgid "New password"
 msgstr ""
 
-#: templates/registration/password_change_form.html:60
-#: templates/registration/password_reset_confirm.html:45
+#: forms/templates/registration/password_change_form.html:60
+#: forms/templates/registration/password_reset_confirm.html:45
 msgid "New password confirmation"
 msgstr ""
 
-#: templates/registration/password_change_form.html:72
-#: templates/registration/password_reset_confirm.html:57
-#: templates/registration/password_reset_form.html:38
+#: forms/templates/registration/password_change_form.html:72
+#: forms/templates/registration/password_reset_confirm.html:57
+#: forms/templates/registration/password_reset_form.html:38
 #, fuzzy
 #| msgid "Submitted"
 msgid "Submit"
 msgstr "Inbox"
 
-#: templates/registration/password_change_form.html:78
-#: templates/registration/password_reset_confirm.html:63
+#: forms/templates/registration/password_change_form.html:78
+#: forms/templates/registration/password_reset_confirm.html:63
 msgid "Your password can't be too similar to your other personal information."
 msgstr ""
 
-#: templates/registration/password_change_form.html:79
-#: templates/registration/password_reset_confirm.html:64
+#: forms/templates/registration/password_change_form.html:79
+#: forms/templates/registration/password_reset_confirm.html:64
 msgid "Your password must contain at least 8 characters."
 msgstr ""
 
-#: templates/registration/password_change_form.html:80
-#: templates/registration/password_reset_confirm.html:65
+#: forms/templates/registration/password_change_form.html:80
+#: forms/templates/registration/password_reset_confirm.html:65
 msgid "Your password can't be a commonly used password."
 msgstr ""
 
-#: templates/registration/password_change_form.html:81
-#: templates/registration/password_reset_confirm.html:66
+#: forms/templates/registration/password_change_form.html:81
+#: forms/templates/registration/password_reset_confirm.html:66
 msgid "Your password can't be entirely numeric."
 msgstr ""
 
-#: templates/registration/password_reset_complete.html:4
-#: templates/registration/password_reset_complete.html:5
+#: forms/templates/registration/password_reset_complete.html:4
+#: forms/templates/registration/password_reset_complete.html:5
 msgid "Account created"
 msgstr ""
 
-#: templates/registration/password_reset_complete.html:9
+#: forms/templates/registration/password_reset_complete.html:9
 msgid ""
 "Your account has been created successfully. Login to access to your "
 "investigations."
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html:76
+#: forms/templates/registration/password_reset_confirm.html:76
 msgid "Your password token is expired."
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html:81
+#: forms/templates/registration/password_reset_confirm.html:81
 msgid "Please reset your password again"
 msgstr ""
 
-#: templates/registration/password_reset_done.html:4
-#: templates/registration/password_reset_done.html:5
+#: forms/templates/registration/password_reset_done.html:4
+#: forms/templates/registration/password_reset_done.html:5
 msgid "Password Reset Done"
 msgstr ""
 
-#: templates/registration/password_reset_done.html:9
+#: forms/templates/registration/password_reset_done.html:9
 msgid ""
 "Check your email inbox. We've emailed you instructions for setting your "
 "password. You should receive the email shortly!"
 msgstr ""
 
-#: templates/registration/password_reset_form.html:4
-#: templates/registration/password_reset_form.html:5
+#: forms/templates/registration/password_reset_form.html:4
+#: forms/templates/registration/password_reset_form.html:5
 msgid "Password Reset"
 msgstr ""
 
-#: templates/registration/password_reset_form.html:42
+#: forms/templates/registration/password_reset_form.html:42
 msgid "Instructions to change your password will be sent to you."
 msgstr ""
 
-#: templates/registration/set_initial_password_email.html:2
+#: forms/templates/registration/set_initial_password_email.html:2
 #, python-format
 msgid ""
 "You have been invited to join the Crowdnewsroom Project at %(site_name)s."
 msgstr ""
 
-#: templates/registration/set_initial_password_email.html:4
+#: forms/templates/registration/set_initial_password_email.html:4
 msgid "Please go to the following page and choose a new password:"
 msgstr ""
 
-#: templates/registration/set_initial_password_email.html:8
+#: forms/templates/registration/set_initial_password_email.html:8
 msgid "Your username is:"
 msgstr ""
 
-#: templates/registration/set_initial_password_email.html:10
+#: forms/templates/registration/set_initial_password_email.html:10
 msgid "Thanks for using our site!"
 msgstr ""
 
-#: templates/registration/set_initial_password_email.html:12
+#: forms/templates/registration/set_initial_password_email.html:12
 #, python-format
 msgid "The %(site_name)s team"
 msgstr ""
 
-#: templates/registration/set_initial_password_subject.txt:1
+#: forms/templates/registration/set_initial_password_subject.txt:1
 msgid "You have been invited to join the Crowdnewsroom"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-09 14:02+0200\n"
+"POT-Creation-Date: 2022-10-24 15:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,4 +24,40 @@ msgstr ""
 
 #: crowdnewsroom/settings.py:117
 msgid "English"
+msgstr ""
+
+#: crowdnewsroom/settings.py:118
+msgid "Danish"
+msgstr ""
+
+#: crowdnewsroom/settings.py:119
+msgid "Indonesian"
+msgstr ""
+
+#: crowdnewsroom/settings.py:120
+msgid "Italian"
+msgstr ""
+
+#: crowdnewsroom/settings.py:121
+msgid "Portuguese"
+msgstr ""
+
+#: crowdnewsroom/settings.py:122
+msgid "Russian"
+msgstr ""
+
+#: crowdnewsroom/settings.py:123
+msgid "Serbian"
+msgstr ""
+
+#: crowdnewsroom/settings.py:124
+msgid "Somali"
+msgstr ""
+
+#: crowdnewsroom/settings.py:125
+msgid "Spanish"
+msgstr ""
+
+#: crowdnewsroom/settings.py:126
+msgid "Turkish"
 msgstr ""
