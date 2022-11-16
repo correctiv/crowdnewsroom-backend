@@ -413,12 +413,16 @@ class FormResponse(models.Model):
             elif props.get("type") == "boolean":
                 row["type"] = "text"
                 row["value"] = _("Yes") if form_data.get(name) else _("No")
-            elif 'yes-no' in props.get("slug"):
-                row["type"] = "yes-no"
-                row["value"] = form_data.get(name, "")
-                for prop in props['items']['enum']:
-                    if prop['next_slide'] == row["value"]:
-                        row["value"] = prop['name']
+            elif props.get("slug"):
+                if 'yes-no' in props.get("slug"):
+                    row["type"] = "yes-no"
+                    row["value"] = form_data.get(name, "")
+                    for prop in props['items']['enum']:
+                        if prop['next_slide'] == row["value"]:
+                            row["value"] = prop['name']
+                else:
+                    row["type"] = "text"
+                    row["value"] = form_data.get(name, "")
             else:
                 row["type"] = "text"
                 row["value"] = form_data.get(name, "")
