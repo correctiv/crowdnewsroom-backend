@@ -80,7 +80,7 @@ urlpatterns = [
          InvestigationView.as_view(), name="admin_investigation"),
     path('admin/investigations/<slug:investigation_slug>/forms/',
          FormListView.as_view(), name="form_list"),
-    path('admin/investigations/<slug:investigation_slug>/interviewers/',
+    path('admin/investigations/<slug:investigation_slug>/interviewers',
          InterviewerView.as_view(), name="admin_interviewer_new"),
     path('admin/investigations/<slug:investigation_slug>/interviewers/<slug:form_slug>',
          InterviewerView.as_view(), name="admin_interviewer_edit"),
