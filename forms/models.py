@@ -241,7 +241,7 @@ class Form(models.Model, UniqueSlugMixin):
     status = models.CharField(max_length=1, choices=STATUSES, default='D')
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
     is_simple = models.BooleanField(default=False)  # if `True`, this form is editable via the frontend form builder
-    language = models.CharField(max_length=2, default='de', choices=settings.LANGUAGES)
+    language = models.CharField(max_length=6, default='de', choices=settings.LANGUAGES)
 
     def __str__(self):
         return self.name
@@ -374,60 +374,61 @@ class FormResponse(models.Model):
                                    key=self._priority_order)
 
         for name, props in sorted_properties:
-            
-            title = props.get("question") or flat_ui_schema.get(name, {}).get("ui:question", name)
-            if not title or name == title:
-                title = props.get("title") or flat_ui_schema.get(name, {}).get("ui:title", name)
-            if not title:
-                title = name
-            row = {"title": title, "label":props.get("title"), "json_name": name,
-                   "data_type": props.get("type")}
+            # ignore one line
+            if 'one-line' not in name:
+                title = props.get("question") or flat_ui_schema.get(name, {}).get("ui:question", name)
+                if not title or name == title:
+                    title = props.get("title") or flat_ui_schema.get(name, {}).get("ui:title", name)
+                if not title:
+                    title = name
+                row = {"title": title, "label":props.get("title"), "json_name": name,
+                    "data_type": props.get("type")}
 
-            if (flat_ui_schema.get(name, dict()).get("ui:widget") ==
-                    "signatureWidget" or props.get("format") == "data-url"):
-                if form_data.get(name):
-                    row["type"] = "link"
-                    row["value"] = reverse("response_file",
-                                           kwargs={"investigation_slug": self.form_instance.form.investigation.slug,
-                                                   "form_slug": self.form_instance.form.slug,
-                                                   "response_id": self.id,
-                                                   "file_field": name
-                                                   })
+                if (flat_ui_schema.get(name, dict()).get("ui:widget") ==
+                        "signatureWidget" or props.get("format") == "data-url"):
+                    if form_data.get(name):
+                        row["type"] = "link"
+                        row["value"] = reverse("response_file",
+                                            kwargs={"investigation_slug": self.form_instance.form.investigation.slug,
+                                                    "form_slug": self.form_instance.form.slug,
+                                                    "response_id": self.id,
+                                                    "file_field": name
+                                                    })
+                    else:
+                        row["type"] = "text"
+                        row["value"] = ""
+                elif props.get("type") == "array" and props["items"].get("format") == "data-url":
+                    for index, part in enumerate(form_data.get(name, [])):
+                        row = {"title": "{} {}".format(title, index),
+                            "json_name": "{}-{}".format(name, index)}
+                        row["type"] = "link"
+                        row["value"] = reverse("response_file_array",
+                                            kwargs={"investigation_slug": self.form_instance.form.investigation.slug,
+                                                    "form_slug": self.form_instance.form.slug,
+                                                    "response_id": self.id,
+                                                    "file_field": name,
+                                                    "file_index": index
+                                                    })
+                        yield row
+                    continue
+                elif props.get("type") == "boolean":
+                    row["type"] = "text"
+                    row["value"] = _("Yes") if form_data.get(name) else _("No")
+                elif props.get("slug"):
+                    if 'yes-no' in props.get("slug"):
+                        row["type"] = "yes-no"
+                        row["value"] = form_data.get(name, "")
+                        for prop in props['items']['enum']:
+                            if prop['next_slide'] == row["value"]:
+                                row["value"] = prop['name']
+                    else:
+                        row["type"] = "text"
+                        row["value"] = form_data.get(name, "")
                 else:
                     row["type"] = "text"
-                    row["value"] = ""
-            elif props.get("type") == "array" and props["items"].get("format") == "data-url":
-                for index, part in enumerate(form_data.get(name, [])):
-                    row = {"title": "{} {}".format(title, index),
-                           "json_name": "{}-{}".format(name, index)}
-                    row["type"] = "link"
-                    row["value"] = reverse("response_file_array",
-                                           kwargs={"investigation_slug": self.form_instance.form.investigation.slug,
-                                                   "form_slug": self.form_instance.form.slug,
-                                                   "response_id": self.id,
-                                                   "file_field": name,
-                                                   "file_index": index
-                                                   })
-                    yield row
-                continue
-            elif props.get("type") == "boolean":
-                row["type"] = "text"
-                row["value"] = _("Yes") if form_data.get(name) else _("No")
-            elif props.get("slug"):
-                if 'yes-no' in props.get("slug"):
-                    row["type"] = "yes-no"
                     row["value"] = form_data.get(name, "")
-                    for prop in props['items']['enum']:
-                        if prop['next_slide'] == row["value"]:
-                            row["value"] = prop['name']
-                else:
-                    row["type"] = "text"
-                    row["value"] = form_data.get(name, "")
-            else:
-                row["type"] = "text"
-                row["value"] = form_data.get(name, "")
 
-            yield row
+                yield row
 
     @property
     def redirect_url(self):
