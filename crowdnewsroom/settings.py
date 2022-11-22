@@ -112,6 +112,7 @@ AUTH_USER_MODEL = 'forms.User'
 
 LANGUAGE_CODE = 'de'
 
+# language code for somali does not exists. en-gb for backend
 LANGUAGES = [
     ('de', _('German')),
     ('en', _('English')),
@@ -121,7 +122,7 @@ LANGUAGES = [
     ('pt', _('Portuguese')),
     ('ru', _('Russian')),
     ('sr', _('Serbian')),
-    ('so', _('Somali')),
+    ('en-gb', _('Somali')),
     ('es', _('Spanish')),
     ('tr', _('Turkish')),
 ]
