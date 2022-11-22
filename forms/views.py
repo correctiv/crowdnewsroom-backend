@@ -60,7 +60,6 @@ class InvestigationDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class FormInstanceSerializer(ModelSerializer):
-    form_status = serializers.CharField(source='form.status', required=False)
     class Meta:
         model = FormInstance
         fields = (

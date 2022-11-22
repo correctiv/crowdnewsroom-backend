@@ -321,6 +321,9 @@ class FormInstance(models.Model):
     def language_choices(self):
         return dict(settings.LANGUAGES)
 
+    def form_status(self):
+        return self.form.status
+
 
 class FormResponse(models.Model):
     STATUSES = (
