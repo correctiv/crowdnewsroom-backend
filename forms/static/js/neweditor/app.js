@@ -746,7 +746,7 @@ var vm = new Vue({
       var slug = ev.target.name.replace('pattern', '').replace('field_type', '');
       // create the 'ui:widget' property for this field in uischema if needed
 
-      if (!(slug in this.uischema[slidSlug])) {
+      if (!(slug in this.uischema[slideSlug])) {
         this.$set(this.uischema[slideSlug], slug, {});
       }
       this.$set(this.uischema[slideSlug][slug], 'ui:widget', 'patternTypeTextInputWidget');
