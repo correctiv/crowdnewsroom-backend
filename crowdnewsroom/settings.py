@@ -191,6 +191,10 @@ WEBPACK_LOADER = {
     }
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "https://crowdnewsroom-staging.netlify.app",
+]
+
 FRONTEND_BASE_URL = os.environ.get(
     "CNR_FRONTEND_BASE_URL", "https://forms.crowdnewsroom.org")
 
