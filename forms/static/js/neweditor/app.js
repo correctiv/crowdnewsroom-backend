@@ -697,6 +697,9 @@ var vm = new Vue({
     },
     setHideNextButton: function(val) {
       this.$set(this.activeSlide.schema, 'hideNextButton', val);
+      if (val) {
+        this.$set(this.activeSlide.schema, 'nextOwnStep', '');
+      }
       // console.log(this.activeSlide.schema.description);
     },
     setNextOwnStep: function(val) {
