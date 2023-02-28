@@ -697,7 +697,6 @@ var vm = new Vue({
     },
     setHideNextButton: function(val) {
       this.$set(this.activeSlide.schema, 'hideNextButton', val);
-      console.log(val);
       if (val) {
         this.$set(this.activeSlide.schema, 'nextOwnStep', '');
       }
