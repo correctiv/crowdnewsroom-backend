@@ -525,7 +525,6 @@
                                           </div>
                                           <div class="multiple-fields">
                                             <p><a href="#" class="button hollow small" v-on:click="addAnswerOption(field)"><i class="fi-plus"></i> Add option</a></p>
-                                            <p class="show-modal"><a href="#" class="button small" v-on:click="new_slide_internal_title = 'Slide ' + (slides.length + 1); showModal = !showModal"><i class="fi-plus"></i> Generate a new slide</a></p>
                                           </div>
                                           <div class="modal" v-show="showModal == true">
                                             <button class="close-button" v-on:click="showModal = !showModal" aria-label="Close modal" type="button">
@@ -577,9 +576,6 @@
                                           <option v-for="slide in slides" :value="slide.schema.slug" v-if="slide !== activeSlide">${ slide.schema.slide_title }</option>
                                         </select>
                                         <span class="help-text" id="nameHelpText">Sets the next slide after clicking on next button.</span>
-                                        <div class="text-right">
-                                          <p class="show-modal"><a href="#" class="button small" v-on:click="showModal = !showModal"><i class="fi-plus"></i> Generate a new slide</a></p>
-                                        </div>
                                           <div class="modal" v-show="showModal == true">
                                           <button class="close-button" v-on:click="new_slide_internal_title = 'My Internal slide title'; showModal = !showModal" aria-label="Close modal" type="button">
                                             <span aria-hidden="true">×</span>
