@@ -693,7 +693,7 @@ var vm = new Vue({
     },
     fillDescription: function() {
       this.$set(this.activeSlide.schema, 'description', "Click me to edit this description");
-      // console.log(this.activeSlide.schema.description);
+      console.log(this.activeSlide.schema.description);
     },
     setHideNextButton: function(val) {
       this.$set(this.activeSlide.schema, 'hideNextButton', val);
