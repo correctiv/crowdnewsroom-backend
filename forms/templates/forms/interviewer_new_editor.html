@@ -69,6 +69,7 @@
                                         ${ activeSlide.schema.title }
                                     </h1>
                                     <a class="button secondary small" href="#" v-on:click="fillTitle()" v-if="!hasTitle">Add a title</a>
+                                    ${ activeSlide.schema.description }
                                     <ckeditor class="lead" type="inline" v-model="activeSlide.schema.description"></ckeditor>
                                     <a class="button secondary small" href="#" v-on:click="fillDescription()" v-if="!hasDescription">Add a description</a>
                                   </div>
