@@ -9,6 +9,8 @@ from django.http import (Http404, HttpResponse, HttpResponseRedirect)
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from datetime import timedelta
+from minio import Minio
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
@@ -672,3 +674,25 @@ class FormResponseList(generics.ListAPIView):
         if status is not None:
             queryset = queryset.filter(status=status)
         return queryset
+
+
+class PresignedUrl(generics.ListAPIView):
+    def get(self, request):
+
+        file_name = request.GET.get('name')
+        if file_name:
+            client = Minio(
+                "assets.crowdnewsroom.org",
+                access_key='Cha6xai6aicheengiengaeraecahbu2u',
+                secret_key='Aadethe9chaeya0taevotha0iequ9cei'
+            )
+
+            url = client.get_presigned_url(
+                "PUT",
+                "videos",
+                file_name,
+                expires=timedelta(days=1),
+                response_headers={"response-content-type": "application/json"},
+            )
+
+        return Response({"url" : url})
