@@ -682,9 +682,9 @@ class PresignedUrl(generics.ListAPIView):
         file_name = request.GET.get('name')
         if file_name:
             client = Minio(
-                "assets.crowdnewsroom.org",
-                access_key='Cha6xai6aicheengiengaeraecahbu2u',
-                secret_key='Aadethe9chaeya0taevotha0iequ9cei'
+                settings.MINIO_ASSETS_URL,
+                access_key=settings.MINIO_ACCESS_KEY,
+                secret_key=settings.MINIO_SECRET_KEY
             )
 
             url = client.get_presigned_url(
