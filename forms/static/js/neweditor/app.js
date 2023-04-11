@@ -769,11 +769,9 @@ var vm = new Vue({
         if (this.getFieldWidget(field.slug) == 'answerWidget') { return 'answer'; }
         if (this.getFieldWidget(field.slug) == 'radio') { return 'radio'; }
         if (this.getFieldWidget(field.slug) == 'patternTypeTextInputWidget') { return 'text'; }
+        if (this.getFieldWidget(field.slug) == 'storageUpload') { return 'storageupload'; }
         if (field.format == 'data-url') {
           if (this.getFieldWidget(field.slug) == 'imageUpload') { return 'imageupload'; }
-        }
-        if (field.format == 'uri') {
-          if (this.getFieldWidget(field.slug) == 'storageUpload') { return 'storageupload'; }
         }
         if (field.enum && !this.getFieldWidget(field.slug)) { return 'dropdown'; }
         return 'text';
