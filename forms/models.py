@@ -418,6 +418,20 @@ class FormResponse(models.Model):
                 elif props.get("type") == "boolean":
                     row["type"] = "text"
                     row["value"] = _("Yes") if form_data.get(name) else _("No")
+                elif props.get("slug") is not None and 'video' in props.get("slug"):
+                    mc = Minio(
+                        settings.MINIO_ASSETS_URL,
+                        access_key=settings.MINIO_ACCESS_KEY,
+                        secret_key=settings.MINIO_SECRET_KEY
+                    )
+                    url = mc.get_presigned_url(
+                        "GET",
+                        settings.MINIO_ASSETS_BUCKET,
+                        form_data.get(name, ""),
+                        expires=timedelta(days=1),
+                    )
+                    row["type"] = "link"
+                    row["value"] = url
                 elif props.get("slug"):
                     if 'yes-no' in props.get("slug"):
                         row["type"] = "yes-no"
@@ -426,23 +440,8 @@ class FormResponse(models.Model):
                             if prop['next_slide'] == row["value"]:
                                 row["value"] = prop['name']
                     else:
-                        if props.get("slug") is not None and 'video' in props.get("slug"):
-                            mc = Minio(
-                                settings.MINIO_ASSETS_URL,
-                                access_key=settings.MINIO_ACCESS_KEY,
-                                secret_key=settings.MINIO_SECRET_KEY
-                            )
-                            url = mc.get_presigned_url(
-                                "GET",
-                                settings.MINIO_ASSETS_BUCKET,
-                                form_data.get(name, ""),
-                                expires=timedelta(days=1),
-                            )
-                            row["type"] = "link"
-                            row["value"] = url
-                        else:
-                            row["type"] = "text"
-                            row["value"] = form_data.get(name, "")
+                        row["type"] = "text"
+                        row["value"] = form_data.get(name, "")
                 else:
                     row["type"] = "text"
                     row["value"] = form_data.get(name, "")
