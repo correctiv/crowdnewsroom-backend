@@ -443,6 +443,8 @@ class FormResponse(models.Model):
                         else:
                             row["type"] = "text"
                             row["value"] = form_data.get(name, "")
+                        row["type"] = "text"
+                        row["value"] = form_data.get(name, "")
                 else:
                     row["type"] = "text"
                     row["value"] = form_data.get(name, "")
