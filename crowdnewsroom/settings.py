@@ -176,6 +176,11 @@ EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 25))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'true'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Crowdnewsroom <noreply@crowdnewsroom.org>')
 
+MINIO_ASSETS_URL = os.environ.get('MINIO_ASSETS_URL', "")
+MINIO_ASSETS_BUCKET = os.environ.get('MINIO_ASSETS_BUCKET', "")
+MINIO_ACCESS_KEY = os.environ.get('MINIO_ACCESS_KEY', "")
+MINIO_SECRET_KEY = os.environ.get('MINIO_SECRET_KEY', "")
+
 SESSION_COOKIE_AGE = 60*60*12  # 12h
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

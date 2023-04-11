@@ -9,6 +9,8 @@ from django.http import (Http404, HttpResponse, HttpResponseRedirect)
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from datetime import timedelta
+from minio import Minio
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
@@ -672,3 +674,24 @@ class FormResponseList(generics.ListAPIView):
         if status is not None:
             queryset = queryset.filter(status=status)
         return queryset
+
+
+class PresignedUrl(generics.ListAPIView):
+    def get(self, request):
+
+        file_name = request.GET.get('name')
+        if file_name:
+            client = Minio(
+                settings.MINIO_ASSETS_URL,
+                access_key=settings.MINIO_ACCESS_KEY,
+                secret_key=settings.MINIO_SECRET_KEY
+            )
+            
+            url = client.presigned_put_object(
+                settings.MINIO_ASSETS_BUCKET,
+                file_name,
+                expires=timedelta(days=1)
+            )
+            
+
+        return Response(url)
