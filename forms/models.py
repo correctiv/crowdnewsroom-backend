@@ -434,7 +434,7 @@ class FormResponse(models.Model):
                             )
                             url = mc.get_presigned_url(
                                 "GET",
-                                "videos",
+                                settings.MINIO_ASSETS_BUCKET,
                                 form_data.get(name, ""),
                                 expires=timedelta(days=1),
                             )

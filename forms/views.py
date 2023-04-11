@@ -688,7 +688,7 @@ class PresignedUrl(generics.ListAPIView):
             )
             
             url = client.presigned_put_object(
-                "videos",
+                settings.MINIO_ASSETS_BUCKET,
                 file_name,
                 expires=timedelta(days=1)
             )
