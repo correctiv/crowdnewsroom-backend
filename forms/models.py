@@ -20,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 from guardian.shortcuts import assign_perm, get_users_with_perms
 
 from .mixins import UniqueSlugMixin, validate_slug_stricter
+from minio import Minio
 
 Roles = namedtuple('Roles', ['ADMIN', 'OWNER', 'EDITOR', 'VIEWER'])
 INVESTIGATION_ROLES = Roles(ADMIN="A", OWNER="O", EDITOR="E", VIEWER="V")
@@ -425,8 +426,23 @@ class FormResponse(models.Model):
                             if prop['next_slide'] == row["value"]:
                                 row["value"] = prop['name']
                     else:
-                        row["type"] = "text"
-                        row["value"] = form_data.get(name, "")
+                        if props.get("slug") is not None and 'video' in props.get("slug"):
+                            mc = Minio(
+                                settings.MINIO_ASSETS_URL,
+                                access_key=settings.MINIO_ACCESS_KEY,
+                                secret_key=settings.MINIO_SECRET_KEY
+                            )
+                            url = mc.get_presigned_url(
+                                "GET",
+                                "videos",
+                                form_data.get(name, ""),
+                                expires=timedelta(days=1),
+                            )
+                            row["type"] = "link"
+                            row["value"] = url
+                        else:
+                            row["type"] = "text"
+                            row["value"] = form_data.get(name, "")
                 else:
                     row["type"] = "text"
                     row["value"] = form_data.get(name, "")
