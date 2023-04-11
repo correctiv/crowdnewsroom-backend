@@ -686,13 +686,12 @@ class PresignedUrl(generics.ListAPIView):
                 access_key=settings.MINIO_ACCESS_KEY,
                 secret_key=settings.MINIO_SECRET_KEY
             )
-
-            url = client.get_presigned_url(
-                "PUT",
+            
+            url = client.presigned_put_object(
                 "videos",
                 file_name,
-                expires=timedelta(days=1),
-                response_headers={"response-content-type": "application/json"},
+                expires=timedelta(days=1)
             )
+            
 
-        return Response({"url" : url})
+        return Response(url)
