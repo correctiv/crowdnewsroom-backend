@@ -415,7 +415,7 @@ def form_response_file_view(request, *args, **kwargs):
             raise Http404
         file = file[file_index]
 
-    if 'file-input' in file_field:
+    if 'video' in file_field:
         client = Minio(
             settings.MINIO_ASSETS_URL,
             access_key=settings.MINIO_ACCESS_KEY,

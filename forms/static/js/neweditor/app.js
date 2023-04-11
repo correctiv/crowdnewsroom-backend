@@ -566,9 +566,8 @@ var vm = new Vue({
       }, {"ui:widget": "buttonWidget"});
     },
     addFileUploadField: function() {
-      this.addField("file-input", {
+      this.addField("video", {
         type: "string",
-        format: "uri",
         title: "File upload",
       }, {'ui:widget': 'storageUpload'});
     },
