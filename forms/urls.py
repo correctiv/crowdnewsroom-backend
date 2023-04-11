@@ -15,7 +15,7 @@ from forms.views import (AssigneeList, FormCreate, FormDetails, FormDuplicate,
                          FormResponseCreate, FormResponseDetail,
                          FormResponseList, FormChangeStatus, InvestigationCreate,
                          InvestigationDetail, InvitationDetails,
-                         InvitationList, TagEditDelete, TagList,
+                         InvitationList, TagEditDelete, TagList, PresignedUrl,
                          UserGroupMembershipDelete, UserGroupUserList,
                          UserInvitationList, UserList)
 
@@ -66,6 +66,7 @@ urlpatterns = [
     path('templates', FormInstanceTemplateList.as_view(), name="template_list"),
     path('templates/<int:pk>', FormInstanceTemplateDetails.as_view(), name="template"),
     path('tags/<int:pk>', TagEditDelete.as_view(), name="tag_details"),
+    path('presigned_url', PresignedUrl.as_view(), name="presigned_url"),
     path('forms/<slug:form_slug>', FormDetails.as_view(), name="form_details"),
     path('forms/<slug:form_slug>/responses',
          FormResponseList.as_view(), name="responses"),

@@ -211,13 +211,13 @@
 
 
                                     <!-- File-based fields (fileupload, imageupload) -->
-                                    <div class="slide-content small-10 medium-8 cell" v-if="['fileupload', 'imageupload'].includes(getFieldType(field))">
+                                    <div class="slide-content small-10 medium-8 cell" v-if="['storageupload', 'imageupload'].includes(getFieldType(field))">
                                       <label class="control-label" :for="field.slug"> 
                                         ${ field.slug in uischema[activeSlide.schema.slug] && 'ui:question' in uischema[activeSlide.schema.slug][field.slug] ? uischema[activeSlide.schema.slug][field.slug]['ui:question'] : field.title }<span v-if="'required' in activeSlide.schema && activeSlide.schema.required.indexOf(field.slug) > -1">*</span>
                                       </label>
 
                                       <!-- File upload -->
-                                      <input v-if="getFieldType(field) == 'fileupload'" :name="field.slug" type="file" readonly>
+                                      <input v-if="getFieldType(field) == 'storageupload'" :name="field.slug" type="file" readonly>
                                       <!-- Image upload -->
                                       <input v-if="getFieldType(field) == 'imageupload'" :name="field.slug" type="file" accept="image/*">
 

@@ -1,6 +1,6 @@
 import base64
 import re
-
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -18,10 +18,11 @@ from guardian.decorators import permission_required
 from guardian.mixins import PermissionRequiredMixin
 from guardian.shortcuts import get_objects_for_user
 from jsonschema import FormatChecker, ValidationError, validate
-
+from datetime import timedelta
 from forms.forms import CommentDeleteForm, CommentForm
 from forms.models import Comment, Form, FormResponse, Investigation, Tag, User
 from forms.utils import create_form_csv
+from minio import Minio
 
 
 def _get_filter_params(kwargs, get_params):
@@ -414,6 +415,22 @@ def form_response_file_view(request, *args, **kwargs):
             raise Http404
         file = file[file_index]
 
+    if 'video' in file_field:
+        client = Minio(
+            settings.MINIO_ASSETS_URL,
+            access_key=settings.MINIO_ACCESS_KEY,
+            secret_key=settings.MINIO_SECRET_KEY
+        )
+        url = client.get_presigned_url(
+            "GET",
+            "videos",
+            file,
+            expires=timedelta(hours=2),
+        )
+
+        return HttpResponseRedirect(url)
+
+    # return url
     filename, file_type, file_content = _get_file_data(file)
 
     prefixed_filename = "{}-{}".format(form_response.id, filename)

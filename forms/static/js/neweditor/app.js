@@ -566,11 +566,10 @@ var vm = new Vue({
       }, {"ui:widget": "buttonWidget"});
     },
     addFileUploadField: function() {
-      this.addField("file-input", {
+      this.addField("video", {
         type: "string",
-        format: "data-url",
         title: "File upload",
-      });
+      }, {'ui:widget': 'storageUpload'});
     },
     addImageUploadField: function() {
       this.addField("image-input", {
@@ -772,7 +771,9 @@ var vm = new Vue({
         if (this.getFieldWidget(field.slug) == 'patternTypeTextInputWidget') { return 'text'; }
         if (field.format == 'data-url') {
           if (this.getFieldWidget(field.slug) == 'imageUpload') { return 'imageupload'; }
-          return 'fileupload';
+        }
+        if (field.format == 'uri') {
+          if (this.getFieldWidget(field.slug) == 'storageUpload') { return 'storageupload'; }
         }
         if (field.enum && !this.getFieldWidget(field.slug)) { return 'dropdown'; }
         return 'text';
