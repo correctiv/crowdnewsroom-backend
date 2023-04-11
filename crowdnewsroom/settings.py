@@ -177,6 +177,7 @@ EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'true'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Crowdnewsroom <noreply@crowdnewsroom.org>')
 
 MINIO_ASSETS_URL = os.environ.get('MINIO_ASSETS_URL', "")
+MINIO_ASSETS_BUCKET = os.environ.get('MINIO_ASSETS_BUCKET', "")
 MINIO_ACCESS_KEY = os.environ.get('MINIO_ACCESS_KEY', "")
 MINIO_SECRET_KEY = os.environ.get('MINIO_SECRET_KEY', "")
 

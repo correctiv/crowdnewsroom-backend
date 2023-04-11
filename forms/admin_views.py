@@ -423,7 +423,7 @@ def form_response_file_view(request, *args, **kwargs):
         )
         url = client.get_presigned_url(
             "GET",
-            "videos",
+            settings.MINIO_ASSETS_BUCKET,
             file,
             expires=timedelta(hours=2),
         )
