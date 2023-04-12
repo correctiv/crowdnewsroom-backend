@@ -420,19 +420,13 @@ class FormResponse(models.Model):
                     row["value"] = _("Yes") if form_data.get(name) else _("No")
                 elif props.get("slug") is not None and 'video' in props.get("slug"):
                     if form_data.get(name, ""):
-                        mc = Minio(
-                            settings.MINIO_ASSETS_URL,
-                            access_key=settings.MINIO_ACCESS_KEY,
-                            secret_key=settings.MINIO_SECRET_KEY
-                        )
-                        url = mc.get_presigned_url(
-                            "GET",
-                            settings.MINIO_ASSETS_BUCKET,
-                            form_data.get(name, ""),
-                            expires=timedelta(days=1),
-                        )
                         row["type"] = "link"
-                        row["value"] = url
+                        row["value"] = reverse("response_file",
+                                    kwargs={"investigation_slug": self.form_instance.form.investigation.slug,
+                                            "form_slug": self.form_instance.form.slug,
+                                            "response_id": self.id,
+                                            "file_field": name
+                                            })
                     else:
                         row["type"] = "text"
                         row["value"] = form_data.get(name, "")
