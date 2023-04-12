@@ -20,7 +20,6 @@ from django.utils.translation import ugettext_lazy as _
 from guardian.shortcuts import assign_perm, get_users_with_perms
 
 from .mixins import UniqueSlugMixin, validate_slug_stricter
-from minio import Minio
 
 Roles = namedtuple('Roles', ['ADMIN', 'OWNER', 'EDITOR', 'VIEWER'])
 INVESTIGATION_ROLES = Roles(ADMIN="A", OWNER="O", EDITOR="E", VIEWER="V")
