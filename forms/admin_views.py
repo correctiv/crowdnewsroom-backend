@@ -425,7 +425,7 @@ def form_response_file_view(request, *args, **kwargs):
             "GET",
             settings.MINIO_ASSETS_BUCKET,
             file,
-            expires=timedelta(hours=2),
+            expires=timedelta(days=1),
         )
 
         return HttpResponseRedirect(url)
